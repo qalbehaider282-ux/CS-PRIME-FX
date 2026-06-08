@@ -2,81 +2,128 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VERTEX PRO | ADVANCED STUDIO</title>
+    <title>Vertex Pro Studio</title>
     <style>
-        :root { --bg: #030303; --ui: #141414; --accent: #ff0055; --text: #ddd; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; display: flex; height: 100vh; margin: 0; overflow: hidden; }
+        :root { --bg-color: #0d0d0d; --panel-color: #1a1a1a; --text-color: #cccccc; --accent-color: #ff0055; }
+        body { margin: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-color); color: var(--text-color); display: flex; height: 100vh; overflow: hidden; }
         
-        /* Studio Sidebar */
-        #studio-sidebar { width: 350px; background: var(--ui); border-right: 1px solid #333; display: flex; flex-direction: column; overflow-y: scroll; }
-        .section { padding: 15px; border-bottom: 1px solid #222; }
-        h4 { color: var(--accent); margin: 0 0 10px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; }
+        #sidebar { width: 380px; background-color: var(--panel-color); border-right: 1px solid #333; display: flex; flex-direction: column; height: 100%; }
+        .sidebar-header { padding: 15px 20px; font-weight: bold; color: #fff; border-bottom: 1px solid #333; background: #222; }
+        .nav-tabs { display: flex; background: #111; border-bottom: 1px solid #333; }
+        .tab-btn { flex: 1; padding: 12px; background: none; border: none; color: var(--text-color); cursor: pointer; font-size: 12px; text-align: center; }
+        .tab-btn.active { background: #333; color: #fff; border-bottom: 2px solid var(--accent-color); }
         
-        /* Grid of 100+ Options */
-        .grid-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
-        .opt-btn { background: #222; border: 1px solid #444; color: #fff; padding: 6px 2px; cursor: pointer; font-size: 9px; border-radius: 2px; transition: 0.2s; }
-        .opt-btn:hover { background: var(--accent); border-color: #fff; }
+        .tab-content { flex: 1; overflow-y: auto; padding: 20px; }
+        .tools-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 20px; }
+        .tool-btn { background: #2a2a2a; color: #fff; border: 1px solid #444; padding: 8px 5px; border-radius: 4px; cursor: pointer; font-size: 10px; text-align: center; transition: 0.2s; }
+        .tool-btn:hover { background: var(--accent-color); border-color: var(--accent-color); }
+        
+        .slider-group { margin-bottom: 15px; }
+        .slider-group label { display: block; font-size: 12px; margin-bottom: 5px; color: #fff; }
+        .slider-group input { width: 100%; }
 
-        /* Canvas Area */
-        #workspace { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #080808; position: relative; }
-        #canvas-box { width: 80%; height: 70%; border: 1px solid #333; display: flex; align-items: center; justify-content: center; background: radial-gradient(#111, #000); }
+        #workspace { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #050505; position: relative; }
+        #canvas { width: 75%; height: 75%; border: 1px solid #222; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
         
-        .footer-tools { position: absolute; bottom: 20px; display: flex; gap: 10px; }
-        .render-btn { padding: 15px 50px; background: var(--accent); border: none; color: white; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        .export-bar { position: absolute; bottom: 20px; }
+        .export-btn { padding: 12px 40px; background-color: var(--accent-color); color: #fff; border: none; font-weight: bold; cursor: pointer; border-radius: 4px; font-size: 14px; }
     </style>
 </head>
 <body>
 
-<div id="studio-sidebar">
-    <!-- Section 1: AI & Body Effects -->
-    <div class="section">
-        <h4>AI Body & Effects (40+ Options)</h4>
-        <div class="grid-options">
-            <button class="opt-btn">Neon</button><button class="opt-btn">Glow</button><button class="opt-btn">Blur</button><button class="opt-btn">VHS</button>
-            <button class="opt-btn">Grain</button><button class="opt-btn">RGB</button><button class="opt-btn">Split</button><button class="opt-btn">Sharp</button>
-            <button class="opt-btn">Edge</button><button class="opt-btn">Soft</button><button class="opt-btn">Mask</button><button class="opt-btn">Cut</button>
-            <button class="opt-btn">Zoom</button><button class="opt-btn">Shake</button><button class="opt-btn">Flash</button><button class="opt-btn">Dark</button>
+    <div id="sidebar">
+        <div class="sidebar-header">VERTEX PRO STUDIO</div>
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('ai')">AI Tools</button>
+            <button class="tab-btn" onclick="switchTab('velocity')">Motion & Speed</button>
+            <button class="tab-btn" onclick="switchTab('color')">Grade</button>
+            <button class="tab-btn" onclick="switchTab('text')">Text</button>
+        </div>
+
+        <div class="tab-content" id="tab-ai">
+            <h4>AI Enhancements</h4>
+            <div class="tools-grid">
+                <button class="tool-btn">Auto HDR</button>
+                <button class="tool-btn">Body Glow</button>
+                <button class="tool-btn">Face Enhance</button>
+                <button class="tool-btn">Background Blur</button>
+                <button class="tool-btn">Smart Cut</button>
+                <button class="tool-btn">Artifact Remover</button>
+                <button class="tool-btn">Colorize</button>
+                <button class="tool-btn">AI Upscale</button>
+                <button class="tool-btn">Portrait Mode</button>
+                <button class="tool-btn">Denoise</button>
+            </div>
+            <h4>Visual Effects</h4>
+            <div class="tools-grid">
+                <button class="tool-btn">VHS Glitch</button>
+                <button class="tool-btn">RGB Shift</button>
+                <button class="tool-btn">Wave</button>
+                <button class="tool-btn">Motion Blur</button>
+                <button class="tool-btn">Shake</button>
+                <button class="tool-btn">Fisheye</button>
+                <button class="tool-btn">Lens Flare</button>
+                <button class="tool-btn">Light Leak</button>
+                <button class="tool-btn">Double Exp</button>
+                <button class="tool-btn">Mosaic</button>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab-velocity" style="display:none;">
+            <h4>Motion Control</h4>
+            <div class="tools-grid">
+                <button class="tool-btn">S-Curve</button>
+                <button class="tool-btn">Linear</button>
+                <button class="tool-btn">Ease In</button>
+                <button class="tool-btn">Ease Out</button>
+                <button class="tool-btn">Jump Cut</button>
+                <button class="tool-btn">Spin</button>
+                <button class="tool-btn">Reverse</button>
+                <button class="tool-btn">Freeze Frame</button>
+                <button class="tool-btn">Speed Ramp</button>
+                <button class="tool-btn">Time Warp</button>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab-color" style="display:none;">
+            <h4>Color Grading</h4>
+            <div class="slider-group"><label>Contrast</label><input type="range"></div>
+            <div class="slider-group"><label>Saturation</label><input type="range"></div>
+            <div class="slider-group"><label>Exposure</label><input type="range"></div>
+            <div class="slider-group"><label>Temperature</label><input type="range"></div>
+            <div class="slider-group"><label>Highlights</label><input type="range"></div>
+            <div class="slider-group"><label>Shadows</label><input type="range"></div>
+        </div>
+
+        <div class="tab-content" id="tab-text" style="display:none;">
+            <h4>Typography</h4>
+            <input type="text" placeholder="Type your text here..." style="width:100%; padding:8px; margin-bottom:15px; background:#222; border:1px solid #444; color:#fff;">
+            <div class="tools-grid">
+                <button class="tool-btn" style="grid-column: span 2;">Neon Text</button>
+                <button class="tool-btn" style="grid-column: span 2;">3D Pop</button>
+                <button class="tool-btn" style="grid-column: span 2;">Shadow Box</button>
+                <button class="tool-btn" style="grid-column: span 2;">Gradient</button>
+            </div>
         </div>
     </div>
 
-    <!-- Section 2: Velocity & Motion -->
-    <div class="section">
-        <h4>Velocity & Motion (30+ Options)</h4>
-        <div class="grid-options">
-            <button class="opt-btn">S-Curve</button><button class="opt-btn">Linear</button><button class="opt-btn">Ease</button><button class="opt-btn">Jump</button>
-            <button class="opt-btn">Slide</button><button class="opt-btn">Spin</button><button class="opt-btn">Flip</button><button class="opt-btn">Flow</button>
-            <button class="opt-btn">Slow</button><button class="opt-btn">Fast</button><button class="opt-btn">Snap</button><button class="opt-btn">Hold</button>
+    <div id="workspace">
+        <div id="canvas">
+            <p style="color:#444;">مستند یا تصویر یہاں لوڈ کریں۔</p>
+        </div>
+        <div class="export-bar">
+            <button class="export-btn">ایکسپورٹ کریں</button>
         </div>
     </div>
 
-    <!-- Section 3: Color Grading -->
-    <div class="section">
-        <h4>Color Grade (40+ Options)</h4>
-        <div class="grid-options">
-            <button class="opt-btn">Teal</button><button class="opt-btn">Cold</button><button class="opt-btn">Warm</button><button class="opt-btn">Moody</button>
-            <button class="opt-btn">Mono</button><button class="opt-btn">Vivid</button><button class="opt-btn">Fade</button><button class="opt-btn">Retro</button>
-            <button class="opt-btn">Gold</button><button class="opt-btn">Pink</button><button class="opt-btn">Night</button><button class="opt-btn">Soft</button>
-        </div>
-    </div>
-</div>
-
-<div id="workspace">
-    <div id="canvas-box">
-        <p style="color:#555;">VERTEX PRO STUDIO: AWAITING MEDIA INPUT</p>
-    </div>
-    
-    <div class="footer-tools">
-        <button class="render-btn" onclick="alert('Exporting 100+ Layers to Master 4K File...')">Master Export 4K</button>
-    </div>
-</div>
-
-<script>
-    // Logic for 100+ functions goes here.
-    document.querySelectorAll('.opt-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            alert(btn.innerText + " Engine Applied to Frame Layer");
-        });
-    });
-</script>
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
+            
+            event.target.classList.add('active');
+            document.getElementById('tab-' + tabId).style.display = 'block';
+        }
+    </script>
 </body>
 </html>
