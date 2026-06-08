@@ -2,124 +2,115 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Vertex Pro Studio</title>
+    <title>Vertex Advanced Studio</title>
     <style>
-        :root { --bg-color: #0d0d0d; --panel-color: #1a1a1a; --text-color: #cccccc; --accent-color: #ff0055; }
-        body { margin: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-color); color: var(--text-color); display: flex; height: 100vh; overflow: hidden; }
-        
-        #sidebar { width: 380px; background-color: var(--panel-color); border-right: 1px solid #333; display: flex; flex-direction: column; height: 100%; }
-        .sidebar-header { padding: 15px 20px; font-weight: bold; color: #fff; border-bottom: 1px solid #333; background: #222; }
-        .nav-tabs { display: flex; background: #111; border-bottom: 1px solid #333; }
-        .tab-btn { flex: 1; padding: 12px; background: none; border: none; color: var(--text-color); cursor: pointer; font-size: 12px; text-align: center; }
-        .tab-btn.active { background: #333; color: #fff; border-bottom: 2px solid var(--accent-color); }
-        
-        .tab-content { flex: 1; overflow-y: auto; padding: 20px; }
-        .tools-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 20px; }
-        .tool-btn { background: #2a2a2a; color: #fff; border: 1px solid #444; padding: 8px 5px; border-radius: 4px; cursor: pointer; font-size: 10px; text-align: center; transition: 0.2s; }
-        .tool-btn:hover { background: var(--accent-color); border-color: var(--accent-color); }
-        
-        .slider-group { margin-bottom: 15px; }
-        .slider-group label { display: block; font-size: 12px; margin-bottom: 5px; color: #fff; }
-        .slider-group input { width: 100%; }
-
-        #workspace { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #050505; position: relative; }
-        #canvas { width: 75%; height: 75%; border: 1px solid #222; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
-        
-        .export-bar { position: absolute; bottom: 20px; }
-        .export-btn { padding: 12px 40px; background-color: var(--accent-color); color: #fff; border: none; font-weight: bold; cursor: pointer; border-radius: 4px; font-size: 14px; }
+        :root { --bg: #121212; --panel: #1e1e1e; --accent: #ff0055; --text: #e0e0e0; }
+        body { margin: 0; font-family: 'Roboto', sans-serif; background-color: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+        #sidebar { width: 400px; background-color: var(--panel); border-right: 1px solid #333; display: flex; flex-direction: column; height: 100%; overflow-y: auto; }
+        .header { padding: 15px; font-weight: bold; color: #fff; background: #222; text-align: center; border-bottom: 1px solid #333; }
+        .tabs { display: flex; background: #111; }
+        .tab-btn { flex: 1; padding: 12px; background: none; border: none; color: var(--text); cursor: pointer; border-bottom: 2px solid transparent; }
+        .tab-btn.active { border-bottom-color: var(--accent); color: #fff; background: #1a1a1a; }
+        .content { flex: 1; padding: 20px; overflow-y: auto; }
+        .section { margin-bottom: 25px; }
+        h4 { color: var(--accent); margin: 0 0 10px 0; font-size: 14px; text-transform: uppercase; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        button { background-color: #2a2a2a; color: #fff; border: 1px solid #444; padding: 10px; border-radius: 4px; cursor: pointer; font-size: 11px; transition: 0.2s; }
+        button:hover { background-color: var(--accent); border-color: var(--accent); }
+        input[type="text"], select { width: 100%; padding: 10px; margin-bottom: 15px; background: #222; border: 1px solid #444; color: #fff; border-radius: 4px; }
+        #workspace { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #080808; position: relative; }
+        #preview { width: 70%; height: 65%; border: 1px dashed #333; display: flex; align-items: center; justify-content: center; background: #000; }
+        .footer { position: absolute; bottom: 20px; }
+        .export-btn { padding: 15px 40px; background-color: var(--accent); color: #fff; border: none; font-weight: bold; cursor: pointer; border-radius: 4px; font-size: 14px; }
     </style>
 </head>
 <body>
 
     <div id="sidebar">
-        <div class="sidebar-header">VERTEX PRO STUDIO</div>
-        <div class="nav-tabs">
-            <button class="tab-btn active" onclick="switchTab('ai')">AI Tools</button>
-            <button class="tab-btn" onclick="switchTab('velocity')">Motion & Speed</button>
-            <button class="tab-btn" onclick="switchTab('color')">Grade</button>
+        <div class="header">VERTEX ADVANCED STUDIO</div>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('templates')">Templates</button>
+            <button class="tab-btn" onclick="switchTab('effects')">Effects</button>
+            <button class="tab-btn" onclick="switchTab('adjust')">Adjust</button>
             <button class="tab-btn" onclick="switchTab('text')">Text</button>
         </div>
 
-        <div class="tab-content" id="tab-ai">
-            <h4>AI Enhancements</h4>
-            <div class="tools-grid">
-                <button class="tool-btn">Auto HDR</button>
-                <button class="tool-btn">Body Glow</button>
-                <button class="tool-btn">Face Enhance</button>
-                <button class="tool-btn">Background Blur</button>
-                <button class="tool-btn">Smart Cut</button>
-                <button class="tool-btn">Artifact Remover</button>
-                <button class="tool-btn">Colorize</button>
-                <button class="tool-btn">AI Upscale</button>
-                <button class="tool-btn">Portrait Mode</button>
-                <button class="tool-btn">Denoise</button>
-            </div>
-            <h4>Visual Effects</h4>
-            <div class="tools-grid">
-                <button class="tool-btn">VHS Glitch</button>
-                <button class="tool-btn">RGB Shift</button>
-                <button class="tool-btn">Wave</button>
-                <button class="tool-btn">Motion Blur</button>
-                <button class="tool-btn">Shake</button>
-                <button class="tool-btn">Fisheye</button>
-                <button class="tool-btn">Lens Flare</button>
-                <button class="tool-btn">Light Leak</button>
-                <button class="tool-btn">Double Exp</button>
-                <button class="tool-btn">Mosaic</button>
+        <div class="content" id="tab-templates">
+            <div class="section">
+                <h4>Smart Templates</h4>
+                <div class="grid">
+                    <button style="grid-column: span 2;">Auto Beat</button>
+                    <button style="grid-column: span 2;">Transition Mix</button>
+                    <button style="grid-column: span 2;">Slide Show</button>
+                    <button style="grid-column: span 2;">Cinematic</button>
+                </div>
             </div>
         </div>
 
-        <div class="tab-content" id="tab-velocity" style="display:none;">
-            <h4>Motion Control</h4>
-            <div class="tools-grid">
-                <button class="tool-btn">S-Curve</button>
-                <button class="tool-btn">Linear</button>
-                <button class="tool-btn">Ease In</button>
-                <button class="tool-btn">Ease Out</button>
-                <button class="tool-btn">Jump Cut</button>
-                <button class="tool-btn">Spin</button>
-                <button class="tool-btn">Reverse</button>
-                <button class="tool-btn">Freeze Frame</button>
-                <button class="tool-btn">Speed Ramp</button>
-                <button class="tool-btn">Time Warp</button>
+        <div class="content" id="tab-effects" style="display:none;">
+            <div class="section">
+                <h4>Video Enhancements</h4>
+                <div class="grid">
+                    <button>HDR Enhance</button>
+                    <button>Denoise</button>
+                    <button>Stabilize</button>
+                    <button>Slow Mo</button>
+                </div>
+            </div>
+            <div class="section">
+                <h4>Special FX</h4>
+                <div class="grid">
+                    <button>VHS</button>
+                    <button>Glitch</button>
+                    <button>RGB</button>
+                    <button>Neon</button>
+                    <button>Blur</button>
+                    <button>Shadow</button>
+                    <button>Mosaic</button>
+                    <button>Glow</button>
+                </div>
             </div>
         </div>
 
-        <div class="tab-content" id="tab-color" style="display:none;">
-            <h4>Color Grading</h4>
-            <div class="slider-group"><label>Contrast</label><input type="range"></div>
-            <div class="slider-group"><label>Saturation</label><input type="range"></div>
-            <div class="slider-group"><label>Exposure</label><input type="range"></div>
-            <div class="slider-group"><label>Temperature</label><input type="range"></div>
-            <div class="slider-group"><label>Highlights</label><input type="range"></div>
-            <div class="slider-group"><label>Shadows</label><input type="range"></div>
+        <div class="content" id="tab-adjust" style="display:none;">
+            <div class="section">
+                <h4>Color & Light</h4>
+                <input type="text" placeholder="Brightness">
+                <input type="text" placeholder="Contrast">
+                <input type="text" placeholder="Saturation">
+                <input type="text" placeholder="Temperature">
+                <input type="text" placeholder="Highlights">
+                <input type="text" placeholder="Shadows">
+            </div>
         </div>
 
-        <div class="tab-content" id="tab-text" style="display:none;">
-            <h4>Typography</h4>
-            <input type="text" placeholder="Type your text here..." style="width:100%; padding:8px; margin-bottom:15px; background:#222; border:1px solid #444; color:#fff;">
-            <div class="tools-grid">
-                <button class="tool-btn" style="grid-column: span 2;">Neon Text</button>
-                <button class="tool-btn" style="grid-column: span 2;">3D Pop</button>
-                <button class="tool-btn" style="grid-column: span 2;">Shadow Box</button>
-                <button class="tool-btn" style="grid-column: span 2;">Gradient</button>
+        <div class="content" id="tab-text" style="display:none;">
+            <div class="section">
+                <h4>Typography Styles</h4>
+                <input type="text" placeholder="Type text here...">
+                <div class="grid">
+                    <button>Neon Font</button>
+                    <button>3D Font</button>
+                    <button>Glow Font</button>
+                    <button>Shadow Font</button>
+                </div>
             </div>
         </div>
     </div>
 
     <div id="workspace">
-        <div id="canvas">
-            <p style="color:#444;">مستند یا تصویر یہاں لوڈ کریں۔</p>
+        <div id="preview">
+            <p style="color:#555;">Media Preview Area</p>
         </div>
-        <div class="export-bar">
-            <button class="export-btn">ایکسپورٹ کریں</button>
+        <div class="footer">
+            <button class="export-btn">Export Video</button>
         </div>
     </div>
 
     <script>
         function switchTab(tabId) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
+            document.querySelectorAll('.content').forEach(content => content.style.display = 'none');
             
             event.target.classList.add('active');
             document.getElementById('tab-' + tabId).style.display = 'block';
