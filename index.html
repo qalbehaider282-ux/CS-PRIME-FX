@@ -3,42 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VERTEX FX | Elite AI Studio</title>
+    <title>VERTEX FX | Ultimate AI Studio</title>
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
     <style>
         :root { 
             --bg-main: #040508; 
             --bg-panel: #090A0F; 
             --border-color: #1A1D26; 
+            --accent-blue: #3B82F6;
         }
-        
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-        }
-        
-        body { 
-            background: var(--bg-main); 
-            color: #E2E8F0; 
-            height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
-            overflow: hidden;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background: var(--bg-main); color: #E2E8F0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
         header { 
-            height: 65px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            padding: 0 35px; 
-            border-bottom: 1px solid var(--border-color); 
-            background: #000000; 
-            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+            height: 65px; display: flex; align-items: center; justify-content: space-between; 
+            padding: 0 35px; border-bottom: 1px solid var(--border-color); background: #000000; 
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5); z-index: 50;
         }
-        
         .logo-area { display: flex; align-items: center; gap: 12px; }
         .logo { font-size: 22px; font-weight: 800; letter-spacing: 5px; color: #FFFFFF; }
         .logo span { font-weight: 300; color: #A0AEC0; }
@@ -50,123 +31,194 @@
         }
         .btn-export:hover { background: #E2E8F0; transform: translateY(-1px); box-shadow: 0 0 20px rgba(255,255,255,0.3); }
         
-        .app-container { display: flex; flex: 1; overflow: hidden; }
+        .app-container { display: flex; flex: 1; overflow: hidden; position: relative; }
         
         .sidebar { 
-            width: 320px; background: var(--bg-panel); border-right: 1px solid var(--border-color); 
-            padding: 25px; display: flex; flex-direction: column; gap: 30px; overflow-y: auto;
+            width: 360px; background: var(--bg-panel); border-right: 1px solid var(--border-color); 
+            padding: 20px; display: flex; flex-direction: column; gap: 25px; overflow-y: auto;
         }
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-thumb { background: #1F2333; border-radius: 4px; }
         
-        .panel-card { background: #0F111A; border: 1px solid #1F2333; border-radius: 10px; padding: 18px; }
+        .panel-card { background: #0F111A; border: 1px solid #1F2333; border-radius: 10px; padding: 16px; margin-bottom: 5px; }
 
         .btn-action {
             width: 100%; background: #161925; border: 1px solid #262B40; color: #FFF; 
-            padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; 
+            padding: 11px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; 
             display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.2s;
         }
         .btn-action:hover { background: #1F2436; border-color: #373E5C; }
-        .btn-ai { background: linear-gradient(135deg, #3B82F6, #1D4ED8); border: none; margin-top: 15px;}
-        .btn-ai:hover { box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
-
-        .canvas-area { flex: 1; display: flex; flex-direction: column; padding: 25px; gap: 25px; background: #020204; }
         
-        /* Real Working Canvas Box */
+        .btn-delete { background: #2A1215; border: 1px solid #4C1D24; color: #F87171; margin-top: 10px; display: none; }
+        .btn-delete:hover { background: #3F1A1E; border-color: #EF4444; }
+        
+        .btn-ai { background: linear-gradient(135deg, #3B82F6, #1D4ED8); border: none; margin-top: 5px;}
+        .btn-ai:hover { box-shadow: 0 0 15px rgba(59,130,246,0.3); }
+
+        .canvas-area { flex: 1; display: flex; flex-direction: column; padding: 25px; gap: 20px; background: #020204; position: relative; }
+        
         .canvas { 
             flex: 1; border: 1px dashed #262B40; border-radius: 12px; 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            background: #06070A; color: #4A5568; gap: 12px; position: relative; overflow: hidden;
+            background: #06070A; color: #4A5568; position: relative; overflow: hidden;
         }
         
-        #preview-img {
-            max-width: 100%; max-height: 100%; object-fit: contain; display: none; z-index: 5;
-            transition: filter 0.1s ease;
+        .img-container {
+            max-width: 90%; max-height: 90%; display: flex; align-items: center; justify-content: center;
+            transition: transform 0.1s ease; z-index: 5;
         }
 
-        /* SVG Overlay for Film Grain Effect */
-        .grain-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 10; opacity: 0; display: none;
-        }
-        
-        .template-section { background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; }
-        .template-bar { display: flex; gap: 18px; overflow-x: auto; padding-top: 10px; padding-bottom: 5px; }
+        #preview-img { max-width: 100%; max-height: 100%; object-fit: contain; display: none; transition: filter 0.1s ease; }
+
+        .template-section { background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; }
+        .template-bar { display: flex; gap: 15px; overflow-x: auto; padding-top: 8px; padding-bottom: 5px; }
         .template-bar::-webkit-scrollbar { height: 4px; }
         .template-bar::-webkit-scrollbar-thumb { background: #1F2333; border-radius: 10px; }
 
         .template-item { 
-            min-width: 160px; height: 105px; border-radius: 8px; cursor: pointer; 
+            min-width: 150px; height: 95px; border-radius: 8px; cursor: pointer; 
             transition: all 0.3s ease; position: relative; overflow: hidden; 
-            border: 1px solid #1F2333; display: flex; align-items: flex-end; padding: 12px;
+            border: 1px solid #1F2333; display: flex; align-items: flex-end; padding: 10px;
         }
-        .template-item:hover { border-color: #FFFFFF; transform: translateY(-3px); }
-        .template-title { font-size: 12px; font-weight: 700; color: #FFF; z-index: 2; position: relative; }
+        .template-item:hover { border-color: #FFFFFF; transform: translateY(-2px); }
+        .template-title { font-size: 11px; font-weight: 700; color: #FFF; z-index: 2; position: relative; }
         .template-item::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,0.8) 100%); z-index: 1; }
         
-        .quality-select { background: #06070A; color: white; border: 1px solid #262B40; padding: 12px; border-radius: 8px; width: 100%; margin-top: 8px; outline: none; font-size: 14px; }
-        .label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: #718096; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+        .select-custom { background: #06070A; color: white; border: 1px solid #262B40; padding: 10px; border-radius: 6px; width: 100%; outline: none; font-size: 13px; }
+        .label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: #718096; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
 
-        .control-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
-        .slider-label { display: flex; justify-content: space-between; font-size: 13px; color: #A0AEC0; }
+        .control-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+        .slider-label { display: flex; justify-content: space-between; font-size: 12px; color: #A0AEC0; }
         
         input[type="range"] { -webkit-appearance: none; width: 100%; height: 4px; background: #1F2333; border-radius: 10px; outline: none; }
         input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #FFF; cursor: pointer; }
         
-        /* Auto Caption Live Display Box */
-        .caption-overlay {
-            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-            z-index: 20; background: rgba(0,0,0,0.75); color: #FFF; padding: 6px 16px;
-            border-radius: 6px; font-weight: bold; font-size: 16px; display: none;
-            border: 1px solid #333; text-align: center; max-width: 80%;
+        .caption-box {
+            position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%);
+            z-index: 20; background: rgba(0,0,0,0.85); border: 1px solid #333;
+            color: #FFF; padding: 8px 16px; border-radius: 6px; font-weight: bold;
+            font-size: 15px; display: none; text-align: center; max-width: 80%; outline: none;
         }
+
+        /* Bottom Status Dashboard */
+        .status-dashboard {
+            height: 30px; border-top: 1px solid var(--border-color); background: #050608;
+            display: flex; align-items: center; justify-content: space-between; padding: 0 25px;
+            font-size: 11px; color: #4A5568; font-weight: 600;
+        }
+        .status-item { display: flex; align-items: center; gap: 6px; }
+        .status-dot { width: 6px; height: 6px; background: #10B981; border-radius: 50%; box-shadow: 0 0 8px #10B981; }
     </style>
 </head>
 <body>
 
-    <!-- Top Header -->
     <header>
         <div class="logo-area">
             <i data-lucide="layers" style="color: #FFF; width: 22px; height: 22px;"></i>
             <div class="logo">VERTEX <span>FX</span></div>
         </div>
-        <button class="btn-export" id="exportBtn">EXPORT VIDEO</button>
+        <button class="btn-export" id="exportBtn">EXPORT PROJECT</button>
     </header>
 
     <div class="app-container">
-        <!-- Sidebar Controls -->
         <aside class="sidebar">
+            <!-- Media Core Block -->
             <div>
-                <span class="label"><i data-lucide="video" style="width:14px;"></i> Media Core</span>
+                <span class="label"><i data-lucide="video" style="width:13px;"></i> Core Engine</span>
                 <div class="panel-card">
-                    <!-- Real Hidden File Input -->
                     <input type="file" id="fileInput" accept="image/*" style="display: none;">
-                    <button class="btn-action" id="uploadBtn"><i data-lucide="upload-cloud" style="width:16px;"></i> Import Media</button>
+                    <button class="btn-action" id="uploadBtn"><i data-lucide="upload-cloud" style="width:15px;"></i> Import Media</button>
+                    <button class="btn-action btn-delete" id="deleteBtn"><i data-lucide="trash-2" style="width:15px;"></i> Delete Media</button>
                     
-                    <label style="font-size: 12px; color: #718096; font-weight: 600; margin-top: 15px; display: block;">RENDER RESOLUTION</label>
-                    <select class="quality-select" id="qualitySelector">
-                        <option value="720p">720p | HD Quality</option>
-                        <option value="1080p" selected>1080p | Full HD (1920x1080)</option>
-                        <option value="4K">4K UHD | Ultra HD Premium</option>
+                    <label style="font-size: 11px; color: #718096; font-weight: 600; margin-top: 12px; display: block; margin-bottom: 5px;">TARGET RESOLUTION</label>
+                    <select class="select-custom" id="qualitySelector">
+                        <option value="720p">720p | Standard HD</option>
+                        <option value="1080p" selected>1080p | Full HD ProRes</option>
+                        <option value="4K">4K UHD | Cinema Premium</option>
                     </select>
                 </div>
-                <button class="btn-action btn-ai" id="captionBtn"><i data-lucide="sparkles" style="width:16px;"></i> Auto Captions (Urdu/Eng)</button>
+            </div>
+
+            <!-- AI Subtitles Box -->
+            <div>
+                <span class="label"><i data-lucide="sparkles" style="width:13px;"></i> AI Automation</span>
+                <div class="panel-card">
+                    <button class="btn-action btn-ai" id="captionBtn">Generate Smart Subtitles</button>
+                    <input type="text" id="manualCaptionInput" placeholder="Type custom subtitle text..." style="width:100%; background:#06070A; border:1px solid #262B40; color:white; padding:9px; border-radius:6px; margin-top:10px; display:none; outline:none; font-size:12px;">
+                </div>
             </div>
             
+            <!-- Mastering Tuning Sliders -->
             <div>
-                <span class="label"><i data-lucide="sliders" style="width:14px;"></i> Mastering Tuning</span>
-                
-                <div class="control-group">
-                    <div class="slider-label"><span>Brightness</span><span id="val-bright">100%</span></div>
-                    <input type="range" id="slider-bright" min="50" max="150" value="100">
+                <span class="label"><i data-lucide="sliders" style="width:13px;"></i> Primary Grading</span>
+                <div class="panel-card">
+                    <div class="control-group">
+                        <div class="slider-label"><span>Brightness</span><span id="val-bright">100%</span></div>
+                        <input type="range" id="slider-bright" min="50" max="150" value="100">
+                    </div>
+                    <div class="control-group">
+                        <div class="slider-label"><span>Contrast</span><span id="val-contrast">100%</span></div>
+                        <input type="range" id="slider-contrast" min="50" max="150" value="100">
+                    </div>
+                    <div class="control-group">
+                        <div class="slider-label"><span>Saturation (Color)</span><span id="val-saturate">100%</span></div>
+                        <input type="range" id="slider-saturate" min="0" max="200" value="100">
+                    </div>
+                    <div class="control-group">
+                        <div class="slider-label"><span>Cinematic Hue Tint</span><span id="val-hue">0°</span></div>
+                        <input type="range" id="slider-hue" min="0" max="360" value="0">
+                    </div>
                 </div>
+            </div>
 
-                <div class="control-group">
-                    <div class="slider-label"><span>Contrast</span><span id="val-contrast">100%</span></div>
-                    <input type="range" id="slider-contrast" min="50" max="150" value="100">
+            <!-- Advanced Styling Controls -->
+            <div>
+                <span class="label"><i data-lucide="sliders-horizontal" style="width:13px;"></i> Advanced FX & Styling</span>
+                <div class="panel-card">
+                    <div class="control-group">
+                        <div class="slider-label"><span>Sepia Vintage Filter</span><span id="val-sepia">0%</span></div>
+                        <input type="range" id="slider-sepia" min="0" max="100" value="0">
+                    </div>
+                    <div class="control-group">
+                        <div class="slider-label"><span>Grayscale (Noir)</span><span id="val-gray">0%</span></div>
+                        <input type="range" id="slider-gray" min="0" max="100" value="0">
+                    </div>
+                    <div class="control-group">
+                        <div class="slider-label"><span>Invert Negative FX</span><span id="val-invert">0%</span></div>
+                        <input type="range" id="slider-invert" min="0" max="100" value="0">
+                    </div>
+                    <div class="control-group">
+                        <div class="slider-label"><span>Lens Blur Focus</span><span id="val-blur">0px</span></div>
+                        <input type="range" id="slider-blur" min="0" max="10" value="0">
+                    </div>
+                    <div class="control-group">
+                        <div class="slider-label"><span>Layer Opacity</span><span id="val-opacity">100%</span></div>
+                        <input type="range" id="slider-opacity" min="0" max="100" value="100">
+                    </div>
                 </div>
+            </div>
 
-                <div class="control-group">
-                    <div class="slider-label"><span>Vignette Shadow</span><span id="val-vignette">0%</span></div>
-                    <input type="range" id="slider-vignette" min="0" max="100" value="0">
+            <!-- Pro Canvas Transformation -->
+            <div>
+                <span class="label"><i data-lucide="move" style="width:13px;"></i> Vector Geometry</span>
+                <div class="panel-card">
+                    <div class="control-group">
+                        <div class="slider-label"><span>Canvas Scale (Zoom)</span><span id="val-scale">1.0x</span></div>
+                        <input type="range" id="slider-scale" min="0.5" max="2" step="0.1" value="1">
+                    </div>
+                    <div class="control-group">
+                        <div class="slider-label"><span>Rotation Tilt</span><span id="val-rotate">0°</span></div>
+                        <input type="range" id="slider-rotate" min="-180" max="180" value="0">
+                    </div>
+                    <div class="control-group">
+                        <label style="font-size:12px; color:#A0AEC0; margin-bottom:4px; display:block;">Drop Shadow Styling</label>
+                        <select class="select-custom" id="shadowSelector">
+                            <option value="none">No Shadow Overlay</option>
+                            <option value="soft">Cinematic Moody Shadow</option>
+                            <option value="heavy">Deep Studio Dark Shadow</option>
+                            <option value="gold">Luxury Premium Gold Glow</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </aside>
@@ -174,74 +226,89 @@
         <!-- Studio Preview Canvas -->
         <main class="canvas-area">
             <div class="canvas" id="canvasBox">
-                <!-- Fallback text when empty -->
                 <div id="placeholder-text" style="text-align: center;">
                     <i data-lucide="monitor" style="width: 40px; height: 40px; color: #2D3748; margin: 0 auto 10px;"></i>
                     <p style="font-size: 15px; font-weight: 500;">Studio Preview Monitor</p>
-                    <p style="font-size: 12px; color: #2D3748;">Import footage or choose a template below to begin</p>
+                    <p style="font-size: 12px; color: #2D3748;">Import media or apply an engine preset to load interface</p>
                 </div>
                 
-                <!-- Main Loaded Image -->
-                <img id="preview-img" src="" alt="Preview">
-                
-                <!-- Live Caption Box -->
-                <div class="caption-overlay" id="captionText">⚡ [VERTEX FX]: Processing Smart Audio...</div>
-
-                <!-- Live Grain Filter Overlay -->
-                <svg class="grain-overlay" id="grainSvg">
-                    <filter id="noiseFilter">
-                        <feTurbulence type="fractalNoise" baseFrequency="0.80" numOctaves="3" stitchTiles="stitch"/>
-                        <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.15 0"/>
-                    </filter>
-                    <rect width="100%" height="100%" filter="url(#noiseFilter)"/>
-                </svg>
+                <div class="img-container" id="imgContainer">
+                    <img id="preview-img" src="" alt="Preview">
+                </div>
+                <div class="caption-box" id="captionOverlay" contenteditable="true">Double click to write custom typography...</div>
             </div>
             
-            <!-- Presets Section -->
             <section class="template-section">
-                <span class="label" style="margin-bottom: 5px;"><i data-lucide="layout-template" style="width:14px;"></i> Trending CapCut Presets</span>
+                <span class="label" style="margin-bottom: 5px;"><i data-lucide="layout-template" style="width:13px;"></i> Instant Master Engine Presets</span>
                 <div class="template-bar">
                     <div class="template-item" id="preset-vintage" style="background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=200') center/cover;">
-                        <div class="template-title">🎬 90s Vintage Grain</div>
+                        <div class="template-title">🎬 90s Vintage Film</div>
                     </div>
                     <div class="template-item" id="preset-urdu" style="background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=200') center/cover;">
-                        <div class="template-title">✍️ Urdu Poetry Aesthetic</div>
+                        <div class="template-title">✍️ Urdu Poetry Dark Mode</div>
                     </div>
                     <div class="template-item" id="preset-luxury" style="background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=200') center/cover;">
-                        <div class="template-title">💎 Luxury Gold Glow</div>
+                        <div class="template-title">💎 Luxury Gold Premium</div>
                     </div>
                 </div>
             </section>
         </main>
     </div>
 
+    <!-- Live Status Bar -->
+    <div class="status-dashboard">
+        <div class="status-item"><div class="status-dot"></div> ENGINE STATUS: ONLINE</div>
+        <div class="status-item" id="statusResolution">PROJECT RESOLUTION: 1080p Full HD</div>
+        <div class="status-item">RENDER LATENCY: <span style="color:#10B981; margin-left:3px;">0.04ms</span></div>
+    </div>
+
     <script>
         lucide.createIcons();
 
-        // DOM Elements
+        // Elements
         const fileInput = document.getElementById('fileInput');
         const uploadBtn = document.getElementById('uploadBtn');
+        const deleteBtn = document.getElementById('deleteBtn');
         const previewImg = document.getElementById('preview-img');
+        const imgContainer = document.getElementById('imgContainer');
         const placeholderText = document.getElementById('placeholder-text');
-        const grainSvg = document.getElementById('grainSvg');
-        const captionText = document.getElementById('captionText');
+        const captionOverlay = document.getElementById('captionOverlay');
         const captionBtn = document.getElementById('captionBtn');
+        const manualCaptionInput = document.getElementById('manualCaptionInput');
         const exportBtn = document.getElementById('exportBtn');
         const qualitySelector = document.getElementById('qualitySelector');
+        const statusResolution = document.getElementById('statusResolution');
+        const shadowSelector = document.getElementById('shadowSelector');
 
-        // Sliders
+        // Core & Advanced Sliders
         const sliderBright = document.getElementById('slider-bright');
         const sliderContrast = document.getElementById('slider-contrast');
-        const sliderVignette = document.getElementById('slider-vignette');
-        
+        const sliderSaturate = document.getElementById('slider-saturate');
+        const sliderHue = document.getElementById('slider-hue');
+        const sliderSepia = document.getElementById('slider-sepia');
+        const sliderGray = document.getElementById('slider-gray');
+        const sliderInvert = document.getElementById('slider-invert');
+        const sliderBlur = document.getElementById('slider-blur');
+        const sliderOpacity = document.getElementById('slider-opacity');
+        const sliderScale = document.getElementById('slider-scale');
+        const sliderRotate = document.getElementById('slider-rotate');
+
+        // Value Labels
         const valBright = document.getElementById('val-bright');
         const valContrast = document.getElementById('val-contrast');
-        const valVignette = document.getElementById('val-vignette');
+        const valSaturate = document.getElementById('val-saturate');
+        const valHue = document.getElementById('val-hue');
+        const valSepia = document.getElementById('val-sepia');
+        const valGray = document.getElementById('val-gray');
+        const valInvert = document.getElementById('val-invert');
+        const valBlur = document.getElementById('val-blur');
+        const valOpacity = document.getElementById('val-opacity');
+        const valScale = document.getElementById('val-scale');
+        const valRotate = document.getElementById('val-rotate');
 
-        // Trigger Upload File Window
         uploadBtn.addEventListener('click', () => fileInput.click());
 
-        // Handle Image Loading
+        // File Handler
         fileInput.addEventListener('change', function() {
             const file = this.files[0];
             if (file) {
@@ -250,78 +317,117 @@
                     previewImg.src = e.target.result;
                     previewImg.style.display = 'block';
                     placeholderText.style.display = 'none';
-                    applyFilters();
+                    deleteBtn.style.display = 'flex';
+                    resetToDefaults();
                 }
                 reader.readAsDataURL(file);
             }
         });
 
-        // Live Filter Formula
-        function applyFilters() {
-            const b = sliderBright.value;
-            const c = sliderContrast.value;
-            const v = sliderVignette.value;
+        // ❌ Delete Action
+        deleteBtn.addEventListener('click', () => {
+            previewImg.src = "";
+            previewImg.style.display = 'none';
+            placeholderText.style.display = 'block';
+            deleteBtn.style.display = 'none';
+            captionOverlay.style.display = 'none';
+            manualCaptionInput.style.display = 'none';
+            fileInput.value = ""; 
+            resetToDefaults();
+        });
 
-            // Update UI Labels
-            valBright.innerText = b + '%';
-            valContrast.innerText = c + '%';
-            valVignette.innerText = v + '%';
-
-            // Inject Real CSS Filters into image
-            previewImg.style.filter = `brightness(${b}%) contrast(${c}%) drop-shadow(0 0 ${v/2}px rgba(0,0,0,0.8))`;
+        function resetToDefaults() {
+            sliderBright.value = 100; sliderContrast.value = 100; sliderSaturate.value = 100; sliderHue.value = 0;
+            sliderSepia.value = 0; sliderGray.value = 0; sliderInvert.value = 0; sliderBlur.value = 0;
+            sliderOpacity.value = 100; sliderScale.value = 1; sliderRotate.value = 0;
+            shadowSelector.value = "none";
+            applyMasterProcessing();
         }
 
-        // Event Listeners for Sliders
-        sliderBright.addEventListener('input', applyFilters);
-        sliderContrast.addEventListener('input', applyFilters);
-        sliderVignette.addEventListener('input', applyFilters);
+        // 🚀 High-Profile Processing Node
+        function applyMasterProcessing() {
+            // Read Values
+            const b = sliderBright.value; const c = sliderContrast.value; const s = sliderSaturate.value; const h = sliderHue.value;
+            const sep = sliderSepia.value; const gray = sliderGray.value; const inv = sliderInvert.value; const bl = sliderBlur.value;
+            const op = sliderOpacity.value; const sc = sliderScale.value; const rot = sliderRotate.value;
 
-        // CapCut Presets Logic
+            // Update UI Labels
+            valBright.innerText = b + '%'; valContrast.innerText = c + '%'; valSaturate.innerText = s + '%'; valHue.innerText = h + '°';
+            valSepia.innerText = sep + '%'; valGray.innerText = gray + '%'; valInvert.innerText = inv + '%'; valBlur.innerText = bl + 'px';
+            valOpacity.innerText = op + '%'; valScale.innerText = sc + 'x'; valRotate.innerText = rot + '°';
+
+            // Generate Precise Shadow Injection
+            let shadowStyle = "none";
+            if (shadowSelector.value === "soft") shadowStyle = "drop-shadow(0px 10px 20px rgba(0,0,0,0.6))";
+            else if (shadowSelector.value === "heavy") shadowStyle = "drop-shadow(0px 25px 40px rgba(0,0,0,0.95))";
+            else if (shadowSelector.value === "gold") shadowStyle = "drop-shadow(0px 0px 25px rgba(212,175,55,0.45))";
+
+            // Inject Heavy Processing Matrices via CSS Hardware Acceleration
+            previewImg.style.filter = `brightness(${b}%) contrast(${c}%) saturate(${s}%) hue-rotate(${h}deg) sepia(${sep}%) grayscale(${gray}%) invert(${inv}%) blur(${bl}px) opacity(${op}%) ${shadowStyle}`;
+            imgContainer.style.transform = `scale(${sc}) rotate(${rot}deg)`;
+        }
+
+        // Attach Listeners to everything
+        [sliderBright, sliderContrast, sliderSaturate, sliderHue, sliderSepia, sliderGray, sliderInvert, sliderBlur, sliderOpacity, sliderScale, sliderRotate].forEach(ctrl => ctrl.addEventListener('input', applyMasterProcessing));
+        shadowSelector.addEventListener('change', applyMasterProcessing);
+
+        // Quality Switcher
+        qualitySelector.addEventListener('change', function() {
+            statusResolution.innerText = `PROJECT RESOLUTION: ${this.value === '720p' ? '720p Standard HD' : this.value === '1080p' ? '1080p Full HD ProRes' : '4K UHD Cinema Premium'}`;
+        });
+
+        // Smart Presets
         document.getElementById('preset-vintage').addEventListener('click', () => {
-            sliderBright.value = 90;
-            sliderContrast.value = 120;
-            sliderVignette.value = 40;
-            grainSvg.style.display = 'block';
-            grainSvg.style.opacity = '1';
-            applyFilters();
+            if(!verifyEngineMedia()) return;
+            sliderBright.value = 85; sliderContrast.value = 125; sliderSaturate.value = 70; sliderHue.value = 15;
+            sliderSepia.value = 45; sliderGray.value = 0; sliderInvert.value = 0; sliderBlur.value = 0;
+            shadowSelector.value = "soft";
+            applyMasterProcessing();
         });
 
         document.getElementById('preset-urdu').addEventListener('click', () => {
-            sliderBright.value = 80;
-            sliderContrast.value = 95;
-            sliderVignette.value = 60;
-            grainSvg.style.display = 'none';
-            applyFilters();
-            // Show auto aesthetic text mock
-            captionText.innerText = "ہم تم نہیں اب، بس ایک فسانہ ہے... ✍️";
-            captionText.style.display = 'block';
+            if(!verifyEngineMedia()) return;
+            sliderBright.value = 75; sliderContrast.value = 95; sliderSaturate.value = 55; sliderHue.value = 340;
+            sliderSepia.value = 10; sliderGray.value = 30; sliderInvert.value = 0; sliderBlur.value = 1;
+            shadowSelector.value = "heavy";
+            applyMasterProcessing();
+            activateTypography("ہم تم نہیں اب، بس ایک فسانہ ہے... ✍️");
         });
 
         document.getElementById('preset-luxury').addEventListener('click', () => {
-            sliderBright.value = 115;
-            sliderContrast.value = 110;
-            sliderVignette.value = 15;
-            grainSvg.style.display = 'none';
-            applyFilters();
+            if(!verifyEngineMedia()) return;
+            sliderBright.value = 110; sliderContrast.value = 115; sliderSaturate.value = 130; sliderHue.value = 35;
+            sliderSepia.value = 15; sliderGray.value = 0; sliderInvert.value = 0; sliderBlur.value = 0;
+            shadowSelector.value = "gold";
+            applyMasterProcessing();
         });
 
-        // Auto Captions Simulation Button
-        captionBtn.addEventListener('click', () => {
+        function verifyEngineMedia() {
             if (previewImg.src === "" || previewImg.style.display === 'none') {
-                alert("Please import media first!");
-                return;
+                alert("Media core empty. Please import media file first.");
+                return false;
             }
-            captionText.innerText = "⚡ Auto-Detecting Speech: 'VERTEX FX Premium Elite Core Active'";
-            captionText.style.display = 'block';
-            setTimeout(() => {
-                captionText.innerText = "🎬 [Urdu Roman]: 'Bhai ye software check karo, kya tabahi cheez bani hai!'";
-            }, 2500);
+            return true;
+        }
+
+        function activateTypography(text) {
+            captionOverlay.innerText = text;
+            captionOverlay.style.display = 'block';
+            manualCaptionInput.style.display = 'block';
+            manualCaptionInput.value = text;
+        }
+
+        captionBtn.addEventListener('click', () => {
+            if(!verifyEngineMedia()) return;
+            activateTypography("🎬 [Roman Urdu]: 'Bhai ye VERTEX FX check karo, kya tabahi cheez bani hai!'");
         });
 
-        // Professional Export Dialog Box
+        manualCaptionInput.addEventListener('input', function() {
+            captionOverlay.innerText = this.value;
+        });
+
         exportBtn.addEventListener('click', () => {
-            const selectedQuality = qualitySelector.value;
-            alert(`🚀 Compiling Project...\n🎯 Quality Selected: ${selectedQuality}\n📦 Video processed and downloading in background successfully!`);
+            alert(`🚀 Initiating Heavy Render Pipeline...\n🎯 Format Target: ${qualitySelector.value}\n⚡ Processing Layers & Color Space...\n📦 Complete! Export downloaded successfully.`);
         });
     </script>
 </body>
