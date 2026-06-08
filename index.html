@@ -3,80 +3,372 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C's Prime FX | Premium AI Editing Tools</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>C's Prime FX - Pro AI Workspace</title>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         body {
-            background-color: #0B0B0F;
-            color: #F3F4F6;
-            font-family: 'Inter', sans-serif;
+            background-color: #0B0F19;
+            color: #E2E8F0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
-        .neon-glow {
-            text-shadow: 0 0 10px rgba(139, 92, 246, 0.6);
+
+        /* Top Navigation Bar */
+        header {
+            background-color: #111827;
+            border-bottom: 1px solid #1F2937;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .neon-border {
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, #8B5CF6, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            background: #1F2937;
+            color: white;
+            border: 1px solid #374151;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: #374151;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #7C3AED, #5B21B6);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Main Workspace Layout */
+        .workspace {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Left Panel - Auto Captions & AI Tools */
+        .panel-left {
+            width: 320px;
+            background-color: #111827;
+            border-right: 1px solid #1F2937;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 24px;
+            overflow-y: auto;
+        }
+
+        .section-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #9CA3AF;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .panel-card {
+            background: #1F2937;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            background: #0B0F19;
+            border: 1px solid #374151;
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 8px;
+            margin-bottom: 12px;
+            outline: none;
+        }
+
+        /* Center Video Canvas */
+        .canvas-area {
+            flex: 1;
+            background-color: #070A12;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .main-canvas {
+            flex: 1;
+            background: #111827;
+            border: 2px dashed #374151;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .canvas-placeholder {
+            text-align: center;
+            color: #6B7280;
+        }
+
+        .canvas-placeholder i {
+            font-size: 48px;
+            color: #8B5CF6;
+            margin-bottom: 12px;
+        }
+
+        /* Bottom Templates Slider */
+        .timeline-templates {
+            height: 180px;
+            background: #111827;
+            border: 1px solid #1F2937;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .templates-grid {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .template-item {
+            min-width: 150px;
+            height: 90px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=200') center/cover;
+            border-radius: 8px;
+            border: 1px solid #374151;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            padding: 8px;
+            transition: all 0.2s;
+        }
+
+        .template-item:hover {
+            border-color: #8B5CF6;
+            transform: translateY(-2px);
+        }
+
+        .template-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        /* Right Panel - Manual Tuning Sliders */
+        .panel-right {
+            width: 320px;
+            background-color: #111827;
+            border-left: 1px solid #1F2937;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #D1D5DB;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #1F2937;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #8B5CF6;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(139, 92, 246, 0.6);
         }
     </style>
 </head>
 <body>
 
-    <!-- Header Navigation -->
-    <header class="border-b border-gray-800 bg-[#12121A] px-6 py-4 flex justify-between items-center">
-        <div class="text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-400 neon-glow">
-            C's PRIME FX
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i data-lucide="zap"></i> C's Prime FX <span style="font-size: 10px; border: 1px solid #8B5CF6; padding: 2px 6px; border-radius: 10px; color:#8B5CF6; font-weight:bold; margin-left:5px;">PRO AI</span>
         </div>
-        <a href="#" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold px-5 py-2 rounded-full text-sm transition-all shadow-lg shadow-purple-500/20">
-            📥 Download APK
-        </a>
+        <div class="top-actions">
+            <button class="btn"><i data-lucide="upload"></i> Upload Media</button>
+            <button class="btn btn-primary"><i data-lucide="download"></i> Export 4K</button>
+        </div>
     </header>
 
-    <!-- Hero Section -->
-    <main class="max-w-6xl mx-auto px-4 py-12 text-center">
-        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
-            Turn Ordinary Into <span class="text-cyan-400">Ultra HD</span>
-        </h1>
-        <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-8">
-            Create 90s cinematic aesthetics, upscale graphics, and design premium text layouts instantly. Powered by C's Prime FX AI.
-        </p>
+    <!-- Workspace -->
+    <div class="workspace">
+        
+        <!-- Left Panel: AI & Captions -->
+        <div class="panel-left">
+            <div>
+                <div class="section-title"><i data-lucide="languages" style="width:16px;"></i> Auto Captions Engine</div>
+                <div class="panel-card">
+                    <label style="font-size: 12px; color: #9CA3AF;">Detection Language</label>
+                    <select>
+                        <option>Auto-Detect Language</option>
+                        <option>English (US/UK)</option>
+                        <option>Urdu (Nastaliq)</option>
+                        <option>Roman Urdu</option>
+                    </select>
+                    <label style="font-size: 12px; color: #9CA3AF;">Caption Style Preset</label>
+                    <select>
+                        <option>Neon Glow Text</option>
+                        <option>CapCut Trendy Bold</option>
+                        <option>Minimalist Cinematic</option>
+                    </select>
+                    <button class="btn btn-primary" style="width:100%; justify-content:center;"><i data-lucide="sparkles"></i> Generate Smart Captions</button>
+                </div>
+            </div>
 
-        <!-- Placeholder for Banner Ad (Earning Area) -->
-        <div class="w-full max-w-3xl mx-auto bg-[#12121A] border border-dashed border-gray-700 p-4 rounded-lg mb-12 text-xs text-gray-500 uppercase tracking-widest">
-            Sponsored Advertisement
+            <div>
+                <div class="section-title"><i data-lucide="cpu" style="width:16px;"></i> One-Tap AI Enhancers</div>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <button class="btn" style="justify-content:flex-start; border-left: 3px solid #06B6D4;"><i data-lucide="shield-check" style="color:#06B6D4;"></i> 4K AI Face Detailer</button>
+                    <button class="btn" style="justify-content:flex-start; border-left: 3px solid #8B5CF6;"><i data-lucide="film" style="color:#8B5CF6;"></i> Retro Cinema Grading</button>
+                    <button class="btn" style="justify-content:flex-start; border-left: 3px solid #F59E0B;"><i data-lucide="wand-2" style="color:#F59E0B;"></i> Smart Frame Stabilization</button>
+                </div>
+            </div>
         </div>
 
-        <!-- The Workbench / Feature Tabs -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+        <!-- Center Area: Canvas & Templates -->
+        <div class="canvas-area">
+            <div class="main-canvas">
+                <div class="canvas-placeholder">
+                    <i data-lucide="clapperboard"></i>
+                    <h3>Professional Video Studio Canvas</h3>
+                    <p style="font-size: 13px; margin-top: 5px;">Drag & drop your footage or select a premium template below to start editing</p>
+                </div>
+            </div>
+
+            <!-- CapCut Style Templates -->
+            <div class="timeline-templates">
+                <div class="section-title" style="margin-bottom:0;"><i data-lucide="layout-template" style="width:16px;"></i> Trending CapCut-Style Templates</div>
+                <div class="templates-grid">
+                    <div class="template-item" style="background-image: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=200');">
+                        <div class="template-name">90s Bollywood Grain</div>
+                    </div>
+                    <div class="template-item" style="background-image: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=200');">
+                        <div class="template-name">Urdu Aesthetic Poetry</div>
+                    </div>
+                    <div class="template-item" style="background-image: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=200');">
+                        <div class="template-name">Luxury Cinematic Glow</div>
+                    </div>
+                    <div class="template-item" style="background-image: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=200');">
+                        <div class="template-name">Moody Velocity Sync</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Manual Advanced Controls -->
+        <div class="panel-right">
+            <div class="section-title"><i data-lucide="sliders" style="width:16px;"></i> High-Profile Manual Tuning</div>
             
-            <!-- Tool 1 -->
-            <div class="bg-[#12121A] border border-gray-800 p-6 rounded-2xl hover:border-purple-500 transition-all cursor-pointer group neon-border">
-                <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-4 text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-all">
-                    ✨
-                </div>
-                <h3 class="text-xl font-bold mb-2">AI Image Upscaler</h3>
-                <p class="text-gray-400 text-sm">Convert low-res graphics into crisp Ultra HD quality in seconds.</p>
+            <div class="control-group">
+                <div class="control-label"><span>Exposure / Brightness</span><span style="color:#8B5CF6;">0%</span></div>
+                <input type="range" min="-100" max="100" value="0">
             </div>
 
-            <!-- Tool 2 -->
-            <div class="bg-[#12121A] border border-gray-800 p-6 rounded-2xl hover:border-cyan-400 transition-all cursor-pointer group neon-border">
-                <div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-4 text-cyan-400 group-hover:bg-cyan-400 group-hover:text-white transition-all">
-                    🎬
-                </div>
-                <h3 class="text-xl font-bold mb-2">90s Cinematic Filters</h3>
-                <p class="text-gray-400 text-sm">Apply retro vintage grains, moody shadows, and classic vibes.</p>
+            <div class="control-group">
+                <div class="control-label"><span>Contrast & Highlights</span><span style="color:#8B5CF6;">0%</span></div>
+                <input type="range" min="-100" max="100" value="0">
             </div>
 
-            <!-- Tool 3 -->
-            <div class="bg-[#12121A] border border-gray-800 p-6 rounded-2xl hover:border-indigo-500 transition-all cursor-pointer group neon-border">
-                <div class="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center mb-4 text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white transition-all">
-                    ✍️
-                </div>
-                <h3 class="text-xl font-bold mb-2">Luxury Typography</h3>
-                <p class="text-gray-400 text-sm">Generate modern neon and premium 3D text layouts automatically.</p>
+            <div class="control-group">
+                <div class="control-label"><span>Color Warmth / Cinematic Tint</span><span style="color:#8B5CF6;">0%</span></div>
+                <input type="range" min="-100" max="100" value="0">
             </div>
 
+            <div class="control-group">
+                <div class="control-label"><span>90s Film Grain Intensity</span><span style="color:#8B5CF6;">45%</span></div>
+                <input type="range" min="0" max="100" value="45">
+            </div>
+
+            <div class="control-group">
+                <div class="control-label"><span>Vignette (Moody Shadows)</span><span style="color:#8B5CF6;">20%</span></div>
+                <input type="range" min="0" max="100" value="20">
+            </div>
+
+            <div class="control-group">
+                <div class="control-label"><span>Blur / Sharpness Focus</span><span style="color:#8B5CF6;">0%</span></div>
+                <input type="range" min="-50" max="50" value="0">
+            </div>
         </div>
-    </main>
 
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+    </script>
 </body>
 </html>
