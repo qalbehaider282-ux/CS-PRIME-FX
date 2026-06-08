@@ -2,373 +2,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C's Prime FX - Pro AI Workspace</title>
-    <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+    <title>C's Prime FX | Pro Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #0B0F19;
-            color: #E2E8F0;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Top Navigation Bar */
-        header {
-            background-color: #111827;
-            border-bottom: 1px solid #1F2937;
-            padding: 12px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            background: linear-gradient(45deg, #8B5CF6, #06B6D4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .top-actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        .btn {
-            background: #1F2937;
-            color: white;
-            border: 1px solid #374151;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
-        }
-
-        .btn:hover {
-            background: #374151;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #8B5CF6, #6D28D9);
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #7C3AED, #5B21B6);
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
-        }
-
-        /* Main Workspace Layout */
-        .workspace {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        /* Left Panel - Auto Captions & AI Tools */
-        .panel-left {
-            width: 320px;
-            background-color: #111827;
-            border-right: 1px solid #1F2937;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            gap: 24px;
-            overflow-y: auto;
-        }
-
-        .section-title {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #9CA3AF;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .panel-card {
-            background: #1F2937;
-            border: 1px solid #374151;
-            border-radius: 8px;
-            padding: 16px;
-        }
-
-        select, input[type="text"] {
-            width: 100%;
-            background: #0B0F19;
-            border: 1px solid #374151;
-            color: white;
-            padding: 10px;
-            border-radius: 6px;
-            margin-top: 8px;
-            margin-bottom: 12px;
-            outline: none;
-        }
-
-        /* Center Video Canvas */
-        .canvas-area {
-            flex: 1;
-            background-color: #070A12;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            gap: 20px;
-        }
-
-        .main-canvas {
-            flex: 1;
-            background: #111827;
-            border: 2px dashed #374151;
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .canvas-placeholder {
-            text-align: center;
-            color: #6B7280;
-        }
-
-        .canvas-placeholder i {
-            font-size: 48px;
-            color: #8B5CF6;
-            margin-bottom: 12px;
-        }
-
-        /* Bottom Templates Slider */
-        .timeline-templates {
-            height: 180px;
-            background: #111827;
-            border: 1px solid #1F2937;
-            border-radius: 12px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .templates-grid {
-            display: flex;
-            gap: 16px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-        }
-
-        .template-item {
-            min-width: 150px;
-            height: 90px;
-            background: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=200') center/cover;
-            border-radius: 8px;
-            border: 1px solid #374151;
-            cursor: pointer;
-            position: relative;
-            display: flex;
-            align-items: flex-end;
-            padding: 8px;
-            transition: all 0.2s;
-        }
-
-        .template-item:hover {
-            border-color: #8B5CF6;
-            transform: translateY(-2px);
-        }
-
-        .template-name {
-            font-size: 12px;
-            font-weight: 600;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-        }
-
-        /* Right Panel - Manual Tuning Sliders */
-        .panel-right {
-            width: 320px;
-            background-color: #111827;
-            border-left: 1px solid #1F2937;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            overflow-y: auto;
-        }
-
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-
-        .control-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            color: #D1D5DB;
-        }
-
-        input[type="range"] {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 6px;
-            background: #1F2937;
-            border-radius: 5px;
-            outline: none;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #8B5CF6;
-            cursor: pointer;
-            box-shadow: 0 0 8px rgba(139, 92, 246, 0.6);
-        }
+        body { background: #050505; color: white; font-family: 'Inter', sans-serif; }
+        .sidebar { background: #0d0d0d; border-right: 1px solid #222; }
+        .canvas { background: #121212; border: 1px solid #333; }
+        .template-card { transition: 0.3s; cursor: pointer; }
+        .template-card:hover { transform: scale(1.05); border: 2px solid #6366f1; }
     </style>
 </head>
-<body>
+<body class="h-screen flex flex-col">
 
-    <!-- Header -->
-    <header>
-        <div class="logo">
-            <i data-lucide="zap"></i> C's Prime FX <span style="font-size: 10px; border: 1px solid #8B5CF6; padding: 2px 6px; border-radius: 10px; color:#8B5CF6; font-weight:bold; margin-left:5px;">PRO AI</span>
+    <!-- Navbar -->
+    <nav class="h-16 flex items-center justify-between px-6 border-b border-gray-800 bg-black">
+        <h1 class="text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">C's Prime FX</h1>
+        <div class="flex gap-4">
+            <button class="bg-gray-800 px-4 py-2 rounded-lg hover:bg-gray-700">Project</button>
+            <button class="bg-indigo-600 px-6 py-2 rounded-lg font-bold hover:bg-indigo-500">Export Video</button>
         </div>
-        <div class="top-actions">
-            <button class="btn"><i data-lucide="upload"></i> Upload Media</button>
-            <button class="btn btn-primary"><i data-lucide="download"></i> Export 4K</button>
-        </div>
-    </header>
+    </nav>
 
-    <!-- Workspace -->
-    <div class="workspace">
-        
-        <!-- Left Panel: AI & Captions -->
-        <div class="panel-left">
-            <div>
-                <div class="section-title"><i data-lucide="languages" style="width:16px;"></i> Auto Captions Engine</div>
-                <div class="panel-card">
-                    <label style="font-size: 12px; color: #9CA3AF;">Detection Language</label>
-                    <select>
-                        <option>Auto-Detect Language</option>
-                        <option>English (US/UK)</option>
-                        <option>Urdu (Nastaliq)</option>
-                        <option>Roman Urdu</option>
-                    </select>
-                    <label style="font-size: 12px; color: #9CA3AF;">Caption Style Preset</label>
-                    <select>
-                        <option>Neon Glow Text</option>
-                        <option>CapCut Trendy Bold</option>
-                        <option>Minimalist Cinematic</option>
-                    </select>
-                    <button class="btn btn-primary" style="width:100%; justify-content:center;"><i data-lucide="sparkles"></i> Generate Smart Captions</button>
-                </div>
+    <div class="flex flex-1 overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="sidebar w-64 p-4 space-y-6">
+            <h2 class="text-gray-500 uppercase text-xs font-bold">Tools</h2>
+            <div class="space-y-2">
+                <button class="w-full text-left p-3 hover:bg-gray-900 rounded-lg">✂️ Cut & Trim</button>
+                <button class="w-full text-left p-3 hover:bg-gray-900 rounded-lg">✨ AI Enhancer</button>
+                <button class="w-full text-left p-3 hover:bg-gray-900 rounded-lg">💬 Auto Captions</button>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="flex-1 p-6 flex flex-col gap-6">
+            <div class="canvas flex-1 rounded-2xl flex items-center justify-center text-gray-600">
+                <p>Drag & Drop Your Footage Here</p>
             </div>
 
-            <div>
-                <div class="section-title"><i data-lucide="cpu" style="width:16px;"></i> One-Tap AI Enhancers</div>
-                <div style="display:flex; flex-direction:column; gap:10px;">
-                    <button class="btn" style="justify-content:flex-start; border-left: 3px solid #06B6D4;"><i data-lucide="shield-check" style="color:#06B6D4;"></i> 4K AI Face Detailer</button>
-                    <button class="btn" style="justify-content:flex-start; border-left: 3px solid #8B5CF6;"><i data-lucide="film" style="color:#8B5CF6;"></i> Retro Cinema Grading</button>
-                    <button class="btn" style="justify-content:flex-start; border-left: 3px solid #F59E0B;"><i data-lucide="wand-2" style="color:#F59E0B;"></i> Smart Frame Stabilization</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Center Area: Canvas & Templates -->
-        <div class="canvas-area">
-            <div class="main-canvas">
-                <div class="canvas-placeholder">
-                    <i data-lucide="clapperboard"></i>
-                    <h3>Professional Video Studio Canvas</h3>
-                    <p style="font-size: 13px; margin-top: 5px;">Drag & drop your footage or select a premium template below to start editing</p>
-                </div>
-            </div>
-
-            <!-- CapCut Style Templates -->
-            <div class="timeline-templates">
-                <div class="section-title" style="margin-bottom:0;"><i data-lucide="layout-template" style="width:16px;"></i> Trending CapCut-Style Templates</div>
-                <div class="templates-grid">
-                    <div class="template-item" style="background-image: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=200');">
-                        <div class="template-name">90s Bollywood Grain</div>
+            <!-- Templates Section (Professional Look) -->
+            <section class="h-48">
+                <h2 class="text-sm font-semibold mb-3">Trending Templates</h2>
+                <div class="flex gap-4 overflow-x-auto pb-4">
+                    <div class="template-card min-w-[160px] h-32 bg-gray-800 rounded-xl flex items-end p-3" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://picsum.photos/300/200'); background-size: cover;">
+                        <span>Retro 90s</span>
                     </div>
-                    <div class="template-item" style="background-image: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=200');">
-                        <div class="template-name">Urdu Aesthetic Poetry</div>
+                    <div class="template-card min-w-[160px] h-32 bg-gray-800 rounded-xl flex items-end p-3" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://picsum.photos/301/200'); background-size: cover;">
+                        <span>Cinematic</span>
                     </div>
-                    <div class="template-item" style="background-image: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=200');">
-                        <div class="template-name">Luxury Cinematic Glow</div>
-                    </div>
-                    <div class="template-item" style="background-image: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=200');">
-                        <div class="template-name">Moody Velocity Sync</div>
+                    <div class="template-card min-w-[160px] h-32 bg-gray-800 rounded-xl flex items-end p-3" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://picsum.photos/302/200'); background-size: cover;">
+                        <span>Urdu Vibes</span>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Right Panel: Manual Advanced Controls -->
-        <div class="panel-right">
-            <div class="section-title"><i data-lucide="sliders" style="width:16px;"></i> High-Profile Manual Tuning</div>
-            
-            <div class="control-group">
-                <div class="control-label"><span>Exposure / Brightness</span><span style="color:#8B5CF6;">0%</span></div>
-                <input type="range" min="-100" max="100" value="0">
-            </div>
-
-            <div class="control-group">
-                <div class="control-label"><span>Contrast & Highlights</span><span style="color:#8B5CF6;">0%</span></div>
-                <input type="range" min="-100" max="100" value="0">
-            </div>
-
-            <div class="control-group">
-                <div class="control-label"><span>Color Warmth / Cinematic Tint</span><span style="color:#8B5CF6;">0%</span></div>
-                <input type="range" min="-100" max="100" value="0">
-            </div>
-
-            <div class="control-group">
-                <div class="control-label"><span>90s Film Grain Intensity</span><span style="color:#8B5CF6;">45%</span></div>
-                <input type="range" min="0" max="100" value="45">
-            </div>
-
-            <div class="control-group">
-                <div class="control-label"><span>Vignette (Moody Shadows)</span><span style="color:#8B5CF6;">20%</span></div>
-                <input type="range" min="0" max="100" value="20">
-            </div>
-
-            <div class="control-group">
-                <div class="control-label"><span>Blur / Sharpness Focus</span><span style="color:#8B5CF6;">0%</span></div>
-                <input type="range" min="-50" max="50" value="0">
-            </div>
-        </div>
-
+            </section>
+        </main>
     </div>
 
-    <script>
-        // Initialize Lucide Icons
-        lucide.createIcons();
-    </script>
 </body>
 </html>
