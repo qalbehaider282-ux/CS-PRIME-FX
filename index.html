@@ -2,118 +2,177 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Vertex Advanced Studio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VERTEX ULTIMATE ENGINE</title>
     <style>
-        :root { --bg: #121212; --panel: #1e1e1e; --accent: #ff0055; --text: #e0e0e0; }
-        body { margin: 0; font-family: 'Roboto', sans-serif; background-color: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
-        #sidebar { width: 400px; background-color: var(--panel); border-right: 1px solid #333; display: flex; flex-direction: column; height: 100%; overflow-y: auto; }
-        .header { padding: 15px; font-weight: bold; color: #fff; background: #222; text-align: center; border-bottom: 1px solid #333; }
-        .tabs { display: flex; background: #111; }
-        .tab-btn { flex: 1; padding: 12px; background: none; border: none; color: var(--text); cursor: pointer; border-bottom: 2px solid transparent; }
-        .tab-btn.active { border-bottom-color: var(--accent); color: #fff; background: #1a1a1a; }
-        .content { flex: 1; padding: 20px; overflow-y: auto; }
-        .section { margin-bottom: 25px; }
-        h4 { color: var(--accent); margin: 0 0 10px 0; font-size: 14px; text-transform: uppercase; }
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        button { background-color: #2a2a2a; color: #fff; border: 1px solid #444; padding: 10px; border-radius: 4px; cursor: pointer; font-size: 11px; transition: 0.2s; }
-        button:hover { background-color: var(--accent); border-color: var(--accent); }
-        input[type="text"], select { width: 100%; padding: 10px; margin-bottom: 15px; background: #222; border: 1px solid #444; color: #fff; border-radius: 4px; }
-        #workspace { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #080808; position: relative; }
-        #preview { width: 70%; height: 65%; border: 1px dashed #333; display: flex; align-items: center; justify-content: center; background: #000; }
-        .footer { position: absolute; bottom: 20px; }
-        .export-btn { padding: 15px 40px; background-color: var(--accent); color: #fff; border: none; font-weight: bold; cursor: pointer; border-radius: 4px; font-size: 14px; }
+        :root { --bg: #09090b; --panel: #18181b; --accent: #ff0055; --border: #27272a; --text: #f4f4f5; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+        
+        /* Main Studio Sidebar */
+        #sidebar { width: 380px; background-color: var(--panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; height: 100%; }
+        .studio-title { padding: 18px; font-weight: 800; font-size: 14px; letter-spacing: 2px; text-align: center; background: #09090b; border-bottom: 1px solid var(--border); color: #fff; }
+        
+        /* Navigation Tabs */
+        .tabs-container { display: flex; background: #121214; border-bottom: 1px solid var(--border); overflow-x: auto; }
+        .tab-btn { flex: 1; padding: 12px 5px; background: none; border: none; color: #a1a1aa; cursor: pointer; font-size: 11px; font-weight: 600; text-transform: uppercase; min-width: 80px; text-align: center; }
+        .tab-btn.active { color: #fff; border-bottom: 2px solid var(--accent); background: var(--panel); }
+        
+        /* Panel Contents */
+        .panel-content { flex: 1; overflow-y: auto; padding: 15px; display: none; }
+        .panel-content.active { display: block; }
+        .group-title { color: var(--accent); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 15px 0 8px 0; }
+        
+        /* 100+ Grid Control Setup */
+        .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 15px; }
+        .tool-node { background: #202024; border: 1px solid var(--border); color: #e4e4e7; padding: 10px 4px; border-radius: 5px; cursor: pointer; font-size: 10px; text-align: center; font-weight: 500; transition: all 0.2s; }
+        .tool-node:hover { background: var(--accent); border-color: #fff; color: #fff; }
+        
+        /* Sliders & Advanced Inputs */
+        .slider-wrapper { margin-bottom: 12px; background: #202024; padding: 10px; border-radius: 6px; border: 1px solid var(--border); }
+        .slider-wrapper label { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 6px; color: #a1a1aa; }
+        .slider-wrapper input[type="range"] { width: 100%; accent-color: var(--accent); background: #27272a; cursor: pointer; }
+        
+        /* Export Options Dropdown */
+        .export-selector { width: 100%; padding: 10px; background: #202024; border: 1px solid var(--border); color: #fff; border-radius: 5px; margin-bottom: 15px; font-size: 12px; }
+
+        /* Workspace Live Canvas Area */
+        #workspace { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #040406; position: relative; padding: 20px; }
+        #canvas-viewport { width: 85%; height: 70%; border: 2px dashed #27272a; background: #000; box-shadow: 0 20px 50px rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 8px; }
+        
+        /* Bottom Control Panel */
+        .action-hub { position: absolute; bottom: 25px; display: flex; flex-direction: column; width: 60%; gap: 10px; }
+        .master-btn { width: 100%; padding: 15px; background: var(--accent); color: #fff; border: none; font-weight: 700; font-size: 13px; letter-spacing: 1px; cursor: pointer; border-radius: 6px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(255,0,85,0.4); }
     </style>
 </head>
 <body>
 
     <div id="sidebar">
-        <div class="header">VERTEX ADVANCED STUDIO</div>
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('templates')">Templates</button>
-            <button class="tab-btn" onclick="switchTab('effects')">Effects</button>
-            <button class="tab-btn" onclick="switchTab('adjust')">Adjust</button>
-            <button class="tab-btn" onclick="switchTab('text')">Text</button>
+        <div class="studio-title">VERTEX ADVANCED ENGINE</div>
+        
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="openPanel(event, 'panel-templates')">Templates</button>
+            <button class="tab-btn" onclick="openPanel(event, 'panel-enhance')">AI Photo</button>
+            <button class="tab-btn" onclick="openPanel(event, 'panel-video')">Video FX</button>
+            <button class="tab-btn" onclick="event.preventDefault(); openPanel(event, 'panel-adjust')">Adjust</button>
+            <button class="tab-btn" onclick="openPanel(event, 'panel-text')">Fonts</button>
         </div>
 
-        <div class="content" id="tab-templates">
-            <div class="section">
-                <h4>Smart Templates</h4>
-                <div class="grid">
-                    <button style="grid-column: span 2;">Auto Beat</button>
-                    <button style="grid-column: span 2;">Transition Mix</button>
-                    <button style="grid-column: span 2;">Slide Show</button>
-                    <button style="grid-column: span 2;">Cinematic</button>
-                </div>
+        <div class="panel-content active" id="panel-templates">
+            <div class="group-title">CapCut Style Auto-Templates</div>
+            <div class="tools-grid">
+                <button class="tool-node" style="grid-column: span 3; padding: 12px;">🔥 Beat Sync Dynamic</button>
+                <button class="tool-node" style="grid-column: span 3; padding: 12px;">🎬 90s Cinematic Retro</button>
+                <button class="tool-node">Velocity Pop</button>
+                <button class="tool-node">Slow Split</button>
+                <button class="tool-node">Glitch Intro</button>
+                <button class="tool-node">Smooth Slide</button>
+                <button class="tool-node">Fast Cut</button>
+                <button class="tool-node">Blur Fade</button>
             </div>
         </div>
 
-        <div class="content" id="tab-effects" style="display:none;">
-            <div class="section">
-                <h4>Video Enhancements</h4>
-                <div class="grid">
-                    <button>HDR Enhance</button>
-                    <button>Denoise</button>
-                    <button>Stabilize</button>
-                    <button>Slow Mo</button>
-                </div>
+        <div class="panel-content" id="panel-enhance">
+            <div class="group-title">AI Smart Enhancements</div>
+            <div class="tools-grid">
+                <button class="tool-node" style="grid-column: span 3;">✨ One-Tap Premium Auto Enhance</button>
+                <button class="tool-node">HD Portrait</button>
+                <button class="tool-node">AI Glow</button>
+                <button class="tool-node">Skin Retouch</button>
+                <button class="tool-node">De-Noise</button>
+                <button class="tool-node">Auto HDR</button>
+                <button class="tool-node">Face Sculpt</button>
             </div>
-            <div class="section">
-                <h4>Special FX</h4>
-                <div class="grid">
-                    <button>VHS</button>
-                    <button>Glitch</button>
-                    <button>RGB</button>
-                    <button>Neon</button>
-                    <button>Blur</button>
-                    <button>Shadow</button>
-                    <button>Mosaic</button>
-                    <button>Glow</button>
-                </div>
+            <div class="group-title">Pro Filters Bundle</div>
+            <div class="tools-grid">
+                <button class="tool-node">Moody Grain</button>
+                <button class="tool-node">Cyberpunk</button>
+                <button class="tool-node">Vivid Film</button>
+                <button class="tool-node">Teal & Orange</button>
+                <button class="tool-node">90s Luxury</button>
+                <button class="tool-node">B&W Stark</button>
             </div>
         </div>
 
-        <div class="content" id="tab-adjust" style="display:none;">
-            <div class="section">
-                <h4>Color & Light</h4>
-                <input type="text" placeholder="Brightness">
-                <input type="text" placeholder="Contrast">
-                <input type="text" placeholder="Saturation">
-                <input type="text" placeholder="Temperature">
-                <input type="text" placeholder="Highlights">
-                <input type="text" placeholder="Shadows">
+        <div class="panel-content" id="panel-video">
+            <div class="group-title">Advanced Speed Controls</div>
+            <div class="tools-grid">
+                <button class="tool-node">Smooth Slow-Mo</button>
+                <button class="tool-node">Speed Ramp Curve</button>
+                <button class="tool-node">Bullet Time</button>
+                <button class="tool-node">Freeze Frame</button>
+                <button class="tool-node">Optical Flow</button>
+                <button class="tool-node">Reverse Play</button>
+            </div>
+            <div class="group-title">Body FX & Tracking</div>
+            <div class="tools-grid">
+                <button class="tool-node">Neon Outline</button>
+                <button class="tool-node">Shadow Trace</button>
+                <button class="tool-node">RGB Ghosting</button>
+                <button class="tool-node">Motion Blur</button>
+                <button class="tool-node">Lens Shake</button>
+                <button class="tool-node">Flash Blink</button>
             </div>
         </div>
 
-        <div class="content" id="tab-text" style="display:none;">
-            <div class="section">
-                <h4>Typography Styles</h4>
-                <input type="text" placeholder="Type text here...">
-                <div class="grid">
-                    <button>Neon Font</button>
-                    <button>3D Font</button>
-                    <button>Glow Font</button>
-                    <button>Shadow Font</button>
-                </div>
+        <div class="panel-content" id="panel-adjust">
+            <div class="group-title">Basic Adjustments</div>
+            <div class="slider-wrapper"><label><span>Brightness</span><span id="v1">100%</span></label><input type="range" min="0" max="200" value="100"></div>
+            <div class="slider-wrapper"><label><span>Contrast</span><span id="v2">100%</span></label><input type="range" min="0" max="200" value="100"></div>
+            <div class="slider-wrapper"><label><span>Saturation</span><span id="v3">100%</span></label><input type="range" min="0" max="200" value="100"></div>
+            
+            <div class="group-title">Advanced Color Grading (HSL)</div>
+            <div class="slider-wrapper"><label><span>Red Tone</span></label><input type="range" min="-50" max="50" value="0"></div>
+            <div class="slider-wrapper"><label><span>Green Tone</span></label><input type="range" min="-50" max="50" value="0"></div>
+            <div class="slider-wrapper"><label><span>Blue Tone</span></label><input type="range" min="-50" max="50" value="0"></div>
+            <div class="slider-wrapper"><label><span>Highlights</span></label><input type="range" min="0" max="200" value="100"></div>
+            <div class="slider-wrapper"><label><span>Shadows</span></label><input type="range" min="0" max="200" value="100"></div>
+        </div>
+
+        <div class="panel-content" id="panel-text">
+            <div class="group-title">Text Input & Styles</div>
+            <input type="text" placeholder="Enter text overlays..." style="width:94%; padding:10px; background:#202024; border:1px solid var(--border); color:#fff; border-radius:5px; margin-bottom:12px;">
+            <div class="tools-grid">
+                <button class="tool-node" style="grid-column: span 3;">Glow Neon Text Style</button>
+                <button class="tool-node">3D Bold</button>
+                <button class="tool-node">Minimalist</button>
+                <button class="tool-node">Retro Serif</button>
+                <button class="tool-node">Cinematic Box</button>
+                <button class="tool-node">Outline Pro</button>
+                <button class="tool-node">Gradient Fill</button>
             </div>
         </div>
     </div>
 
     <div id="workspace">
-        <div id="preview">
-            <p style="color:#555;">Media Preview Area</p>
+        <div id="canvas-viewport">
+            <p style="color:#52525b; font-weight: 500; font-size: 13px;">WORKSPACE READY FOR ASSET IMPORT</p>
         </div>
-        <div class="footer">
-            <button class="export-btn">Export Video</button>
+        
+        <div class="action-hub">
+            <select class="export-selector">
+                <option>Export Quality: 4K UHD Ultra (2160p) - High Bitrate</option>
+                <option>Export Quality: 1080p Full HD - Smooth 60 FPS</option>
+                <option>Export Quality: Smart GIF / Image Preset</option>
+            </select>
+            <button class="master-btn" onclick="alert('Compiling 100+ Asset Layers... Exporting Master Video File.')">Master Export Asset</button>
         </div>
     </div>
 
     <script>
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.content').forEach(content => content.style.display = 'none');
-            
-            event.target.classList.add('active');
-            document.getElementById('tab-' + tabId).style.display = 'block';
+        function openPanel(evt, panelId) {
+            var i, panelcontent, tablinks;
+            panelcontent = document.getElementsByClassName("panel-content");
+            for (i = 0; i < panelcontent.length; i++) {
+                panelcontent[i].style.display = "none";
+                panelcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(panelId).style.display = "block";
+            document.getElementById(panelId).classList.add("active");
+            evt.currentTarget.classList.add("active");
         }
     </script>
 </body>
