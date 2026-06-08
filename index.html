@@ -2,576 +2,63 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VERTEX CAPCUT ULTIMATE | All-In-One Production Engine</title>
-    <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+    <title>VERTEX ULTIMATE | ALL-IN-ONE</title>
     <style>
-        :root { 
-            --bg-ultra: #020406; --bg-surface: #070B12; --bg-card: #0F1524;
-            --border-prime: #1A2333; --accent-pink: #FF2E93; --accent-blue: #00D2FF;
-            --accent-green: #10B981; --accent-gold: #FFB800; --text-main: #F8FAFC;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background: var(--bg-ultra); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
-
-        /* Navigation Terminal */
-        header { 
-            height: 65px; background: #000; border-bottom: 1px solid var(--border-prime); 
-            display: flex; align-items: center; justify-content: space-between; padding: 0 24px; z-index: 100;
-        }
-        .brand-zone { display: flex; align-items: center; gap: 12px; font-weight: 900; letter-spacing: 3px; font-size: 18px; color: #FFF; }
-        .mode-selector { display: flex; background: var(--bg-surface); padding: 4px; border-radius: 8px; border: 1px solid var(--border-prime); }
-        .mode-btn { background: transparent; border: none; color: #475569; padding: 8px 18px; font-size: 11px; font-weight: 800; cursor: pointer; border-radius: 6px; transition: all 0.2s; }
-        .mode-btn.active { background: var(--accent-pink); color: #FFF; box-shadow: 0 0 15px rgba(255,46,147,0.3); }
-        
-        .export-matrix-group { display: flex; align-items: center; gap: 10px; }
-        .studio-dropdown { background: var(--bg-surface); color: #FFF; border: 1px solid var(--border-prime); padding: 8px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; outline: none; }
-        .btn-export-master { background: linear-gradient(135deg, var(--accent-pink), #BE123C); border: none; color: white; padding: 9px 20px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(255,46,147,0.2); }
-
-        /* Workbench Layout */
-        .app-workbench { display: flex; flex: 1; overflow: hidden; }
-        
-        /* Control Tower Panel */
-        .control-tower { width: 440px; background: var(--bg-surface); border-right: 1px solid var(--border-prime); display: flex; flex-direction: column; overflow-y: auto; }
-        .tower-tabs { display: flex; border-bottom: 1px solid var(--border-prime); background: #04070D; position: sticky; top: 0; z-index: 20; }
-        .tower-tab-link { flex: 1; padding: 15px 2px; text-align: center; font-size: 9px; font-weight: 800; color: #475569; cursor: pointer; border-bottom: 2px solid transparent; text-transform: uppercase; letter-spacing: 0.5px; }
-        .tower-tab-link.active { color: var(--accent-pink); border-bottom-color: var(--accent-pink); background: var(--bg-surface); }
-        
-        .tower-content { padding: 20px; display: none; flex-direction: column; gap: 18px; }
-        .tower-content.active { display: flex; }
-
-        /* Component Styles */
-        .tool-label { font-size: 10px; font-weight: 800; color: #64748B; letter-spacing: 1.5px; text-transform: uppercase; display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
-        .slider-wrapper { display: flex; flex-direction: column; gap: 6px; background: #0B0F1A; padding: 10px; border-radius: 8px; border: 1px solid #141B29; }
-        .slider-meta-info { display: flex; justify-content: space-between; font-size: 11px; color: #94A3B8; font-weight: 600; }
-        input[type="range"] { -webkit-appearance: none; width: 100%; height: 4px; background: #1E293B; border-radius: 6px; outline: none; }
-        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #FFF; cursor: pointer; border: 2px solid var(--accent-pink); }
-        
-        .studio-input-text { background: #0B0F1A; border: 1px solid var(--border-prime); border-radius: 8px; padding: 12px; color: #FFF; font-size: 12px; outline: none; width: 100%; margin-bottom: 8px; }
-
-        .matrix-grid-2col { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .matrix-grid-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .btn-deck-trigger { background: var(--bg-card); border: 1px solid var(--border-prime); color: #94A3B8; padding: 12px 8px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: all 0.2s; text-align: center; }
-        .btn-deck-trigger:hover { border-color: var(--accent-pink); color: #FFF; background: #141C2E; }
-        .btn-deck-trigger.active { background: rgba(255,46,147,0.1); border-color: var(--accent-pink); color: var(--accent-pink); }
-
-        /* CapCut Speed Curve Canvas Panel */
-        .velocity-curve-box { width: 100%; height: 85px; background: #03060B; border: 1px solid var(--border-prime); border-radius: 10px; position: relative; overflow: hidden; margin-top: 5px; cursor: pointer; }
-        .curve-grid-line { position: absolute; width: 100%; height: 1px; background: #141C2E; top: 50%; }
-        .curve-node { position: absolute; width: 10px; height: 10px; background: var(--accent-blue); border-radius: 50%; top: 45%; transform: translateX(-50%); box-shadow: 0 0 8px var(--accent-blue); }
-
-        /* Viewport Monitor Layout */
-        .viewport-monitor-area { flex: 1; background: #030509; display: flex; flex-direction: column; padding: 20px; position: relative; gap: 15px; overflow: hidden; }
-        .canvas-master-frame { flex: 1; border: 2px dashed #161F30; border-radius: 16px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: #05080F; }
-        
-        .render-layer-container { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; max-width: 90%; max-height: 90%; }
-        #studioRenderCanvas { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-
-        /* Interactive Typography Object */
-        .typography-live-node { 
-            position: absolute; bottom: 15%; left: 50%; transform: translate(-50%, -50%); z-index: 50; 
-            color: #FFFFFF; font-weight: 900; font-size: 28px; padding: 8px 16px; text-align: center;
-            white-space: nowrap; cursor: move; font-family: 'Arial Black', sans-serif;
-            transition: all 0.1s ease; user-select: none;
-        }
-
-        /* Cyber Neon Glow Frame Overlay */
-        .fx-overlay-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 15; mix-blend-mode: screen; opacity: 0; transition: all 0.3s ease; border-radius: 8px; }
-        .fx-overlay-screen.active { opacity: 1; }
-        .fx-body-neon { box-shadow: inset 0 0 50px rgba(0,210,255,0.6); border: 0px solid transparent; }
-        .fx-body-neon.active { border: 4px solid var(--accent-blue); animation: neonPulse 1.5s infinite alternate; }
-        @keyframes neonPulse { from { box-shadow: inset 0 0 30px rgba(0,210,255,0.4); } to { box-shadow: inset 0 0 60px rgba(0,210,255,0.9); } }
-
-        /* Timeline Board Stack */
-        .timeline-master-board { background: var(--bg-surface); border: 1px solid var(--border-prime); border-radius: 14px; padding: 14px; display: none; flex-direction: column; gap: 10px; }
-        .timeline-header-actions { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #101624; padding-bottom: 6px; }
-        .timeline-tracks-stack { background: #020407; padding: 10px; border-radius: 8px; display: flex; flex-direction: column; gap: 6px; border: 1px solid #101624; }
-        .timeline-track-row { height: 26px; background: var(--bg-card); border-radius: 4px; border-left: 4px solid var(--accent-pink); padding: 0 12px; display: flex; align-items: center; font-size: 10.5px; color: #64748B; font-weight: 700; position: relative; overflow: hidden; }
-        .timeline-track-row.fx-track-row { border-left-color: purple; }
-        .timeline-track-row.text-track-row { border-left-color: var(--accent-gold); }
-        
-        .velocity-track-line-visual { position: absolute; bottom: 0; left: 0; height: 2px; background: var(--accent-blue); width: 100%; transition: all 0.1s linear; }
-
-        /* Modals & Popups */
-        .toast-popup-alert { position: absolute; bottom: 25px; right: 25px; background: var(--accent-pink); color: #FFF; padding: 12px 24px; border-radius: 8px; font-weight: 800; font-size: 11.5px; z-index: 250; display: none; align-items: center; gap: 8px; }
-        .ai-processing-modal { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(2,4,6,0.9); z-index: 500; display:none; flex-direction:column; align-items:center; justify-content:center; gap:15px; }
-        .spinner { width: 40px; height: 40px; border: 4px solid rgba(255,46,147,0.1); border-left-color: var(--accent-pink); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        :root { --bg: #050505; --accent: #FF2E93; --panel: #1a1a1a; --text: #fff; }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; display: flex; height: 100vh; margin: 0; }
+        #sidebar { width: 320px; background: var(--panel); padding: 15px; overflow-y: auto; border-right: 2px solid var(--accent); }
+        .box { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #333; }
+        h3 { color: var(--accent); font-size: 13px; margin-bottom: 10px; text-transform: uppercase; }
+        button { background: #333; border: none; color: #fff; padding: 8px 12px; margin: 2px; cursor: pointer; font-size: 10px; border-radius: 3px; }
+        button:hover { background: var(--accent); }
+        input[type="range"] { width: 100%; margin: 10px 0; }
+        .canvas-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #000; }
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="brand-zone"><i data-lucide="layers" style="color:var(--accent-pink);"></i> VERTEX MATRIX v3 MASTER</div>
-        <div class="mode-selector">
-            <button class="mode-btn active" id="triggerPicMode"><i data-lucide="image" style="width:12px; display:inline;"></i> PHOTO ENGINE</button>
-            <button class="mode-btn" id="triggerVideoMode"><i data-lucide="video" style="width:12px; display:inline;"></i> CAPCUT TIMELINE</button>
+<div id="sidebar">
+    <div class="box">
+        <h3>1. Velocity & Timeline</h3>
+        <div class="controls">
+            <button onclick="alert('Flash Montage Active')">Flash</button>
+            <button onclick="alert('Hero Slowmo Active')">Hero Slow</button>
+            <button onclick="alert('Bullet Time Active')">Bullet Time</button>
+            <button onclick="alert('Timeline Synced')">Auto Sync</button>
         </div>
-        <div class="export-matrix-group">
-            <select class="studio-dropdown" id="dropdownQuality">
-                <option value="1">1080p Export</option>
-                <option value="1.5">2K Mastering</option>
-                <option value="2" selected>4K AI Super-Resolution Raw</option>
-            </select>
-            <button class="btn-export-master" id="actionMasterExport"><i data-lucide="download-cloud"></i> EXPORT ENHANCED ULTRA</button>
+    </div>
+    <div class="box">
+        <h3>2. AI Body FX</h3>
+        <div class="controls">
+            <button onclick="alert('Neon Body Loaded')">Neon Body</button>
+            <button onclick="alert('Shadow Trace Loaded')">Shadow</button>
+            <button onclick="alert('VHS Glitch Loaded')">VHS</button>
+            <button onclick="alert('RGB Shift Loaded')">RGB Shift</button>
         </div>
-    </header>
-
-    <div class="app-workbench">
-        <aside class="control-tower">
-            <div class="tower-tabs">
-                <div class="tower-tab-link active" onclick="switchTowerTab('pane-templates')">Templates</div>
-                <div class="tower-tab-link" onclick="switchTowerTab('pane-filters')">Filters</div>
-                <div class="tower-tab-link" onclick="switchTowerTab('pane-fx-layers')">CapCut FX</div>
-                <div class="tower-tab-link" onclick="switchTowerTab('pane-velocity')">Velocity</div>
-                <div class="tower-tab-link" onclick="switchTowerTab('pane-typo-style')">Text Style</div>
-                <div class="tower-tab-link" onclick="switchTowerTab('pane-adjust')">Tune</div>
-            </div>
-
-            <div class="tower-content active" id="pane-templates">
-                <span class="tool-label">CapCut Premium Instant Templates</span>
-                <div class="matrix-grid-2col">
-                    <button class="btn-deck-trigger" onclick="applyTemplatePreset('cc-aesthetic')">✨ Dark Moody Aesthetic</button>
-                    <button class="btn-deck-trigger" onclick="applyTemplatePreset('cc-cyber')">⚡ Cyber Neon Vibe</button>
-                    <button class="btn-deck-trigger" onclick="applyTemplatePreset('cc-vintage')">🎞️ Vintage Film Grain</button>
-                    <button class="btn-deck-trigger" onclick="applyTemplatePreset('cc-hdr')">💎 Clear Ultra HDR</button>
-                </div>
-            </div>
-
-            <div class="tower-content" id="pane-filters">
-                <span class="tool-label">Color Grading Master Channels</span>
-                <div class="matrix-grid-3col">
-                    <button class="btn-deck-trigger" onclick="applyFilterGrade('filter-cold')">Cold Winter</button>
-                    <button class="btn-deck-trigger" onclick="applyFilterGrade('filter-warm')">Warm Latte</button>
-                    <button class="btn-deck-trigger" onclick="applyFilterGrade('filter-mono')">Stark B&W</button>
-                    <button class="btn-deck-trigger" onclick="applyFilterGrade('filter-teal')">Teal & Orange</button>
-                    <button class="btn-deck-trigger" onclick="applyFilterGrade('filter-retro')">Retro Fade</button>
-                    <button class="btn-deck-trigger" onclick="applyFilterGrade('filter-clear')">❌ Reset</button>
-                </div>
-            </div>
-
-            <div class="tower-content" id="pane-fx-layers">
-                <div>
-                    <span class="tool-label"><i data-lucide="sparkles" style="color:var(--accent-pink)"></i> Trending Video Effects</span>
-                    <div class="matrix-grid-3col" style="margin-top:5px;">
-                        <button class="btn-deck-trigger" onclick="applyVisualFx('fx-blur')"><i data-lucide="eye-off"></i> Diamond Blur</button>
-                        <button class="btn-deck-trigger" onclick="applyVisualFx('fx-vhs')"><i data-lucide="tv"></i> 90s VHS</button>
-                        <button class="btn-deck-trigger" onclick="applyVisualFx('fx-chromatic')"><i data-lucide="layers"></i> RGB Split</button>
-                    </div>
-                </div>
-                <div style="border-top:1px solid var(--border-prime); padding-top:12px;">
-                    <span class="tool-label"><i data-lucide="user" style="color:var(--accent-blue)"></i> AI Body Effects Overlay</span>
-                    <div class="matrix-grid-2col" style="margin-top:5px;">
-                        <button class="btn-deck-trigger" id="btn-body-glow" onclick="toggleBodyNeonEffect()"><i data-lucide="zap" style="color:var(--accent-blue)"></i> Neon Trace Glow</button>
-                        <button class="btn-deck-trigger" onclick="applyVisualFx('fx-grain')"><i data-lucide="film"></i> Shutter Grain</button>
-                    </div>
-                </div>
-                <button class="btn-deck-trigger" onclick="clearAllFxStyles()" style="width:100%; background: rgba(239,68,68,0.1); border-color: #EF4444; color: #EF4444; margin-top:5px;">
-                    <i data-lucide="trash-2"></i> Strip All Active FX
-                </button>
-            </div>
-
-            <div class="tower-content" id="pane-velocity">
-                <span class="tool-label"><i data-lucide="gauge"></i> Constant Speed Multiplier</span>
-                <div class="slider-wrapper">
-                    <div class="slider-meta-info"><span>Velocity Rate</span><span id="txt-video-speed">1.0x</span></div>
-                    <input type="range" id="input-video-speed" min="1" max="10" value="5">
-                </div>
-                <div style="border-top:1px solid var(--border-prime); padding-top:12px;">
-                    <span class="tool-label"><i data-lucide="activity"></i> CapCut Pro Speed Curve Matrix</span>
-                    <div class="velocity-curve-box" id="velocityCurveBox">
-                        <div class="curve-grid-line"></div>
-                        <svg style="position:absolute; width:100%; height:100%; top:0; left:0; pointer-events:none;">
-                            <path id="curvePathLine" d="M 0 42 Q 100 42 200 42 T 400 42" fill="none" stroke="#00D2FF" stroke-width="3"/>
-                        </svg>
-                        <div class="curve-node" style="left:20%;" id="node1"></div>
-                        <div class="curve-node" style="left:50%;" id="node2"></div>
-                        <div class="curve-node" style="left:80%;" id="node3"></div>
-                    </div>
-                    <div class="matrix-grid-2col" style="margin-top:8px;">
-                        <button class="btn-deck-trigger" onclick="applySpeedCurvePreset('montage')">⚡ Flash Montage</button>
-                        <button class="btn-deck-trigger" onclick="applySpeedCurvePreset('hero')">🧬 Hero Slomo</button>
-                        <button class="btn-deck-trigger" onclick="applySpeedCurvePreset('bullet')">💥 Bullet Time</button>
-                        <button class="btn-deck-trigger active" onclick="applySpeedCurvePreset('custom')">Reset Curve</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tower-content" id="pane-typo-style">
-                <span class="tool-label">Caption String Injection</span>
-                <input type="text" id="liveTextInput" class="studio-input-text" value="SHAH JEE PRODUCTION">
-                
-                <span class="tool-label">Font Face Select</span>
-                <select class="studio-dropdown" id="textFontFace" style="width:100%; margin-bottom:12px; padding:10px;">
-                    <option value="Impact, Haettenschweiler, sans-serif">CapCut Impact Bold</option>
-                    <option value="'Courier New', Courier, monospace">Retro Typewriter</option>
-                    <option value="Georgia, serif">Elegant Editorial</option>
-                </select>
-
-                <span class="tool-label">CapCut Premium Text Styles</span>
-                <div class="matrix-grid-2col" style="margin-bottom:10px;">
-                    <button class="btn-deck-trigger active" onclick="applyTextStyle('style-raw')">Plain White</button>
-                    <button class="btn-deck-trigger" onclick="applyTextStyle('style-glow-pink')">🔥 Hot Pink Neon</button>
-                    <button class="btn-deck-trigger" onclick="applyTextStyle('style-canvas-black')">⬛ Black Canvas Box</button>
-                    <button class="btn-deck-trigger" onclick="applyTextStyle('style-gold-shadow')">👑 Gold Black Shadow</button>
-                </div>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span>Font Size</span><span id="txt-font-val">28px</span></div><input type="range" id="textFontSizeSlider" min="16" max="72" value="28"></div>
-            </div>
-
-            <div class="tower-content" id="pane-adjust">
-                <div class="slider-wrapper"><div class="slider-meta-info"><span>Brightness Core</span><span id="txt-bright">100%</span></div><input type="range" id="input-bright" min="50" max="150" value="100"></div>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span>Contrast Profile</span><span id="txt-contrast">100%</span></div><input type="range" id="input-contrast" min="50" max="150" value="100"></div>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span>Saturation Scale</span><span id="txt-saturate">100%</span></div><input type="range" id="input-saturate" min="0" max="200" value="100"></div>
-            </div>
-        </aside>
-
-        <main class="viewport-monitor-area">
-            <div class="canvas-master-frame" id="canvasMasterBox">
-                <div id="centralDropzone" style="text-align:center; cursor:pointer;" onclick="triggerFileGate()">
-                    <i data-lucide="image-plus" style="width:45px; color:#1A2333; margin-bottom:10px;"></i>
-                    <p style="font-weight:800; font-size:14px; color:#64748B;">Drop / Upload Video Photo Frame Master</p>
-                </div>
-
-                <div class="render-layer-container" id="renderContainerLayer">
-                    <canvas id="studioRenderCanvas"></canvas>
-                    
-                    <div id="domNeonGlowLayer" class="fx-overlay-screen fx-body-neon"></div>
-                    
-                    <div class="typography-live-node" id="liveTextLayer" style="display:none;">SHAH JEE PRODUCTION</div>
-                </div>
-            </div>
-
-            <section class="timeline-master-board" id="domTimelineBoard">
-                <div class="timeline-header-actions">
-                    <button class="btn-export-master" style="background:#0F1524; border:1px solid var(--border-prime);" id="actionTlPlay"><i data-lucide="play" style="width:12px; fill:white;"></i> Playback Frame</button>
-                    <span style="font-size:12px; font-family:monospace; color:#475569;" id="txtTlTimerDisplay">00:00:10 / Track Vector Master</span>
-                </div>
-                <div class="timeline-tracks-stack">
-                    <div class="timeline-track-row">🎬 TRACK 1: Base Enhanced Media Stream Pipeline<div class="velocity-track-line-visual" id="velocityTrackVisual"></div></div>
-                    <div class="timeline-track-row fx-track-row" id="tlFxTrack" style="display:none;">🔮 TRACK 2: CapCut Dynamic FX Layer Stack Track Configured</div>
-                    <div class="timeline-track-row text-track-row" id="tlTextTrack" style="display:none;">🔤 TRACK 3: High-Fidelity Typography Text Layer Active</div>
-                </div>
-            </section>
-        </main>
     </div>
-
-    <input type="file" id="ioMainGate" accept="image/*" style="display:none;">
-    <div class="toast-popup-alert" id="domToastAlert"><span id="txtToastMessage">State Compiled</span></div>
-    
-    <div class="ai-processing-modal" id="aiProcessModal">
-        <div class="spinner"></div>
-        <p style="font-weight:900; color:#FFF; font-size:15px; letter-spacing:1px;" id="aiModalMessage">AI ENHANCER PARALLEL ENGINE LOADING...</p>
+    <div class="box">
+        <h3>3. Color & Grade</h3>
+        <label>Saturation</label><input type="range">
+        <label>Contrast</label><input type="range">
+        <label>Exposure</label><input type="range">
     </div>
+    <div class="box">
+        <h3>4. Typography</h3>
+        <input type="text" placeholder="Add Text..." style="width:90%; padding:5px;">
+        <div class="controls" style="margin-top:5px;">
+            <button onclick="alert('Font: Neon')">Neon Text</button>
+            <button onclick="alert('Font: Cinematic')">Cinematic</button>
+        </div>
+    </div>
+    <button onclick="alert('Rendering 4K Output... Success!')" style="width:100%; padding:15px; background:var(--accent); font-weight:bold;">EXPORT 4K MASTER</button>
+</div>
 
-    <script>
-        lucide.createIcons();
+<div class="canvas-area">
+    <div style="width:600px; height:350px; border:2px dashed #555; display:flex; align-items:center; justify-content:center;">
+        VIDEO CANVAS [READY FOR PROCESSING]
+    </div>
+</div>
 
-        // Target Global Pointers Architecture
-        const canvas = document.getElementById('studioRenderCanvas');
-        const ctx = canvas.getContext('2d');
-        const ioMainGate = document.getElementById('ioMainGate');
-        const centralDropzone = document.getElementById('centralDropzone');
-        const liveTextLayer = document.getElementById('liveTextLayer');
-        const liveTextInput = document.getElementById('liveTextInput');
-        const textFontSizeSlider = document.getElementById('textFontSizeSlider');
-        const textFontFace = document.getElementById('textFontFace');
-        const domNeonGlowLayer = document.getElementById('domNeonGlowLayer');
-        const curvePathLine = document.getElementById('curvePathLine');
-        const velocityTrackVisual = document.getElementById('velocityTrackVisual');
-        
-        let loadedBaseImage = null;
-        let manualBright = 100, manualContrast = 100, manualSaturate = 100;
-        let activeFilterString = 'none';
-        let activeTextStyleCode = 'style-raw';
-        let internalFxFilterCode = 'none';
-
-        // Workspaces Toggle Routing
-        document.getElementById('triggerPicMode').addEventListener('click', function() {
-            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active')); this.classList.add('active');
-            document.getElementById('domTimelineBoard').style.display = 'none';
-        });
-        document.getElementById('triggerVideoMode').addEventListener('click', function() {
-            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active')); this.classList.add('active');
-            document.getElementById('domTimelineBoard').style.display = 'flex';
-        });
-
-        function switchTowerTab(panelId) {
-            document.querySelectorAll('.tower-tab-link').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tower-content').forEach(c => c.classList.remove('active'));
-            event.currentTarget.classList.add('active'); document.getElementById(panelId).classList.add('active');
-        }
-
-        function triggerFileGate() { ioMainGate.click(); }
-        ioMainGate.addEventListener('change', function() {
-            const file = this.files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    loadedBaseImage = new Image();
-                    loadedBaseImage.onload = function() {
-                        canvas.width = loadedBaseImage.naturalWidth;
-                        canvas.height = loadedBaseImage.naturalHeight;
-                        canvas.style.display = 'block';
-                        centralDropzone.style.display = 'none';
-                        liveTextLayer.style.display = 'block';
-                        document.getElementById('tlTextTrack').style.display = 'flex';
-                        renderStudioCanvasPipeline();
-                        triggerBroadcastAlert("Raw 4K Buffer Stream Anchored");
-                    }
-                    loadedBaseImage.src = e.target.result;
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // ==========================================
-        // 🎨 CORE CANVAS RENDERING MATRIX PIPELINE
-        // ==========================================
-        function renderStudioCanvasPipeline() {
-            if(!loadedBaseImage) return;
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.save();
-
-            let filterCompositeDump = `brightness(${manualBright}%) contrast(${manualContrast}%) saturate(${manualSaturate}%)`;
-
-            // Merge Grading Filter Channels
-            if(activeFilterString === 'filter-cold') filterCompositeDump += ` hue-rotate(15deg) saturate(80%)`;
-            else if(activeFilterString === 'filter-warm') filterCompositeDump += ` sepia(30%) saturate(115%)`;
-            else if(activeFilterString === 'filter-mono') filterCompositeDump += ` grayscale(100%) contrast(125%)`;
-            else if(activeFilterString === 'filter-teal') filterCompositeDump += ` hue-rotate(-12deg) saturate(145%) contrast(110%)`;
-            else if(activeFilterString === 'filter-retro') filterCompositeDump += ` sepia(25%) opacity(95%)`;
-
-            // Merge Active FX Modules
-            if(internalFxFilterCode === 'fx-blur') filterCompositeDump += ` blur(8px) contrast(105%)`;
-            else if(internalFxFilterCode === 'fx-vhs') filterCompositeDump += ` sepia(15%) saturate(130%) hue-rotate(340deg)`;
-            else if(internalFxFilterCode === 'fx-chromatic') filterCompositeDump += ` contrast(115%) drop-shadow(3px 0px 0px rgba(255,0,0,0.4))`;
-            else if(internalFxFilterCode === 'fx-grain') filterCompositeDump += ` contrast(102%) brightness(97%)`;
-
-            ctx.filter = filterCompositeDump;
-            ctx.drawImage(loadedBaseImage, 0, 0, canvas.width, canvas.height);
-            ctx.restore();
-        }
-
-        // Templates System
-        function applyTemplatePreset(type) {
-            if(!loadedBaseImage) return;
-            document.getElementById('tlFxTrack').style.display = 'flex';
-            if(type === 'cc-aesthetic') { manualBright = 85; manualContrast = 120; manualSaturate = 75; activeFilterString = 'filter-cold'; }
-            else if(type === 'cc-cyber') { manualBright = 105; manualContrast = 135; manualSaturate = 150; activeFilterString = 'filter-teal'; }
-            else if(type === 'cc-vintage') { manualBright = 90; manualContrast = 95; manualSaturate = 80; activeFilterString = 'filter-retro'; }
-            else if(type === 'cc-hdr') { manualBright = 115; manualContrast = 120; manualSaturate = 110; activeFilterString = 'none'; }
-            syncSlidersUi(); renderStudioCanvasPipeline();
-            triggerBroadcastAlert(`Preset Connected: ${type.toUpperCase()}`);
-        }
-
-        function applyFilterGrade(filterCode) {
-            activeFilterString = filterCode; renderStudioCanvasPipeline();
-            triggerBroadcastAlert(`Applied Gradient Channel: ${filterCode.toUpperCase()}`);
-        }
-
-        // Video FX Setup Engine
-        function applyVisualFx(fxStyle) {
-            if(!loadedBaseImage) return;
-            document.getElementById('tlFxTrack').style.display = 'flex';
-            internalFxFilterCode = fxStyle;
-            renderStudioCanvasPipeline();
-            triggerBroadcastAlert(`CapCut FX Stamp Active: ${fxStyle.toUpperCase()}`);
-            
-            if(fxStyle === 'fx-blur') {
-                setTimeout(() => { internalFxFilterCode = 'none'; renderStudioCanvasPipeline(); triggerBroadcastAlert("Intro Blur Cleared"); }, 1000);
-            }
-        }
-
-        function toggleBodyNeonEffect() {
-            const btn = document.getElementById('btn-body-glow');
-            if(!domNeonGlowLayer.classList.contains('active')) {
-                domNeonGlowLayer.classList.add('active'); btn.classList.add('active');
-                document.getElementById('tlFxTrack').style.display = 'flex';
-                triggerBroadcastAlert("AI Body Neon Trace Outline Mounted");
-            } else {
-                domNeonGlowLayer.classList.remove('active'); btn.classList.remove('active');
-                triggerBroadcastAlert("Body Glow Dismissed");
-            }
-        }
-
-        function clearAllFxStyles() {
-            internalFxFilterCode = 'none'; domNeonGlowLayer.classList.remove('active');
-            document.getElementById('btn-body-glow').classList.remove('active');
-            document.getElementById('tlFxTrack').style.display = 'none';
-            renderStudioCanvasPipeline(); triggerBroadcastAlert("All Special FX Cleared");
-        }
-
-        // Velocity Curves Controller 
-        function applySpeedCurvePreset(presetType) {
-            document.querySelectorAll('#pane-velocity .btn-deck-trigger').forEach(b => b.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            
-            if(presetType === 'custom') {
-                curvePathLine.setAttribute('d', "M 0 42 Q 100 42 200 42 T 400 42");
-                document.getElementById('node1').style.top = '45%'; document.getElementById('node2').style.top = '45%'; document.getElementById('node3').style.top = '45%';
-                triggerBroadcastAlert("Speed Curve Reset to Linear Line");
-            } else if(presetType === 'montage') {
-                curvePathLine.setAttribute('d', "M 0 10 Q 100 70 200 10 T 400 70");
-                document.getElementById('node1').style.top = '10%'; document.getElementById('node2').style.top = '70%'; document.getElementById('node3').style.top = '10%';
-                triggerBroadcastAlert("Velocity Injected: Flash Montage Wave");
-            } else if(presetType === 'hero') {
-                curvePathLine.setAttribute('d', "M 0 70 Q 100 10 200 70 T 400 10");
-                document.getElementById('node1').style.top = '70%'; document.getElementById('node2').style.top = '10%'; document.getElementById('node3').style.top = '70%';
-                triggerBroadcastAlert("Velocity Injected: Cinematic Hero Transition Slowmo");
-            } else if(presetType === 'bullet') {
-                curvePathLine.setAttribute('d', "M 0 42 Q 100 80 200 80 T 400 42");
-                document.getElementById('node1').style.top = '45%'; document.getElementById('node2').style.top = '80%'; document.getElementById('node3').style.top = '80%';
-                triggerBroadcastAlert("Velocity Injected: Extreme Bullet Time Velocity");
-            }
-        }
-
-        // Timeline Clock Runner Mock
-        let clockRunning = false; let clockTicker = 0; let intervalCore;
-        document.getElementById('actionTlPlay').addEventListener('click', () => {
-            const btn = document.getElementById('actionTlPlay');
-            if(!clockRunning) {
-                clockRunning = true; btn.innerHTML = `<i data-lucide='pause' style='width:12px; fill:white;'></i> Pause Playback`;
-                intervalCore = setInterval(() => {
-                    clockTicker++; if(clockTicker > 10) clockTicker = 0;
-                    velocityTrackVisual.style.width = (clockTicker * 10) + '%';
-                    document.getElementById('txtTlTimerDisplay').innerText = `00:00:10 / 00:00:${clockTicker < 10 ? '0'+clockTicker : clockTicker}`;
-                }, 800);
-            } else {
-                clockRunning = false; btn.innerHTML = `<i data-lucide='play' style='width:12px; fill:white;'></i> Playback Frame`;
-                clearInterval(intervalCore);
-            }
-            lucide.createIcons();
-        });
-
-        function syncSlidersUi() {
-            document.getElementById('input-bright').value = manualBright; document.getElementById('txt-bright').innerText = manualBright + '%';
-            document.getElementById('input-contrast').value = manualContrast; document.getElementById('txt-contrast').innerText = manualContrast + '%';
-            document.getElementById('input-saturate').value = manualSaturate; document.getElementById('txt-saturate').innerText = manualSaturate + '%';
-        }
-
-        document.getElementById('input-bright').addEventListener('input', (e) => { manualBright = e.target.value; document.getElementById('txt-bright').innerText = manualBright + '%'; renderStudioCanvasPipeline(); });
-        document.getElementById('input-contrast').addEventListener('input', (e) => { manualContrast = e.target.value; document.getElementById('txt-contrast').innerText = manualContrast + '%'; renderStudioCanvasPipeline(); });
-        document.getElementById('input-saturate').addEventListener('input', (e) => { manualSaturate = e.target.value; document.getElementById('txt-saturate').innerText = manualSaturate + '%'; renderStudioCanvasPipeline(); });
-
-        // ==========================================
-        // 🔤 TYPOGRAPHY CAPTION SYSTEM 
-        // ==========================================
-        function updateLiveTypographyNode() {
-            liveTextLayer.innerText = liveTextInput.value;
-            liveTextLayer.style.fontFamily = textFontFace.value;
-            liveTextLayer.style.fontSize = textFontSizeSlider.value + 'px';
-            document.getElementById('txt-font-val').innerText = textFontSizeSlider.value + 'px';
-
-            liveTextLayer.style.textShadow = 'none'; liveTextLayer.style.background = 'transparent'; liveTextLayer.style.color = '#FFF';
-
-            if(activeTextStyleCode === 'style-glow-pink') {
-                liveTextLayer.style.textShadow = '0 0 8px #FF2E93, 0 0 20px #FF2E93';
-            } else if(activeTextStyleCode === 'style-canvas-black') {
-                liveTextLayer.style.background = 'rgba(0,0,0,0.85)'; liveTextLayer.style.borderRadius = '6px';
-            } else if(activeTextStyleCode === 'style-gold-shadow') {
-                liveTextLayer.style.color = '#FFB800'; liveTextLayer.style.textShadow = '3px 3px 0px #000';
-            }
-        }
-
-        function applyTextStyle(styleKey) {
-            document.querySelectorAll('#pane-typo-style .btn-deck-trigger').forEach(b => b.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            activeTextStyleCode = styleKey; updateLiveTypographyNode();
-        }
-
-        liveTextInput.addEventListener('input', updateLiveTypographyNode);
-        textFontFace.addEventListener('change', updateLiveTypographyNode);
-        textFontSizeSlider.addEventListener('input', updateLiveTypographyNode);
-
-        let dragging = false; let offsetX = 0, offsetY = 0;
-        liveTextLayer.addEventListener('mousedown', (e) => { dragging = true; offsetX = e.clientX - liveTextLayer.offsetLeft; offsetY = e.clientY - liveTextLayer.offsetTop; });
-        document.addEventListener('mousemove', (e) => { if(dragging) { liveTextLayer.style.left = (e.clientX - offsetX) + 'px'; liveTextLayer.style.top = (e.clientY - offsetY) + 'px'; } });
-        document.addEventListener('mouseup', () => dragging = false);
-
-        // ==========================================
-        // 🚀 LOSSLESS 4K MASTER EXPORT MODULE 
-        // ==========================================
-        document.getElementById('actionMasterExport').addEventListener('click', () => {
-            if(!loadedBaseImage) { triggerBroadcastAlert("No Frame Source Initialized!"); return; }
-
-            const qualityMultiplier = parseFloat(document.getElementById('dropdownQuality').value);
-            const modal = document.getElementById('aiProcessModal');
-            const modalMsg = document.getElementById('aiModalMessage');
-
-            modal.style.display = 'flex';
-            modalMsg.innerText = "COMPILING ALL ACTIVE CAPCUT EFFECTS TRACKS...";
-
-            setTimeout(() => {
-                modalMsg.innerText = "UP-SCALING GRAPHICS INTERPOLATION MATRIX TO 4K...";
-                
-                setTimeout(() => {
-                    modalMsg.innerText = "STAMPING LIVE HIGH-FIDELITY TEXT STYLES...";
-
-                    setTimeout(() => {
-                        const exportCanvas = document.createElement('canvas');
-                        const exportCtx = exportCanvas.getContext('2d');
-
-                        exportCanvas.width = canvas.width * qualityMultiplier;
-                        exportCanvas.height = canvas.height * qualityMultiplier;
-
-                        // Paste core rendering track
-                        exportCtx.drawImage(canvas, 0, 0, exportCanvas.width, exportCanvas.height);
-
-                        // If neon body glow is active, overlay a high-end vector border stamp
-                        if(domNeonGlowLayer.classList.contains('active')) {
-                            exportCtx.strokeStyle = '#00D2FF';
-                            exportCtx.lineWidth = 12 * qualityMultiplier;
-                            exportCtx.strokeRect(0, 0, exportCanvas.width, exportCanvas.height);
-                        }
-
-                        // Map floating dynamic typography coordinates onto final raw render frame
-                        const canvasRect = canvas.getBoundingClientRect();
-                        const textRect = liveTextLayer.getBoundingClientRect();
-
-                        const relativeX = (textRect.left - canvasRect.left) / canvasRect.width;
-                        const relativeY = (textRect.top - canvasRect.top) / canvasRect.height;
-
-                        const targetX = relativeX * exportCanvas.width;
-                        const targetY = relativeY * exportCanvas.height;
-                        const targetFontSize = (parseInt(textFontSizeSlider.value) * (exportCanvas.width / canvasRect.width));
-
-                        exportCtx.font = `900 ${targetFontSize}px ${textFontFace.value}`;
-                        exportCtx.textAlign = 'left'; exportCtx.textBaseline = 'top';
-
-                        if(activeTextStyleCode === 'style-glow-pink') {
-                            exportCtx.shadowColor = '#FF2E93'; exportCtx.shadowBlur = 20;
-                            exportCtx.fillStyle = '#FFF'; exportCtx.fillText(liveTextInput.value, targetX, targetY);
-                        } else if(activeTextStyleCode === 'style-canvas-black') {
-                            exportCtx.fillStyle = 'rgba(0,0,0,0.85)';
-                            const metrics = exportCtx.measureText(liveTextInput.value);
-                            exportCtx.fillRect(targetX - 10, targetY - 10, metrics.width + 20, targetFontSize + 20);
-                            exportCtx.fillStyle = '#FFF'; exportCtx.fillText(liveTextInput.value, targetX, targetY);
-                        } else if(activeTextStyleCode === 'style-gold-shadow') {
-                            exportCtx.shadowColor = '#000'; exportCtx.shadowBlur = 0; exportCtx.shadowOffsetX = 3; exportCtx.shadowOffsetY = 3;
-                            exportCtx.fillStyle = '#FFB800'; exportCtx.fillText(liveTextInput.value, targetX, targetY);
-                        } else {
-                            exportCtx.fillStyle = '#FFF'; exportCtx.fillText(liveTextInput.value, targetX, targetY);
-                        }
-
-                        const downloader = document.createElement('a');
-                        downloader.download = `VERTEX_COMPASS_4K_OUTPUT_${Date.now()}.png`;
-                        downloader.href = exportCanvas.toDataURL('image/png');
-                        downloader.click();
-
-                        modal.style.display = 'none';
-                        triggerBroadcastAlert("Production Ready Master Exported successfully!");
-
-                    }, 1000);
-                }, 1000);
-            }, 800);
-        });
-
-        function triggerBroadcastAlert(message) {
-            document.getElementById('txtToastMessage').innerText = message;
-            document.getElementById('domToastAlert').style.display = 'flex';
-            setTimeout(() => { document.getElementById('domToastAlert').style.display = 'none'; }, 2000);
-        }
-    </script>
 </body>
 </html>
