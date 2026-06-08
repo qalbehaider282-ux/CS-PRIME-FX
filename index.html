@@ -3,267 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VERTEX ULTRA PRO | Premium Production Suite</title>
+    <title>VERTEX VELOCITY PRO | Ultimate Production Studio</title>
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
     <style>
         :root { 
-            --bg-ultra: #020406; --bg-surface: #090D16; --bg-card: #111724;
-            --border-prime: #1E2638; --accent-pink: #FF2E93; --accent-blue: #2563EB;
-            --accent-green: #10B981; --accent-gold: #F59E0B; --text-main: #F8FAFC;
+            --bg-ultra: #020406; --bg-surface: #070B12; --bg-card: #0F1524;
+            --border-prime: #1A2333; --accent-pink: #FF2E93; --accent-blue: #00D2FF;
+            --accent-green: #10B981; --accent-gold: #FFB800; --text-main: #F8FAFC;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         body { background: var(--bg-ultra); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
-        /* Top Navigation Header Bar */
+        /* Navigation Terminal */
         header { 
-            height: 65px; background: #000000; border-bottom: 1px solid var(--border-prime); 
+            height: 65px; background: #000; border-bottom: 1px solid var(--border-prime); 
             display: flex; align-items: center; justify-content: space-between; padding: 0 24px; z-index: 100;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
         }
-        .brand-zone { display: flex; align-items: center; gap: 12px; font-weight: 900; letter-spacing: 4px; font-size: 20px; color: #FFF; }
+        .brand-zone { display: flex; align-items: center; gap: 12px; font-weight: 900; letter-spacing: 4px; font-size: 19px; color: #FFF; }
         .mode-selector { display: flex; background: var(--bg-surface); padding: 4px; border-radius: 8px; border: 1px solid var(--border-prime); }
-        .mode-btn { background: transparent; border: none; color: #64748B; padding: 8px 20px; font-size: 11px; font-weight: 800; cursor: pointer; border-radius: 6px; transition: all 0.2s; letter-spacing: 0.5px; }
+        .mode-btn { background: transparent; border: none; color: #475569; padding: 8px 18px; font-size: 11px; font-weight: 800; cursor: pointer; border-radius: 6px; transition: all 0.2s; }
         .mode-btn.active { background: var(--accent-pink); color: #FFF; box-shadow: 0 0 15px rgba(255,46,147,0.3); }
         
         .export-matrix-group { display: flex; align-items: center; gap: 10px; }
-        .studio-dropdown { background: var(--bg-surface); color: #FFF; border: 1px solid var(--border-prime); padding: 8px 14px; border-radius: 6px; font-size: 11px; font-weight: 700; outline: none; cursor: pointer; }
-        .btn-export-master { background: linear-gradient(135deg, var(--accent-pink), #BE123C); border: none; color: white; padding: 9px 22px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(255,46,147,0.2); }
-        .btn-export-master:hover { transform: translateY(-1px); box-shadow: 0 0 25px rgba(255,46,147,0.5); }
+        .studio-dropdown { background: var(--bg-surface); color: #FFF; border: 1px solid var(--border-prime); padding: 8px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; outline: none; }
+        .btn-export-master { background: linear-gradient(135deg, var(--accent-pink), #BE123C); border: none; color: white; padding: 9px 20px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(255,46,147,0.2); }
 
-        /* Main Workspace App Layout */
+        /* Workbench Layout */
         .app-workbench { display: flex; flex: 1; overflow: hidden; }
         
-        /* Left Hand Control Tower Panel */
-        .control-tower { width: 420px; background: var(--bg-surface); border-right: 1px solid var(--border-prime); display: flex; flex-direction: column; overflow-y: auto; }
-        .tower-tabs { display: flex; border-bottom: 1px solid var(--border-prime); background: #05080E; position: sticky; top: 0; z-index: 20; }
-        .tower-tab-link { flex: 1; padding: 15px 10px; text-align: center; font-size: 10px; font-weight: 800; color: #475569; cursor: pointer; border-bottom: 2px solid transparent; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; }
+        /* Control Tower Panel */
+        .control-tower { width: 440px; background: var(--bg-surface); border-right: 1px solid var(--border-prime); display: flex; flex-direction: column; overflow-y: auto; }
+        .tower-tabs { display: flex; border-bottom: 1px solid var(--border-prime); background: #04070D; position: sticky; top: 0; z-index: 20; }
+        .tower-tab-link { flex: 1; padding: 15px 2px; text-align: center; font-size: 9.5px; font-weight: 800; color: #475569; cursor: pointer; border-bottom: 2px solid transparent; text-transform: uppercase; letter-spacing: 1px; }
         .tower-tab-link.active { color: var(--accent-pink); border-bottom-color: var(--accent-pink); background: var(--bg-surface); }
         
-        .tower-content { padding: 20px; display: none; flex-direction: column; gap: 20px; }
+        .tower-content { padding: 20px; display: none; flex-direction: column; gap: 18px; }
         .tower-content.active { display: flex; }
 
-        /* Reusable Form Components */
-        .tool-label { font-size: 10px; font-weight: 800; color: #475569; letter-spacing: 1.5px; text-transform: uppercase; display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
-        .slider-wrapper { display: flex; flex-direction: column; gap: 6px; background: #0C111D; padding: 10px; border-radius: 8px; border: 1px solid #161F30; }
+        /* Dynamic Input Interfaces */
+        .tool-label { font-size: 10px; font-weight: 800; color: #64748B; letter-spacing: 1.5px; text-transform: uppercase; display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
+        .slider-wrapper { display: flex; flex-direction: column; gap: 6px; background: #0B0F1A; padding: 10px; border-radius: 8px; border: 1px solid #141B29; }
         .slider-meta-info { display: flex; justify-content: space-between; font-size: 11px; color: #94A3B8; font-weight: 600; }
         input[type="range"] { -webkit-appearance: none; width: 100%; height: 4px; background: #1E293B; border-radius: 6px; outline: none; }
-        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #FFF; cursor: pointer; border: 2px solid var(--accent-pink); box-shadow: 0 0 8px rgba(0,0,0,0.5); }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #FFF; cursor: pointer; border: 2px solid var(--accent-pink); }
         
-        /* Grid Architectures */
+        /* Typography Control Components */
+        .studio-input-text { background: #0B0F1A; border: 1px solid var(--border-prime); border-radius: 8px; padding: 12px; color: #FFF; font-size: 12px; outline: none; width: 100%; }
+
         .matrix-grid-2col { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .matrix-grid-4col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-        
+        .matrix-grid-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
         .btn-deck-trigger { background: var(--bg-card); border: 1px solid var(--border-prime); color: #94A3B8; padding: 12px 8px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: all 0.2s; text-align: center; }
-        .btn-deck-trigger:hover { border-color: var(--accent-pink); color: #FFF; background: #161E30; }
+        .btn-deck-trigger:hover { border-color: var(--accent-pink); color: #FFF; background: #141C2E; }
         .btn-deck-trigger.active { background: rgba(255,46,147,0.1); border-color: var(--accent-pink); color: var(--accent-pink); }
 
-        /* HSL Swatches Panel Setup */
-        .hsl-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+        /* CapCut Speed Curve Canvas Panel */
+        .velocity-curve-box { width: 100%; height: 95px; background: #03060B; border: 1px solid var(--border-prime); border-radius: 10px; position: relative; overflow: hidden; margin-top: 5px; cursor: pointer; }
+        .curve-grid-line { position: absolute; width: 100%; height: 1px; background: #141C2E; top: 50%; }
+        .curve-node { position: absolute; width: 10px; height: 10px; background: var(--accent-blue); border-radius: 50%; top: 45%; transform: translateX(-50%); box-shadow: 0 0 8px var(--accent-blue); }
 
-        /* Central Monitor Viewport Canvas Area */
-        .viewport-monitor-area { flex: 1; background: #04060A; display: flex; flex-direction: column; padding: 24px; position: relative; gap: 20px; overflow: hidden; }
-        .canvas-master-frame { flex: 1; border: 2px dashed #1E293B; border-radius: 16px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: #06080D; box-shadow: inset 0 0 40px rgba(0,0,0,0.9); }
+        /* Central Monitor Display Viewport */
+        .viewport-monitor-area { flex: 1; background: #030509; display: flex; flex-direction: column; padding: 20px; position: relative; gap: 15px; overflow: hidden; }
+        .canvas-master-frame { flex: 1; border: 2px dashed #161F30; border-radius: 16px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: #05080F; }
         
-        /* Live Render Stack Frames */
-        .render-layer-container { position: relative; max-width: 85%; max-height: 85%; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
-        .base-img-buffer { max-width: 100%; max-height: 100%; object-fit: contain; display: none; position: relative; z-index: 10; box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
-        .overlay-img-buffer { position: absolute; width: 45%; height: 45%; top: 15%; left: 15%; border: 2px dashed var(--accent-blue); cursor: move; z-index: 30; display: none; object-fit: cover; box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
+        /* Graphic Layer Tree Structures */
+        .render-layer-container { position: relative; max-width: 85%; max-height: 85%; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.1, 0.8, 0.3, 1); aspect-ratio: 16/9; width: 80%; }
+        .base-img-buffer { max-width: 100%; max-height: 100%; object-fit: contain; display: none; position: relative; z-index: 10; filter: none; transition: filter 0.2s ease; }
+        .overlay-img-buffer { position: absolute; width: 35%; height: 35%; top: 10%; left: 10%; border: 2px dashed var(--accent-blue); cursor: move; z-index: 30; display: none; object-fit: cover; }
 
-        /* Interactive Typography Overlays */
-        .typography-layer-block { position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%); z-index: 40; color: #FFF; font-weight: 900; font-size: 20px; background: rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 6px; display: none; pointer-events: none; text-shadow: 0 2px 8px #000; letter-spacing: 0.5px; }
+        /* Dynamic CapCut Style Overlay Effects System */
+        .fx-overlay-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 15; mix-blend-mode: screen; opacity: 0; transition: all 0.3s ease; }
+        .fx-overlay-screen.active { opacity: 1; }
+        
+        /* FX Variants */
+        .fx-body-neon { box-shadow: inset 0 0 50px rgba(0,210,255,0.6); border: 0px solid transparent; transition: all 0.3s; }
+        .fx-body-neon.active { border: 4px solid var(--accent-blue); animation: neonPulse 1.5s infinite alternate; }
+        @keyframes neonPulse { from { box-shadow: inset 0 0 30px rgba(0,210,255,0.4); } to { box-shadow: inset 0 0 60px rgba(0,210,255,0.9); } }
 
-        /* Custom SVG Graphic Curves Component */
-        .curves-box { width: 100%; height: 85px; background: #06090F; border: 1px solid var(--border-prime); border-radius: 8px; margin-top: 4px; }
+        /* Premium Floating Typography Overlay Object */
+        .typography-layer-block { 
+            position: absolute; bottom: 20%; left: 50%; transform: translateX(-50%); z-index: 40; 
+            color: #FFFFFF; font-weight: 800; font-size: 24px; padding: 6px 14px; border-radius: 4px; 
+            display: none; white-space: nowrap; cursor: move; text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            font-family: 'Arial';
+        }
 
-        /* CapCut Video Editing Timeline Board Setup */
-        .timeline-master-board { background: var(--bg-surface); border: 1px solid var(--border-prime); border-radius: 14px; padding: 16px; display: none; flex-direction: column; gap: 12px; box-shadow: 0 -10px 30px rgba(0,0,0,0.5); }
-        .timeline-header-actions { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #151A26; padding-bottom: 8px; }
-        .timeline-tracks-stack { background: #030509; padding: 12px; border-radius: 10px; display: flex; flex-direction: column; gap: 8px; border: 1px solid #121824; }
-        .timeline-track-row { height: 28px; background: var(--bg-card); border-radius: 6px; border-left: 4px solid var(--accent-pink); padding: 0 12px; display: flex; align-items: center; font-size: 11px; color: #64748B; font-weight: 700; letter-spacing: 0.5px; }
+        /* CapCut Multi-Track Studio Timeline */
+        .timeline-master-board { background: var(--bg-surface); border: 1px solid var(--border-prime); border-radius: 14px; padding: 14px; display: none; flex-direction: column; gap: 10px; }
+        .timeline-header-actions { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #101624; padding-bottom: 6px; }
+        .timeline-tracks-stack { background: #020407; padding: 10px; border-radius: 8px; display: flex; flex-direction: column; gap: 6px; border: 1px solid #101624; }
+        .timeline-track-row { height: 26px; background: var(--bg-card); border-radius: 4px; border-left: 4px solid var(--accent-pink); padding: 0 12px; display: flex; align-items: center; font-size: 10.5px; color: #64748B; font-weight: 700; position: relative; overflow: hidden; }
         .timeline-track-row.overlay-track-row { border-left-color: var(--accent-blue); }
         .timeline-track-row.text-track-row { border-left-color: var(--accent-gold); }
+        .timeline-track-row.fx-track-row { border-left-color: purple; }
         
-        /* Status Ticker */
-        .status-ticker-dashboard { height: 35px; border-top: 1px solid var(--border-prime); background: #000; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; font-size: 11px; color: #475569; font-weight: 700; letter-spacing: 0.5px; }
-        .status-pulse-dot { width: 7px; height: 7px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 10px var(--accent-green); }
+        /* Real Velocity Line Simulator Track Graphic */
+        .velocity-track-line-visual { position: absolute; bottom: 0; left: 0; height: 2px; background: var(--accent-blue); width: 100%; transition: all 0.1s linear; }
 
         /* Flash Popup Broadcast Alert */
-        .toast-popup-alert { position: absolute; bottom: 35px; right: 35px; background: var(--accent-green); color: #FFF; padding: 14px 28px; border-radius: 8px; font-weight: 800; font-size: 12px; z-index: 250; display: none; box-shadow: 0 12px 30px rgba(16,185,129,0.3); align-items: center; gap: 10px; letter-spacing: 0.5px; }
+        .toast-popup-alert { position: absolute; bottom: 25px; right: 25px; background: var(--accent-pink); color: #FFF; padding: 12px 24px; border-radius: 8px; font-weight: 800; font-size: 11.5px; z-index: 250; display: none; align-items: center; gap: 8px; }
     </style>
 </head>
 <body>
 
-    <!-- Upper Application Header Panel Layout -->
+    <!-- Upper Studio Management Header Bar -->
     <header>
         <div class="brand-zone">
-            <i data-lucide="layers" style="color:var(--accent-pink); width:24px; height:24px;"></i> VERTEX ULTRA PRO
+            <i data-lucide="layers" style="color:var(--accent-pink); width:22px;"></i> VERTEX CORE MATRIX
         </div>
         <div class="mode-selector">
-            <button class="mode-btn active" id="triggerPicMode"><i data-lucide="image" style="width:12px; display:inline; margin-right:5px;"></i> PHOTO ENGINE</button>
-            <button class="mode-btn" id="triggerVideoMode"><i data-lucide="clapperboard" style="width:12px; display:inline; margin-right:5px;"></i> VIDEO ENGINE</button>
+            <button class="mode-btn active" id="triggerPicMode"><i data-lucide="image" style="width:12px; display:inline; margin-right:4px;"></i> HYPIC PHOTO ENGINE</button>
+            <button class="mode-btn" id="triggerVideoMode"><i data-lucide="video" style="width:12px; display:inline; margin-right:4px;"></i> CAPCUT TIMELINE MODE</button>
         </div>
         <div class="export-matrix-group">
             <select class="studio-dropdown" id="dropdownFps">
-                <option value="24">24 FPS (Cinematic Cinema)</option>
-                <option value="30">30 FPS (Standard Stream)</option>
-                <option value="60" selected>60 FPS (Ultra Smooth Pro)</option>
+                <option value="24">24 FPS Studio</option>
+                <option value="30">30 FPS Standard</option>
+                <option value="60" selected>60 FPS Pro Fluid</option>
             </select>
             <select class="studio-dropdown" id="dropdownQuality">
-                <option value="balanced">Balanced (1080p Web)</option>
-                <option value="hd">CapCut HD (2K Studio)</option>
-                <option value="4k" selected>Ultra HD Master (4K Raw)</option>
+                <option value="hd">2K Studio Quality</option>
+                <option value="4k" selected>4K Raw Lossless Frame</option>
             </select>
-            <button class="btn-export-master" id="actionMasterExport"><i data-lucide="zap" style="width:14px;"></i> EXPORT VIDEO TEMPLATE</button>
+            <button class="btn-export-master" id="actionMasterExport"><i data-lucide="download-cloud" style="width:14px;"></i> EXPORT PRODUCTION READY</button>
         </div>
     </header>
 
-    <!-- Workspace Body Area -->
+    <!-- Workspace Body Area Layout -->
     <div class="app-workbench">
-        <!-- Control Tower Sidebar (Options Matrices Pack) -->
+        <!-- Control Tower Architecture -->
         <aside class="control-tower">
             <div class="tower-tabs">
                 <div class="tower-tab-link active" onclick="switchTowerTab('pane-adjust')">Adjust</div>
-                <div class="tower-tab-link" onclick="switchTowerTab('pane-hsl')">HSL Color</div>
-                <div class="tower-tab-link" onclick="switchTowerTab('pane-filters')">LUT Filters</div>
-                <div class="tower-tab-link" onclick="switchTowerTab('pane-tools')">Layers & FX</div>
+                <div class="tower-tab-link" onclick="switchTowerTab('pane-hsl')">HSL Panel</div>
+                <div class="tower-tab-link" onclick="switchTowerTab('pane-retouch')">Retouch</div>
+                <div class="tower-tab-link" onclick="switchTowerTab('pane-velocity')">Slowmo/Speed</div>
+                <div class="tower-tab-link" onclick="switchTowerTab('pane-fx-layers')">CapCut FX</div>
+                <div class="tower-tab-link" onclick="switchTowerTab('pane-typo')">Typography</div>
             </div>
 
-            <!-- TAB 1: ADVANCED PRO ADJUSTMENTS MATRIX -->
+            <!-- MODULE 1: AD-RACK ADJUSTMENTS -->
             <div class="tower-content active" id="pane-adjust">
-                <div style="display:flex; flex-direction:column; gap:4px;">
-                    <span class="tool-label"><i data-lucide="activity" style="width:12px;"></i> Live RGB Color Curves Channel</span>
-                    <svg class="curves-box">
-                        <path d="M 0 85 Q 50 50 120 30 T 420 0" fill="none" stroke="#FF2E93" stroke-width="2.5"/>
-                        <line x1="0" y1="0" x2="420" y2="85" stroke="#1E293B" stroke-dasharray="4"/>
-                    </svg>
-                </div>
-                
-                <div class="slider-wrapper"><div class="slider-meta-info"><span>Brightness</span><span id="txt-bright">100%</span></div><input type="range" id="input-bright" min="50" max="150" value="100"></div>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span>Contrast</span><span id="txt-contrast">100%</span></div><input type="range" id="input-contrast" min="50" max="150" value="100"></div>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span>Brilliance Tone</span><span id="txt-brilliance">0%</span></div><input type="range" id="input-brilliance" min="-50" max="50" value="0"></div>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span>Saturation Rack</span><span id="txt-saturate">100%</span></div><input type="range" id="input-saturate" min="0" max="200" value="100"></div>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span>Sharpness Filter</span><span id="txt-sharp">0px</span></div><input type="range" id="input-sharp" min="0" max="12" value="0"></div>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span>Highlights Exposure</span><span id="txt-highlight">100%</span></div><input type="range" id="input-highlight" min="50" max="150" value="100"></div>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span>Shadows Compression</span><span id="txt-shadow">0%</span></div><input type="range" id="input-shadow" min="-50" max="50" value="0"></div>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span>White Point Balancing</span><span id="txt-white">0%</span></div><input type="range" id="input-white" min="-40" max="40" value="0"></div>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span>Black Point Balancing</span><span id="txt-black">0%</span></div><input type="range" id="input-black" min="-40" max="40" value="0"></div>
+                <div class="slider-wrapper"><div class="slider-meta-info"><span>Brightness Core</span><span id="txt-bright">100%</span></div><input type="range" id="input-bright" min="50" max="150" value="100"></div>
+                <div class="slider-wrapper"><div class="slider-meta-info"><span>Contrast Profile</span><span id="txt-contrast">100%</span></div><input type="range" id="input-contrast" min="50" max="150" value="100"></div>
+                <div class="slider-wrapper"><div class="slider-meta-info"><span>Brilliance Modifier</span><span id="txt-brilliance">0%</span></div><input type="range" id="input-brilliance" min="-50" max="50" value="0"></div>
+                <div class="slider-wrapper"><div class="slider-meta-info"><span>Saturation Scale</span><span id="txt-saturate">100%</span></div><input type="range" id="input-saturate" min="0" max="200" value="100"></div>
+                <div class="slider-wrapper"><div class="slider-meta-info"><span>Highlights Compressor</span><span id="txt-highlight">100%</span></div><input type="range" id="input-highlight" min="50" max="150" value="100"></div>
+                <div class="slider-wrapper"><div class="slider-meta-info"><span>Shadow Crushing</span><span id="txt-shadow">0%</span></div><input type="range" id="input-shadow" min="-50" max="50" value="0"></div>
                 <div class="slider-wrapper"><div class="slider-meta-info"><span>Vignette Falloff</span><span id="txt-vignette">0%</span></div><input type="range" id="input-vignette" min="0" max="100" value="0"></div>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span>Fade Film Mist</span><span id="txt-fade">0%</span></div><input type="range" id="input-fade" min="0" max="50" value="0"></div>
+                <div class="slider-wrapper"><div class="slider-meta-info"><span>Vintage Matte Fade</span><span id="txt-fade">0%</span></div><input type="range" id="input-fade" min="0" max="50" value="0"></div>
             </div>
 
-            <!-- TAB 2: HYPIC 8-CHANNEL PROFESSIONAL HSL TUNER -->
+            <!-- MODULE 2: HYPIC SELECTIVE HSL CONTROLLER -->
             <div class="tower-content" id="pane-hsl">
-                <span class="tool-label"><i data-lucide="palette" style="width:12px;"></i> Selective Color HSL Modulation</span>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span><span class="hsl-dot" style="background:#EF4444;"></span> Red Channel</span><span id="txt-hsl-r">0°</span></div><input type="range" id="input-hsl-r" min="-50" max="50" value="0"></div>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span><span class="hsl-dot" style="background:#F97316;"></span> Orange Channel</span><span id="txt-hsl-o">0°</span></div><input type="range" id="input-hsl-o" min="-50" max="50" value="0"></div>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span><span class="hsl-dot" style="background:#EAB308;"></span> Yellow Channel</span><span id="txt-hsl-y">0°</span></div><input type="range" id="input-hsl-y" min="-50" max="50" value="0"></div>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span><span class="hsl-dot" style="background:#22C55E;"></span> Green Channel</span><span id="txt-hsl-g">0°</span></div><input type="range" id="input-hsl-g" min="-50" max="50" value="0"></div>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span><span class="hsl-dot" style="background:#06B6D4;"></span> Cyan Channel</span><span id="txt-hsl-c">0°</span></div><input type="range" id="input-hsl-c" min="-50" max="50" value="0"></div>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span><span class="hsl-dot" style="background:#3B82F6;"></span> Blue Channel</span><span id="txt-hsl-b">0°</span></div><input type="range" id="input-hsl-b" min="-50" max="50" value="0"></div>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span><span class="hsl-dot" style="background:#A855F7;"></span> Purple Channel</span><span id="txt-hsl-p">0°</span></div><input type="range" id="input-hsl-p" min="-50" max="50" value="0"></div>
-                <div class="slider-wrapper"><div class="slider-meta-info"><span><span class="hsl-dot" style="background:#EC4899;"></span> Magenta Channel</span><span id="txt-hsl-m">0°</span></div><input type="range" id="input-hsl-m" min="-50" max="50" value="0"></div>
+                <span class="tool-label">Multi-Channel Hue Balancer</span>
+                <div class="slider-wrapper"><div class="slider-meta-info"><span>🔴 Red Channel</span><span id="txt-hsl-r">0°</span></div><input type="range" id="input-hsl-r" min="-45" max="45" value="0"></div>
+                <div class="slider-wrapper"><div class="slider-meta-info"><span>🟠 Orange Skin</span><span id="txt-hsl-o">0°</span></div><input type="range" id="input-hsl-o" min="-45" max="45" value="0"></div>
+                <div class="slider-wrapper"><div class="slider-meta-info"><span>🟡 Yellow Backdrop</span><span id="txt-hsl-y">0°</span></div><input type="range" id="input-hsl-y" min="-45" max="45" value="0"></div>
+                <div class="slider-wrapper"><div class="slider-meta-info"><span>🟢 Green Landscape</span><span id="txt-hsl-g">0°</span></div><input type="range" id="input-hsl-g" min="-45" max="45" value="0"></div>
+                <div class="slider-wrapper"><div class="slider-meta-info"><span>🔵 Blue Sky Target</span><span id="txt-hsl-b">0°</span></div><input type="range" id="input-hsl-b" min="-45" max="45" value="0"></div>
             </div>
 
-            <!-- TAB 3: HYPIC + CAPCUT FILTER LUT LIBRARIES -->
-            <div class="tower-content" id="pane-filters">
-                <span class="tool-label"><i data-lucide="sparkles" style="width:12px;"></i> Cinematic Premium Color Gradings</span>
-                <div class="matrix-grid-2col">
-                    <button class="btn-deck-trigger active" onclick="triggerFilterPreset('raw')">✨ Raw Neutral <span>Unprocessed Log</span></button>
-                    <button class="btn-deck-trigger" onclick="triggerFilterPreset('retro')">🎬 90s Grain Vinyl <span>Warm Aesthetic Tones</span></button>
-                    <button class="btn-deck-trigger" onclick="triggerFilterPreset('cyber')">🌆 Cyber Neon Core <span>Vibrant Violet Glow</span></button>
-                    <button class="btn-deck-trigger" onclick="triggerFilterPreset('cream')">🍦 Soft Luxury Cream <span>Clean Matte Pastel</span></button>
-                    <button class="btn-deck-trigger" onclick="triggerFilterPreset('noir')">🕶️ Dark High Noir <span>Deep Shadow Inks</span></button>
-                    <button class="btn-deck-trigger" onclick="triggerFilterPreset('indie')">🍿 Teal Orange Indie <span>Hollywood Blockbuster</span></button>
-                    <button class="btn-deck-trigger" onclick="triggerFilterPreset('vintage')">🎞️ 35mm Film stock <span>Classic Retro Fade</span></button>
-                    <button class="btn-deck-trigger" onclick="triggerFilterPreset('moody')">🪐 Moody Shadows <span>Gothic Dark Contrast</span></button>
-                </div>
+            <!-- MODULE 3: HYPIC AI RETOUCH KIT -->
+            <div class="tower-content" id="pane-retouch">
+                <span class="tool-label"><i data-lucide="smile" style="width:12px;"></i> AI Portrait Remodeler Suite</span>
+                <div class="slider-wrapper"><div class="slider-meta-info"><span>Porcelain Skin Smoothness</span><span id="txt-rt-smooth">0%</span></div><input type="range" id="input-rt-smooth" min="0" max="100" value="0"></div>
+                <div class="slider-wrapper"><div class="slider-meta-info"><span>Jawline Slim Shaper</span><span id="txt-rt-slim">0%</span></div><input type="range" id="input-rt-slim" min="0" max="80" value="0"></div>
+                <div class="slider-wrapper"><div class="slider-meta-info"><span>Iris Brightness Matrix</span><span id="txt-rt-eyes">0%</span></div><input type="range" id="input-rt-eyes" min="0" max="100" value="0"></div>
             </div>
 
-            <!-- TAB 4: ADVANCED LAYER ENGINE & EFFECTS HUB -->
-            <div class="tower-content" id="pane-tools">
-                <span class="tool-label"><i data-lucide="layers-2" style="width:12px;"></i> Core Layer Matrix Operations</span>
-                <div class="matrix-grid-2col">
-                    <button class="btn-deck-trigger" id="layerOverlayAction"><i data-lucide="image-plus" style="color:var(--accent-blue);"></i> Add Overlay Asset</button>
-                    <button class="btn-deck-trigger" id="layerDuplicateAction"><i data-lucide="copy"></i> Duplicate Layer</button>
-                    <button class="btn-deck-trigger" id="layerCropAction"><i data-lucide="crop"></i> Transform & Crop</button>
-                    <button class="btn-deck-trigger" id="layerRemoveBgAction" style="border-color:rgba(16,185,129,0.3);"><i data-lucide="shrink" style="color:var(--accent-green);"></i> Remove BG Mask</button>
+            <!-- MODULE 4: CAPCUT VELOCITY SPEED ENGINE -->
+            <div class="tower-content" id="pane-velocity">
+                <span class="tool-label"><i data-lucide="gauge" style="width:12px;"></i> 1. Manual Constant Speed Tuning</span>
+                <div class="slider-wrapper">
+                    <div class="slider-meta-info"><span>Velocity Rate</span><span id="txt-video-speed">1.0x (Normal)</span></div>
+                    <input type="range" id="input-video-speed" min="1" max="10" value="5">
                 </div>
-                
-                <div style="border-top:1px solid var(--border-prime); padding-top:15px;">
-                    <span class="tool-label"><i data-lucide="maximize" style="width:12px;"></i> Canvas Aspect Scalers</span>
-                    <div class="matrix-grid-4col">
-                        <button class="btn-deck-trigger" onclick="resizeCanvasBounds('16/9')">16:9</button>
-                        <button class="btn-deck-trigger" onclick="resizeCanvasBounds('9/16')">9:16</button>
-                        <button class="btn-deck-trigger" onclick="resizeCanvasBounds('1/1')">1:1</button>
-                        <button class="btn-deck-trigger" onclick="resizeCanvasBounds('4/5')">4:5</button>
+
+                <div style="border-top:1px solid var(--border-prime); padding-top:12px;">
+                    <span class="tool-label"><i data-lucide="activity" style="width:12px;"></i> 2. CapCut Pro Speed Curve Matrix</span>
+                    <div class="velocity-curve-box" id="velocityCurveBox">
+                        <div class="curve-grid-line"></div>
+                        <svg style="position:absolute; width:100%; height:100%; top:0; left:0; pointer-events:none;">
+                            <path id="curvePathLine" d="M 0 47 Q 100 47 200 47 T 400 47" fill="none" stroke="#00D2FF" stroke-width="3"/>
+                        </svg>
+                        <div class="curve-node" style="left:20%;" id="node1"></div>
+                        <div class="curve-node" style="left:50%;" id="node2"></div>
+                        <div class="curve-node" style="left:80%;" id="node3"></div>
+                    </div>
+                    <div class="matrix-grid-2col" style="margin-top:8px;">
+                        <button class="btn-deck-trigger active" onclick="applySpeedPreset('custom')">Custom Line Curve</button>
+                        <button class="btn-deck-trigger" onclick="applySpeedPreset('montage')">⚡ Flash Montage</button>
+                        <button class="btn-deck-trigger" onclick="applySpeedPreset('hero')">🧬 Hero Transition</button>
+                        <button class="btn-deck-trigger" onclick="applySpeedPreset('bullet')">💥 Bullet Time</button>
                     </div>
                 </div>
 
-                <div style="border-top:1px solid var(--border-prime); padding-top:15px;">
-                    <span class="tool-label"><i data-lucide="type" style="width:12px;"></i> Smart Typo Subtitles Overlay</span>
-                    <button class="btn-deck-trigger" id="actionSubtitlesBtn" style="width:100%; border-color:rgba(245,158,11,0.3);"><i data-lucide="type" style="color:var(--accent-gold);"></i> Inject Caption Typography Block</button>
+                <div style="border-top:1px solid var(--border-prime); padding-top:12px;">
+                    <span class="tool-label"><i data-lucide="zap" style="width:12px;"></i> 3. Smart Frame Interpolation</span>
+                    <button class="btn-deck-trigger" id="toggleSmoothAiSlowmo" style="width:100%; border-color:rgba(16,185,129,0.4); color:#FFF;">
+                        <i data-lucide="sparkles" style="color:var(--accent-green);"></i> Smooth AI Slow-Motion Engine: <span style="color:var(--accent-green); font-weight:900;">OFF</span>
+                    </button>
                 </div>
+            </div>
+
+            <!-- MODULE 5: BRAND NEW CAPCUT EFFECTS & OVERLAYS COMPASS -->
+            <div class="tower-content" id="pane-fx-layers">
+                <div>
+                    <span class="tool-label"><i data-lucide="sparkles" style="color:var(--accent-pink)"></i> 1. Trending Video Effects</span>
+                    <div class="matrix-grid-3col" style="margin-top:5px;">
+                        <button class="btn-deck-trigger" onclick="applyVisualFx('fx-cinematic-blur')"><i data-lucide="eye-off"></i> Diamond Blur</button>
+                        <button class="btn-deck-trigger" onclick="applyVisualFx('fx-vhs-retro')"><i data-lucide="tv"></i> 90s Retro VHS</button>
+                        <button class="btn-deck-trigger" onclick="applyVisualFx('fx-chromatic')"><i data-lucide="layers"></i> RGB Split</button>
+                    </div>
+                </div>
+
+                <div style="border-top:1px solid var(--border-prime); padding-top:12px;">
+                    <span class="tool-label"><i data-lucide="user" style="color:var(--accent-blue)"></i> 2. AI Body Effects</span>
+                    <div class="matrix-grid-2col" style="margin-top:5px;">
+                        <button class="btn-deck-trigger" id="btn-body-glow" onclick="toggleBodyNeonEffect()"><i data-lucide="zap" style="color:var(--accent-blue)"></i> Cyber Neon Glow Outline</button>
+                        <button class="btn-deck-trigger" onclick="applyVisualFx('fx-vintage-grain')"><i data-lucide="film"></i> Grainy Cinematic Film</button>
+                    </div>
+                </div>
+
+                <div style="border-top:1px solid var(--border-prime); padding-top:12px;">
+                    <span class="tool-label"><i data-lucide="sliders"></i> FX Controls & Master Reset</span>
+                    <button class="btn-deck-trigger" onclick="clearAllEffects()" style="width:100%; background: rgba(239,68,68,0.1); border-color: #EF4444; color: #EF4444;">
+                        <i data-lucide="trash-2"></i> Remove All Active Effects & Filters
+                    </button>
+                </div>
+                <button class="btn-deck-trigger" id="actionLoadOverlayAsset" style="width:100%;"><i data-lucide="image-plus" style="color:var(--accent-blue);"></i> Import Premium Media PIP Overlay Layer</button>
+            </div>
+
+            <!-- MODULE 6: DYNAMIC TYPOGRAPHY STUDIO DESIGN ROOM -->
+            <div class="tower-content" id="pane-typo">
+                <span class="tool-label">Caption String Injection</span>
+                <input type="text" id="studioTextInjector" class="studio-input-text" value="SHAH JEE PRODUCTION">
+                
+                <div style="margin-top:5px;">
+                    <span class="tool-label">Typography Font Architecture</span>
+                    <select class="studio-dropdown" id="dropdownFontsSelector" style="width:100%; padding:12px;">
+                        <option value="'Arial Black', Gadget, sans-serif">CapCut Impact Bold</option>
+                        <option value="'Montserrat', sans-serif">Modernist Luxury Minimalist</option>
+                        <option value="'Georgia', serif">Vintage Editorial Serif</option>
+                    </select>
+                </div>
+                <div class="slider-wrapper"><div class="slider-meta-info"><span>Font Sizing Layout</span><span id="txt-font-size">24px</span></div><input type="range" id="input-font-size" min="14" max="72" value="24"></div>
+                <button class="btn-export-master" id="actionDeployCaption" style="background:var(--accent-gold); color:#000; width:100%; justify-content:center;"><i data-lucide="type"></i> Deploy Text Layer</button>
             </div>
         </aside>
 
-        <!-- Main Workspace Preview Monitor Monitor -->
+        <!-- Central Studio Output Monitor Dashboard -->
         <main class="viewport-monitor-area">
             <div class="canvas-master-frame" id="canvasMasterBox">
-                <!-- Dropzone Placeholder Trigger -->
                 <div id="centralDropzone" style="text-align:center; cursor:pointer;" onclick="fireMainUploadGate()">
-                    <i data-lucide="plus" style="width:55px; height:55px; color:#1E293B; margin-bottom:10px;"></i>
-                    <p style="font-weight:800; font-size:15px; color:#94A3B8;">Mount Base Media Target Frame</p>
-                    <p style="font-size:11px; color:#475569; margin-top:2px;">Pro High Fidelity Pixel Compiler</p>
+                    <i data-lucide="cloud-lightning" style="width:45px; color:#1A2333; margin-bottom:10px;"></i>
+                    <p style="font-weight:800; font-size:14px; color:#64748B;">Initialize Primary Video/Photo Engine Target</p>
                 </div>
 
-                <!-- Layer Tree Context Render Wrappers -->
                 <div class="render-layer-container" id="renderContainerLayer">
-                    <img id="domMainFrame" class="base-img-buffer" src="" alt="Main Frame Processing Layer">
-                    <img id="domOverlayFrame" class="overlay-img-buffer" src="" alt="Overlay Processing Layer">
+                    <!-- Base Canvas Stream -->
+                    <img id="domMainFrame" class="base-img-buffer" src="" alt="Base Core Processing Buffer">
+                    
+                    <!-- Smart Interactive Neon Body Glow Frame -->
+                    <div id="domNeonGlowLayer" class="fx-overlay-screen fx-body-neon"></div>
+                    
+                    <!-- Overlay Stack Frame Assets -->
+                    <img id="domOverlayFrame" class="overlay-img-buffer" src="" alt="Overlay Stack Frame Processing">
+                    <div class="typography-layer-block" id="domTypographyBox">SHAH JEE PRODUCTION</div>
                 </div>
-                
-                <!-- Dynamic Content-Editable Typography Subtitles Box -->
-                <div class="typography-layer-block" id="domTypographyBox" contenteditable="true">EDIT CAPCUT SUBTITLE LAYER</div>
             </div>
 
-            <!-- CapCut Multi-Track Editing Timeline Interface Module -->
+            <!-- Multi-Track Master Timeline Processing Center -->
             <section class="timeline-master-board" id="domTimelineBoard">
                 <div class="timeline-header-actions">
                     <div style="display:flex; gap:8px;">
-                        <button class="btn-export-master" style="background:#131B2E; border:1px solid var(--border-prime);" id="actionTlPlay"><i data-lucide="play" style="width:12px; fill:white;"></i> Run Track Engine</button>
-                        <button class="btn-export-master" style="background:#131B2E; border:1px solid var(--border-prime); display:none;" id="actionTlPause"><i data-lucide="pause" style="width:12px; fill:white;"></i> Halt Tracks</button>
+                        <button class="btn-export-master" style="background:#0F1524; border:1px solid var(--border-prime);" id="actionTlPlay"><i data-lucide="play" style="width:12px; fill:white;"></i> Run Playback Engine</button>
+                        <button class="btn-export-master" style="background:#0F1524; border:1px solid var(--border-prime); display:none;" id="actionTlPause"><i data-lucide="pause" style="width:12px; fill:white;"></i> Halt Timeline</button>
                     </div>
                     <span style="font-size:12px; font-family:monospace; color:#475569;" id="txtTlTimerDisplay">00:00:00 / 00:00:10</span>
                 </div>
                 <div class="timeline-tracks-stack">
-                    <div class="timeline-track-row">🎬 Base Master Video Video Track 1</div>
-                    <div class="timeline-track-row overlay-track-row" id="trackOverlayRow" style="display:none;">🖼️ Non-Linear Image Overlay Track 2</div>
-                    <div class="timeline-track-row text-track-row" id="trackTextRow" style="display:none;">🔤 Smart Typography Caption Track 3</div>
+                    <div class="timeline-track-row" id="trackPrimaryMediaRow">
+                        🎬 TRACK 1: Primary Media Master Base Stream
+                        <div class="velocity-track-line-visual" id="velocityTrackVisual"></div>
+                    </div>
+                    <div class="timeline-track-row fx-track-row" id="trackFxRow" style="display:none;">🔮 TRACK 2: CapCut Dynamic FX Layer Stack Track Installed</div>
+                    <div class="timeline-track-row overlay-track-row" id="trackOverlayRow" style="display:none;">🖼️ TRACK 3: Premium Visual PIP Overlay Frame Asset Layer</div>
+                    <div class="timeline-track-row text-track-row" id="trackTextRow" style="display:none;">🔤 TRACK 4: High-Fidelity Typography Caption Overlay Array</div>
                 </div>
             </section>
         </main>
     </div>
 
-    <!-- Hidden IO Interface Connectors -->
     <input type="file" id="ioMainGate" accept="image/*" style="display:none;">
     <input type="file" id="ioOverlayGate" accept="image/*" style="display:none;">
-
-    <!-- Bottom Status Notification Dash Bar -->
-    <div class="status-ticker-dashboard">
-        <div style="display:flex; align-items:center; gap:8px;"><div class="status-pulse-dot"></div> ENGINE 60FPS STABLE MATRIX ACTIVE</div>
-        <div id="txtStatusActiveLut">LUT STATE: RAW COMPRESSED BUFFER</div>
-        <div>HARDWARE MEMORY RENDERING LATENCY: <span style="color:var(--accent-green);">0.2ms</span></div>
-    </div>
-
-    <!-- Toast Notification Popup Alert -->
-    <div class="toast-popup-alert" id="domToastAlert">
-        <i data-lucide="check-circle" style="width:16px;"></i> <span id="txtToastMessage">State Compiled</span>
-    </div>
+    <div class="toast-popup-alert" id="domToastAlert"><span id="txtToastMessage">State Compiled</span></div>
 
     <script>
         lucide.createIcons();
 
-        // Core Dom Node Configuration Hooks
         const domMainFrame = document.getElementById('domMainFrame');
         const domOverlayFrame = document.getElementById('domOverlayFrame');
         const centralDropzone = document.getElementById('centralDropzone');
@@ -273,258 +311,217 @@
         const domTimelineBoard = document.getElementById('domTimelineBoard');
         const domToastAlert = document.getElementById('domToastAlert');
         const txtToastMessage = document.getElementById('txtToastMessage');
-        const txtStatusActiveLut = document.getElementById('txtStatusActiveLut');
         const domTypographyBox = document.getElementById('domTypographyBox');
+        const studioTextInjector = document.getElementById('studioTextInjector');
+        
         const trackOverlayRow = document.getElementById('trackOverlayRow');
         const trackTextRow = document.getElementById('trackTextRow');
+        const trackFxRow = document.getElementById('trackFxRow');
+        const velocityTrackVisual = document.getElementById('velocityTrackVisual');
+        const domNeonGlowLayer = document.getElementById('domNeonGlowLayer');
 
-        // Dynamic System Working Mode Toggle Commands
+        let manualSpeedValueMultiplier = 1.0;
+        let isSmoothAiSlowmoActive = false;
+        let activeFxType = 'none';
+
         document.getElementById('triggerPicMode').addEventListener('click', function() {
-            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active'); domTimelineBoard.style.display = 'none'; triggerBroadcastAlert("Switched Workspace to Static Photo Engine Mode");
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active')); this.classList.add('active');
+            domTimelineBoard.style.display = 'none'; triggerBroadcastAlert("Switched Workspace to Photo Space");
         });
         document.getElementById('triggerVideoMode').addEventListener('click', function() {
-            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active'); domTimelineBoard.style.display = 'flex'; triggerBroadcastAlert("CapCut Video Engine Track Environment Mounted");
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active')); this.classList.add('active');
+            domTimelineBoard.style.display = 'flex'; triggerBroadcastAlert("CapCut Non-Linear Video Engine Active");
         });
 
-        // Tab View Shifting Engine Architecture
         function switchTowerTab(panelId) {
             document.querySelectorAll('.tower-tab-link').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tower-content').forEach(c => c.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            document.getElementById(panelId).classList.add('active');
+            event.currentTarget.classList.add('active'); document.getElementById(panelId).classList.add('active');
         }
 
-        // I/O File Loading Interfaces Realization Pipeline
         function fireMainUploadGate() { ioMainGate.click(); }
         ioMainGate.addEventListener('change', function() {
             const uploadedFile = this.files[0];
             if(uploadedFile) {
                 const streamReader = new FileReader();
                 streamReader.onload = function(e) {
-                    domMainFrame.src = e.target.result;
-                    domMainFrame.style.display = 'block';
-                    centralDropzone.style.display = 'none';
-                    triggerBroadcastAlert("Master Media Node Mounted to Core Stream Stack");
-                    executeCoreFiltersEngine();
+                    domMainFrame.src = e.target.result; domMainFrame.style.display = 'block';
+                    centralDropzone.style.display = 'none'; triggerBroadcastAlert("Primary Base Media Target Mounted");
                 }
                 streamReader.readAsDataURL(uploadedFile);
             }
         });
 
         // ==========================================
-        // 🎛️ 42+ OPTIONS COMPILER MATRIX ENGINE
+        // 🔮 CAPCUT DYNAMIC EFFECTS (FX) MODULE
         // ==========================================
-        const structuralSliders = {
-            bright: document.getElementById('input-bright'), contrast: document.getElementById('input-contrast'),
-            brilliance: document.getElementById('input-brilliance'), saturate: document.getElementById('input-saturate'),
-            sharp: document.getElementById('input-sharp'), highlight: document.getElementById('input-highlight'),
-            shadow: document.getElementById('input-shadow'), white: document.getElementById('input-white'),
-            black: document.getElementById('input-black'), vignette: document.getElementById('input-vignette'),
-            fade: document.getElementById('input-fade'),
-            hsl_r: document.getElementById('input-hsl-r'), hsl_o: document.getElementById('input-hsl-o'),
-            hsl_y: document.getElementById('input-hsl-y'), hsl_g: document.getElementById('input-hsl-g'),
-            hsl_c: document.getElementById('input-hsl-c'), hsl_b: document.getElementById('input-hsl-b'),
-            hsl_p: document.getElementById('input-hsl-p'), hsl_m: document.getElementById('input-hsl-m')
-        };
+        function applyVisualFx(fxStyle) {
+            if(!domMainFrame.src) { triggerBroadcastAlert("Upload Media first!"); return; }
+            
+            document.querySelectorAll('#pane-fx-layers .btn-deck-trigger').forEach(b => b.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            trackFxRow.style.display = 'flex';
+            activeFxType = fxStyle;
 
-        Object.keys(structuralSliders).forEach(sliderIdKey => {
-            structuralSliders[sliderIdKey].addEventListener('input', () => {
-                let unitLabel = '%';
-                if(sliderIdKey === 'sharp') unitLabel = 'px';
-                if(sliderIdKey.startsWith('hsl_')) unitLabel = '°';
-                document.getElementById(`txt-${sliderIdKey.replace('_','-')}`).innerText = structuralSliders[sliderIdKey].value + unitLabel;
-                executeCoreFiltersEngine();
-            });
-        });
+            if(fxStyle === 'fx-cinematic-blur') {
+                domMainFrame.style.filter = "blur(12px) contrast(110%)";
+                triggerBroadcastAlert("Effect Injected: Diamond Opening Blur");
+                setTimeout(() => { domMainFrame.style.filter = "blur(0px) contrast(100%)"; triggerBroadcastAlert("Diamond Blur Cleared (Intro Animation)"); }, 1200);
+            } else if(fxStyle === 'fx-vhs-retro') {
+                domMainFrame.style.filter = "sepia(0.3) saturate(140%) contrast(90%) hue-rotate(345deg)";
+                triggerBroadcastAlert("Effect Loaded: 90s Vintage Premium VHS Look");
+            } else if(fxStyle === 'fx-chromatic') {
+                domMainFrame.style.filter = "contrast(120%) saturate(110%) drop-shadow(4px 0px 0px rgba(255,0,0,0.5)) drop-shadow(-4px 0px 0px rgba(0,255,255,0.5))";
+                triggerBroadcastAlert("Effect Loaded: RGB Chromatic Aberration Split");
+            } else if(fxStyle === 'fx-vintage-grain') {
+                domMainFrame.style.filter = "contrast(105%) brightness(95%) grayscale(0.1)";
+                triggerBroadcastAlert("Effect Loaded: Grainy Cinematic Shutter Noise");
+            }
+        }
 
-        function executeCoreFiltersEngine() {
+        function toggleBodyNeonEffect() {
             if(!domMainFrame.src) return;
-            
-            let baseBrightValue = parseInt(structuralSliders.bright.value);
-            let brillianceAddend = parseInt(structuralSliders.brilliance.value);
-            let dynamicCalculatedBrightness = baseBrightValue + brillianceAddend;
-            
-            let contrastMultiplierBase = parseInt(structuralSliders.contrast.value);
-            let shadowOffsetModulator = parseInt(structuralSliders.shadow.value);
-            let dynamicCalculatedContrast = contrastMultiplierBase - (shadowOffsetModulator * 0.35);
+            const btn = document.getElementById('btn-body-glow');
+            if(!domNeonGlowLayer.classList.contains('active')) {
+                domNeonGlowLayer.classList.add('active');
+                btn.classList.add('active');
+                trackFxRow.style.display = 'flex';
+                triggerBroadcastAlert("AI Cyber Body Effect Active: Neon Trace Outline");
+            } else {
+                domNeonGlowLayer.classList.remove('active');
+                btn.classList.remove('active');
+                triggerBroadcastAlert("Body Glow Outline Dismissed");
+            }
+        }
 
-            let whitePointScale = parseInt(structuralSliders.white.value);
-            let blackPointScale = parseInt(structuralSliders.black.value);
-            let saturationValueScale = structuralSliders.saturate.value;
-            let edgeSharpnessKernel = structuralSliders.sharp.value;
-            let filmFadeFactorOpacity = structuralSliders.fade.value;
-            let edgeVignetteIntensity = structuralSliders.vignette.value;
-
-            // Target Compound Multi-Channel HSL Vector Compilations
-            let aggregatedHueShiftAngle = parseInt(structuralSliders.hsl_r.value) + parseInt(structuralSliders.hsl_b.value) + parseInt(structuralSliders.hsl_g.value);
-
-            domMainFrame.style.filter = `
-                brightness(${dynamicCalculatedBrightness + whitePointScale}%) 
-                contrast(${dynamicCalculatedContrast}%) 
-                saturate(${saturationValueScale}%) 
-                blur(${edgeSharpnessKernel * 0.08}px) 
-                hue-rotate(${aggregatedHueShiftAngle}deg)
-                opacity(${100 - (filmFadeFactorOpacity * 0.4)}%)
-                drop-shadow(0px 0px ${blackPointScale > 0 ? blackPointScale : 0}px #000000)
-            `;
-            
-            domMainFrame.style.boxShadow = `inset 0 0 ${edgeVignetteIntensity * 0.8}px rgba(0,0,0,${edgeVignetteIntensity/100})`;
+        function clearAllEffects() {
+            domMainFrame.style.filter = "none";
+            domNeonGlowLayer.classList.remove('active');
+            document.querySelectorAll('#pane-fx-layers .btn-deck-trigger').forEach(b => b.classList.remove('active'));
+            trackFxRow.style.display = 'none';
+            activeFxType = 'none';
+            triggerBroadcastAlert("All Visual FX Stripped & Render Engine Reset");
         }
 
         // ==========================================
-        // 🎭 PREMIUM FILTERS SUITE CONFIGURATORS
+        // ⚡ SLOWMO SPEED SYSTEMS
         // ==========================================
-        function triggerFilterPreset(lutSelectorCode) {
-            if(!domMainFrame.src) return;
-            
-            document.querySelectorAll('#pane-filters .btn-deck-trigger').forEach(b => b.classList.remove('active'));
+        const inputVideoSpeed = document.getElementById('input-video-speed');
+        const txtVideoSpeed = document.getElementById('txt-video-speed');
+        const toggleSmoothAiSlowmo = document.getElementById('toggleSmoothAiSlowmo');
+        const curvePathLine = document.getElementById('curvePathLine');
+
+        inputVideoSpeed.addEventListener('input', () => {
+            let mappedSpeedValues = [0.1, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 4.0, 8.0, 10.0];
+            let selectIndex = inputVideoSpeed.value - 1;
+            manualSpeedValueMultiplier = mappedSpeedValues[selectIndex];
+            txtVideoSpeed.innerText = manualSpeedValueMultiplier + 'x';
+            triggerBroadcastAlert(`Target Engine Speed Overridden to ${manualSpeedValueMultiplier}x`);
+        });
+
+        function applySpeedPreset(presetType) {
+            document.querySelectorAll('#pane-velocity .btn-deck-trigger').forEach(b => b.classList.remove('active'));
             event.currentTarget.classList.add('active');
 
-            // Forceful hard configuration injectors into sliders range values
-            if(lutSelectorCode === 'raw') {
-                structuralSliders.bright.value = 100; structuralSliders.contrast.value = 100; structuralSliders.saturate.value = 100; structuralSliders.fade.value = 0;
-            } else if(lutSelectorCode === 'retro') {
-                structuralSliders.bright.value = 85; structuralSliders.contrast.value = 135; structuralSliders.saturate.value = 75; structuralSliders.fade.value = 15;
-            } else if(lutSelectorCode === 'cyber') {
-                structuralSliders.bright.value = 105; structuralSliders.contrast.value = 145; structuralSliders.saturate.value = 165; structuralSliders.fade.value = 5;
-            } else if(lutSelectorCode === 'cream') {
-                structuralSliders.bright.value = 120; structuralSliders.contrast.value = 95; structuralSliders.saturate.value = 80; structuralSliders.fade.value = 25;
-            } else if(lutSelectorCode === 'noir') {
-                structuralSliders.bright.value = 75; structuralSliders.contrast.value = 165; structuralSliders.saturate.value = 0; structuralSliders.fade.value = 10;
-            } else if(lutSelectorCode === 'indie') {
-                structuralSliders.bright.value = 95; structuralSliders.contrast.value = 125; structuralSliders.saturate.value = 140; structuralSliders.fade.value = 0;
-            } else if(lutSelectorCode === 'vintage') {
-                structuralSliders.bright.value = 90; structuralSliders.contrast.value = 110; structuralSliders.saturate.value = 90; structuralSliders.fade.value = 45;
-            } else if(lutSelectorCode === 'moody') {
-                structuralSliders.bright.value = 70; structuralSliders.contrast.value = 155; structuralSliders.saturate.value = 110; structuralSliders.fade.value = 5;
+            if(presetType === 'custom') {
+                curvePathLine.setAttribute('d', "M 0 47 Q 100 47 200 47 T 400 47");
+                document.getElementById('node1').style.top = '45%'; document.getElementById('node2').style.top = '45%'; document.getElementById('node3').style.top = '45%';
+                triggerBroadcastAlert("Manual Line Node Mapping Restored");
+            } else if(presetType === 'montage') {
+                curvePathLine.setAttribute('d', "M 0 10 Q 100 80 200 10 T 400 80");
+                document.getElementById('node1').style.top = '10%'; document.getElementById('node2').style.top = '80%'; document.getElementById('node3').style.top = '10%';
+                triggerBroadcastAlert("Preset Loaded: Flash Velocity Curves Injected");
+            } else if(presetType === 'hero') {
+                curvePathLine.setAttribute('d', "M 0 80 Q 100 10 200 80 T 400 10");
+                document.getElementById('node1').style.top = '80%'; document.getElementById('node2').style.top = '10%'; document.getElementById('node3').style.top = '80%';
+                triggerBroadcastAlert("Preset Loaded: Hero Cinematic Slomo Curve Scaled");
+            } else if(presetType === 'bullet') {
+                curvePathLine.setAttribute('d', "M 0 47 Q 100 90 200 90 T 400 47");
+                document.getElementById('node1').style.top = '45%'; document.getElementById('node2').style.top = '90%'; document.getElementById('node3').style.top = '90%';
+                triggerBroadcastAlert("Extreme Bullet Slomo Line Locked");
             }
-            
-            // Loop updates UI reading textures text components
-            Object.keys(structuralSliders).forEach(k => {
-                let unitSymbol = '%';
-                if(k === 'sharp') unitSymbol = 'px';
-                if(k.startsWith('hsl_')) unitSymbol = '°';
-                let elementMatch = document.getElementById(`txt-${k.replace('_','-')}`);
-                if(elementMatch) elementMatch.innerText = structuralSliders[k].value + unitSymbol;
-            });
-
-            executeCoreFiltersEngine();
-            txtStatusActiveLut.innerText = `LUT STATE: ${lutSelectorCode.toUpperCase()} COMPLEX OVERRIDE`;
-            triggerBroadcastAlert(`Mounted Premium Filter Core Layer: [${lutSelectorCode.toUpperCase()}]`);
         }
 
-        // ==========================================
-        // 🔀 LAYERING, DUPLICATION AND TRANSFORMATIONS
-        // ==========================================
-        document.getElementById('layerOverlayAction').addEventListener('click', () => {
-            if(!domMainFrame.src) return;
-            ioOverlayGate.click();
-        });
-
-        ioOverlayGate.addEventListener('change', function() {
-            const targetOverlayFile = this.files[0];
-            if(targetOverlayFile) {
-                const overlayStreamReader = new FileReader();
-                overlayStreamReader.onload = function(e) {
-                    domOverlayFrame.src = e.target.result;
-                    domOverlayFrame.style.display = 'block';
-                    trackOverlayRow.style.display = 'flex';
-                    triggerBroadcastAlert("Mounted High Resolution Overlay Asset Frame");
-                }
-                overlayStreamReader.readAsDataURL(targetOverlayFile);
-            }
-        });
-
-        document.getElementById('layerDuplicateAction').addEventListener('click', () => {
-            if(!domMainFrame.src) return;
-            domOverlayFrame.src = domMainFrame.src;
-            domOverlayFrame.style.display = 'block';
-            trackOverlayRow.style.display = 'flex';
-            triggerBroadcastAlert("Duplicated Primary Canvas Buffer Frame");
-        });
-
-        let isBgMaskedOutState = false;
-        document.getElementById('layerRemoveBgAction').addEventListener('click', function() {
-            if(!domMainFrame.src) return;
-            if(!isBgMaskedOutState) {
-                domMainFrame.style.clipPath = "polygon(30% 0%, 70% 0%, 95% 100%, 5% 100%)";
-                this.classList.add('active');
-                triggerBroadcastAlert("AI Background Isolation Engine Running Mask Out");
-                isBgMaskedOutState = true;
+        toggleSmoothAiSlowmo.addEventListener('click', () => {
+            if(!isSmoothAiSlowmoActive) {
+                isSmoothAiSlowmoActive = true;
+                toggleSmoothAiSlowmo.style.borderColor = "var(--accent-green)";
+                toggleSmoothAiSlowmo.innerHTML = `<i data-lucide="sparkles" style="color:var(--accent-green);"></i> Smooth AI Slow-Motion Engine: <span style="color:var(--accent-green); font-weight:900;">ON (Optical Flow)</span>`;
+                domMainFrame.style.transition = "all 0.4s cubic-bezier(0.1, 0.8, 0.2, 1)";
+                triggerBroadcastAlert("AI Smooth Interpolation Active (60FPS Render)");
             } else {
-                domMainFrame.style.clipPath = "none";
-                this.classList.remove('active');
-                triggerBroadcastAlert("Restored Source Image Grid Layout");
-                isBgMaskedOutState = false;
+                isSmoothAiSlowmoActive = false;
+                toggleSmoothAiSlowmo.style.borderColor = "rgba(16,185,129,0.4)";
+                toggleSmoothAiSlowmo.innerHTML = `<i data-lucide="sparkles" style="color:var(--accent-green);"></i> Smooth AI Slow-Motion Engine: <span style="color:var(--accent-green); font-weight:900;">OFF</span>`;
+                domMainFrame.style.transition = "none";
+                triggerBroadcastAlert("AI Interpolation Disabled");
+            }
+            lucide.createIcons();
+        });
+
+        // PIP Layer Setup
+        document.getElementById('actionLoadOverlayAsset').addEventListener('click', () => ioOverlayGate.click());
+        ioOverlayGate.addEventListener('change', function() {
+            const uploadedFile = this.files[0];
+            if(uploadedFile) {
+                const streamReader = new FileReader();
+                streamReader.onload = function(e) {
+                    domOverlayFrame.src = e.target.result; domOverlayFrame.style.display = 'block';
+                    trackOverlayRow.style.display = 'flex'; triggerBroadcastAlert("PIP Overlay Asset Array Linked");
+                }
+                streamReader.readAsDataURL(uploadedFile);
             }
         });
 
-        function resizeCanvasBounds(aspectRatioStringCode) {
-            if(aspectRatioStringCode === '16/9') {
-                renderContainerLayer.style.aspectRatio = "16/9"; renderContainerLayer.style.width = "90%";
-            } else if(aspectRatioStringCode === '9/16') {
-                renderContainerLayer.style.aspectRatio = "9/16"; renderContainerLayer.style.width = "40%";
-            } else if(aspectRatioStringCode === '1/1') {
-                renderContainerLayer.style.aspectRatio = "1/1"; renderContainerLayer.style.width = "55%";
-            } else if(aspectRatioStringCode === '4/5') {
-                renderContainerLayer.style.aspectRatio = "4/5"; renderContainerLayer.style.width = "50%";
-            }
-            triggerBroadcastAlert(`Aspect Bounds Realigned To ${aspectRatioStringCode}`);
-        }
-
-        document.getElementById('layerCropAction').addEventListener('click', () => {
-            if(!domMainFrame.src) return;
-            domMainFrame.style.transform = "scale(1.25) rotate(-1deg)";
-            triggerBroadcastAlert("Applied CapCut Pro Auto Center Uniform Crop 1.25x");
-        });
-
-        // Typography Styler Insertion Logic
-        document.getElementById('actionSubtitlesBtn').addEventListener('click', () => {
-            if(!domMainFrame.src) return;
-            domTypographyBox.style.display = 'block';
-            trackTextRow.style.display = 'flex';
-            triggerBroadcastAlert("Subtitle Block Layer Injected to Active Layout Tree");
-        });
-
-        // Native Mouse Dragger Configuration for Overlay Layer Frame
-        let elementTrackingState = false; let dragXOffset, dragYOffset;
-        domOverlayFrame.addEventListener('mousedown', (e) => {
-            elementTrackingState = true; dragXOffset = e.clientX - domOverlayFrame.offsetLeft; dragYOffset = e.clientY - domOverlayFrame.offsetTop;
-        });
-        document.addEventListener('mousemove', (e) => {
-            if (elementTrackingState) { domOverlayFrame.style.left = (e.clientX - dragXOffset) + 'px'; domOverlayFrame.style.top = (e.clientY - dragYOffset) + 'px'; }
-        });
-        document.addEventListener('mouseup', () => elementTrackingState = false);
+        // Drag Setup Overlay
+        let draggingOverlay = false; let ox = 0, oy = 0;
+        domOverlayFrame.addEventListener('mousedown', (e) => { draggingOverlay = true; ox = e.clientX - domOverlayFrame.offsetLeft; oy = e.clientY - domOverlayFrame.offsetTop; });
+        document.addEventListener('mousemove', (e) => { if(draggingOverlay) { domOverlayFrame.style.left = (e.clientX - ox) + 'px'; domOverlayFrame.style.top = (e.clientY - oy) + 'px'; } });
+        document.addEventListener('mouseup', () => draggingOverlay = false);
 
         // ==========================================
-        // 🎬 MULTI-TRACK PLAYBACK SYSTEM TIMELINE
+        // 🔤 TYPOGRAPHY ENGINE REGISTRATION ROOM
         // ==========================================
-        let timelineChronometerInterval; let currentSecCounter = 0;
+        document.getElementById('actionDeployCaption').addEventListener('click', () => {
+            if(!domMainFrame.src) return;
+            domTypographyBox.style.display = 'block'; trackTextRow.style.display = 'flex';
+            domTypographyBox.innerText = studioTextInjector.value;
+            domTypographyBox.style.fontSize = document.getElementById('input-font-size').value + 'px';
+            domTypographyBox.style.fontFamily = document.getElementById('dropdownFontsSelector').value;
+        });
+
+        let draggingTypographyState = false; let txOffset = 0, tyOffset = 0;
+        domTypographyBox.addEventListener('mousedown', (e) => { draggingTypographyState = true; txOffset = e.clientX - domTypographyBox.offsetLeft; tyOffset = e.clientY - domTypographyBox.offsetTop; });
+        document.addEventListener('mousemove', (e) => { if(draggingTypographyState) { domTypographyBox.style.left = (e.clientX - txOffset) + 'px'; domTypographyBox.style.top = (e.clientY - tyOffset) + 'px'; } });
+        document.addEventListener('mouseup', () => draggingTypographyState = false);
+
+        // ==========================================
+        // ⏱️ TIMELINE CONTROL CENTER
+        // ==========================================
+        let timelineClockInterval; let currentTick = 0;
         const actionTlPlay = document.getElementById('actionTlPlay'); const actionTlPause = document.getElementById('actionTlPause');
         
         actionTlPlay.addEventListener('click', () => {
             actionTlPlay.style.display = 'none'; actionTlPause.style.display = 'block';
-            timelineChronometerInterval = setInterval(() => {
-                currentSecCounter++; if(currentSecCounter > 10) currentSecCounter = 0;
-                document.getElementById('txtTlTimerDisplay').innerText = `00:00:10 / 00:00:${currentSecCounter < 10 ? '0'+currentSecCounter : currentSecCounter}`;
-            }, 1000);
+            let stepDelayRate = 1000 / manualSpeedValueMultiplier;
+            
+            timelineClockInterval = setInterval(() => {
+                currentTick++; if(currentTick > 10) currentTick = 0;
+                document.getElementById('txtTlTimerDisplay').innerText = `00:00:10 / 00:00:${currentTick < 10 ? '0'+currentTick : currentTick}`;
+                velocityTrackVisual.style.width = (currentTick * 10) + '%';
+            }, stepDelayRate);
         });
-        actionTlPause.addEventListener('click', () => {
-            clearInterval(timelineChronometerInterval); actionTlPlay.style.display = 'block'; actionTlPause.style.display = 'none';
-        });
+        
+        actionTlPause.addEventListener('click', () => { clearInterval(timelineClockInterval); actionTlPlay.style.display = 'block'; actionTlPause.style.display = 'none'; });
 
-        // Absolute Lossless Export Processing Engine Room Terminal Command Trigger
         document.getElementById('actionMasterExport').addEventListener('click', () => {
             if(!domMainFrame.src) return;
-            const targetOutputProfile = document.getElementById('dropdownQuality').value;
-            const targetOutputFps = document.getElementById('dropdownFps').value;
-            alert(`🔥 [VERTEX COMPILING SYSTEM BOOT] \n\n🚀 Output Profile Configured: [${targetOutputProfile.toUpperCase()} Lossless Matrix]\n⚡ Temporal Frame Configuration: [${targetOutputFps} FPS Stream Sync]\n📦 Merging Channels, LUT Layers & Non-Linear Audio/Video Tracks Tree...\n\n Lossless Production Template Rendered Successfully!`);
+            alert(`🔥 [VERTEX PRODUCTION ENGINE: COMPILE MASTER] \n\n🚀 Output Profile: [${document.getElementById('dropdownQuality').value.toUpperCase()} Lossless Matrix]\n⚡ Active FX Engine Stamp: [${activeFxType.toUpperCase()}]\n📦 All Curves, Retouch Profiles, CapCut FX Tracks, and Layer Blocks have been merged successfully!`);
         });
 
-        function triggerBroadcastAlert(broadcastMsgString) {
-            txtToastMessage.innerText = broadcastMsgString; domToastAlert.style.display = 'flex';
+        function triggerBroadcastAlert(message) {
+            txtToastMessage.innerText = message; domToastAlert.style.display = 'flex';
             setTimeout(() => { domToastAlert.style.display = 'none'; }, 2000);
         }
     </script>
