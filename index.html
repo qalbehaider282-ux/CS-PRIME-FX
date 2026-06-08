@@ -11,26 +11,42 @@
         
         /* Master Workspace Layout */
         #studio-container { display: flex; width: 100%; height: 100vh; }
-        #sidebar { width: 420px; background-color: var(--panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; height: 100%; }
         
-        .studio-header { padding: 15px; font-weight: 800; font-size: 13px; letter-spacing: 3px; text-align: center; background: #000; border-bottom: 1px solid var(--border); color: #fff; text-transform: uppercase; }
+        /* FIXED SCROLL LAYER FOR SHAH JEE */
+        #sidebar { 
+            width: 420px; 
+            background-color: var(--panel); 
+            border-right: 1px solid var(--border); 
+            display: flex; 
+            flex-direction: column; 
+            height: 100vh; /* Puri screen par lock */
+        }
+        
+        .studio-header { padding: 15px; font-weight: 800; font-size: 13px; letter-spacing: 3px; text-align: center; background: #000; border-bottom: 1px solid var(--border); color: #fff; text-transform: uppercase; flex-shrink: 0; }
         
         /* Multi-Level Navigation Tabs */
-        .tabs-wrapper { display: flex; background: #0d0d11; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; }
+        .tabs-wrapper { display: flex; background: #0d0d11; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; flex-shrink: 0; }
         .tabs-wrapper::-webkit-scrollbar { display: none; }
         .tab-link { padding: 12px 15px; background: none; border: none; color: #a1a1aa; cursor: pointer; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; flex: 1; text-align: center; }
         .tab-link.active { color: #fff; border-bottom: 2px solid var(--accent); background: var(--active-tab); }
         
-        /* Panel Settings */
-        .main-content-panel { flex: 1; overflow-y: auto; padding: 20px; display: none; }
+        /* Panel Settings - Enabled Ultimate Touch Scroll */
+        .main-content-panel { 
+            flex: 1; 
+            overflow-y: scroll; /* Force vertical scroll */
+            -webkit-overflow-scrolling: touch; /* Mobile smooth swipe */
+            padding: 20px; 
+            display: none; 
+            height: calc(100vh - 90px); /* Baki bachi hui screen pe scroll hoga */
+        }
         .main-content-panel.active { display: block; }
+        
         .tool-category-title { color: var(--accent); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin: 20px 0 10px 0; border-left: 2px solid var(--accent); padding-left: 8px; }
         
         /* Responsive Grid for 100+ Unique Functions */
         .tools-matrix { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 15px; }
         .tool-cell { background: #181822; border: 1px solid var(--border); color: #e4e4e7; padding: 10px 4px; border-radius: 6px; cursor: pointer; font-size: 10px; text-align: center; font-weight: 600; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; min-height: 38px; }
         .tool-cell:hover { background: var(--accent); border-color: #fff; color: #fff; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(255,0,85,0.2); }
-        .tool-cell.active-node { background: #3f0e24; border-color: var(--accent); color: #fff; }
         
         /* Slider Adjustments */
         .slider-node { margin-bottom: 12px; background: #161620; padding: 12px; border-radius: 6px; border: 1px solid var(--border); }
@@ -45,8 +61,7 @@
         /* Global Control Hub */
         .pipeline-hub { position: absolute; bottom: 30px; display: flex; flex-direction: column; width: 65%; gap: 10px; }
         .dropdown-control { width: 100%; padding: 12px; background: #161620; border: 1px solid var(--border); color: #fff; border-radius: 6px; font-size: 11px; font-weight: 600; outline: none; cursor: pointer; }
-        .render-master-btn { width: 100%; padding: 16px; background: var(--accent); color: #fff; border: none; font-weight: 700; font-size: 13px; letter-spacing: 2px; cursor: pointer; border-radius: 6px; text-transform: uppercase; box-shadow: 0 6px 20px rgba(255,0,85,0.3); transition: background 0.2s; }
-        .render-master-btn:hover { background: #e0004c; }
+        .render-master-btn { width: 100%; padding: 16px; background: var(--accent); color: #fff; border: none; font-weight: 700; font-size: 13px; letter-spacing: 2px; cursor: pointer; border-radius: 6px; text-transform: uppercase; box-shadow: 0 6px 20px rgba(255,0,85,0.3); }
     </style>
 </head>
 <body>
@@ -70,7 +85,6 @@
                 <button class="tool-cell" onclick="execTool('Split')">Split</button>
                 <button class="tool-cell" onclick="execTool('Delete')">Delete</button>
             </div>
-            
             <div class="tool-category-title">Geometry & Canvas</div>
             <div class="tools-matrix">
                 <button class="tool-cell" onclick="execTool('Crop')">Crop</button>
@@ -80,7 +94,6 @@
                 <button class="tool-cell" onclick="execTool('Mirror')">Mirror</button>
                 <button class="tool-cell" onclick="execTool('Perspective')">Perspective</button>
             </div>
-
             <div class="tool-category-title">Speed Matrix & Motion</div>
             <div class="tools-matrix">
                 <button class="tool-cell" onclick="execTool('Speed')">Speed</button>
@@ -90,8 +103,7 @@
                 <button class="tool-cell" onclick="execTool('Slow Motion')">Slow Motion</button>
                 <button class="tool-cell" onclick="execTool('Time Remap')">Time Remap</button>
             </div>
-
-            <div class="tool-category-title">Keyframing & Motion</div>
+            <div class="tool-category-title">Keyframing Modules</div>
             <div class="tools-matrix">
                 <button class="tool-cell" onclick="execTool('Keyframe')">Keyframe</button>
                 <button class="tool-cell" onclick="execTool('Motion Tracking')">Motion Track</button>
@@ -112,8 +124,7 @@
                 <button class="tool-cell" onclick="execTool('AI Erase')">AI Erase</button>
                 <button class="tool-cell" onclick="execTool('Object Removal')">Obj Removal</button>
             </div>
-
-            <div class="tool-category-title">Matte & Background Extraction</div>
+            <div class="tool-category-title">Matte Extraction</div>
             <div class="tools-matrix">
                 <button class="tool-cell" onclick="execTool('Mask')">Mask</button>
                 <button class="tool-cell" onclick="execTool('Chroma Key')">Chroma Key</button>
@@ -122,7 +133,6 @@
                 <button class="tool-cell" onclick="execTool('Background Change')">BG Change</button>
                 <button class="tool-cell" onclick="execTool('Sky Replacement')">Sky Replace</button>
             </div>
-
             <div class="tool-category-title">VFX Engine Modules</div>
             <div class="tools-matrix">
                 <button class="tool-cell" onclick="execTool('Motion Blur')">Motion Blur</button>
@@ -139,7 +149,6 @@
 
         <div class="main-content-panel" id="p-color">
             <div class="tool-category-title">Professional Color Mapping</div>
-            
             <div class="slider-node"><label><span>Exposure</span><span id="v_exp">100%</span></label><input type="range" id="exp" min="0" max="200" value="100" oninput="updateVal('exp', this.value)"></div>
             <div class="slider-node"><label><span>Contrast</span><span id="v_ctr">100%</span></label><input type="range" id="ctr" min="0" max="200" value="100" oninput="updateVal('ctr', this.value)"></div>
             <div class="slider-node"><label><span>Saturation</span><span id="v_sat">100%</span></label><input type="range" id="sat" min="0" max="200" value="100" oninput="updateVal('sat', this.value)"></div>
@@ -152,7 +161,6 @@
             <div class="slider-node"><label><span>Clarity</span><span id="v_cl">0%</span></label><input type="range" id="cl" min="0" max="100" value="0" oninput="updateVal('cl', this.value)"></div>
             <div class="slider-node"><label><span>Vignette</span><span id="v_vig">0%</span></label><input type="range" id="vig" min="0" max="100" value="0" oninput="updateVal('vig', this.value)"></div>
             <div class="slider-node"><label><span>Fade</span><span id="v_fd">0%</span></label><input type="range" id="fd" min="0" max="100" value="0" oninput="updateVal('fd', this.value)"></div>
-
             <div class="tool-category-title">Hardware Vector Controls</div>
             <div class="tools-matrix">
                 <button class="tool-cell" onclick="execTool('HSL Studio')">HSL Control</button>
@@ -175,7 +183,6 @@
                 <button class="tool-cell" onclick="execTool('Makeup Matrix')">Makeup Kit</button>
                 <button class="tool-cell" onclick="execTool('Hair Edit')">Hair Styling</button>
             </div>
-
             <div class="tool-category-title">Micro Face Reshaping</div>
             <div class="tools-matrix">
                 <button class="tool-cell" onclick="execTool('Face Reshape')">Face Structure</button>
@@ -183,7 +190,6 @@
                 <button class="tool-cell" onclick="execTool('Eye Enlarge')">Eye Enlarge</button>
                 <button class="tool-cell" onclick="execTool('Lip Adjust')">Lip Geometry</button>
             </div>
-
             <div class="tool-category-title">Advanced Body Reshaping</div>
             <div class="tools-matrix">
                 <button class="tool-cell" onclick="execTool('Body Reshape')">Body Reshape</button>
@@ -200,7 +206,6 @@
                 <button class="tool-cell" onclick="execTool('Auto Captions')">Auto Caption</button>
                 <button class="tool-cell" onclick="execTool('Lyrics Generator')">Lyrics Engine</button>
             </div>
-
             <div class="tool-category-title">Media Overlays & Compositing</div>
             <div class="tools-matrix">
                 <button class="tool-cell" onclick="execTool('Overlay Composite')">Overlay</button>
@@ -213,8 +218,7 @@
                 <button class="tool-cell" onclick="execTool('Frames Pack')">Frames Pack</button>
                 <button class="tool-cell" onclick="execTool('Collage Factory')">Collage Maker</button>
             </div>
-
-            <div class="tool-category-title">Audio Pipeline & Synthesis</div>
+            <div class="tool-category-title">Audio Pipeline Modules</div>
             <div class="tools-matrix">
                 <button class="tool-cell" onclick="execTool('Audio Extract')">Extract Audio</button>
                 <button class="tool-cell" onclick="execTool('Voice Effects')">Voice FX</button>
@@ -223,7 +227,6 @@
                 <button class="tool-cell" onclick="execTool('Beat Sync System')">Beat Sync AI</button>
                 <button class="tool-cell" onclick="execTool('Copyright Check')">Copyright Check</button>
             </div>
-
             <div class="tool-category-title">Generative AI Studio</div>
             <div class="tools-matrix">
                 <button class="tool-cell" onclick="execTool('AI Avatar')">AI Avatar</button>
@@ -251,7 +254,6 @@
 </div>
 
 <script>
-    // Tab Interface System
     function switchPanel(evt, panelId) {
         const panels = document.getElementsByClassName("main-content-panel");
         for (let i = 0; i < panels.length; i++) {
@@ -267,20 +269,17 @@
         evt.currentTarget.classList.add("active");
     }
 
-    // Dynamic Execution State System
     function execTool(toolName) {
         const logBox = document.getElementById('canvas-log');
         logBox.style.display = 'block';
         logBox.innerText = `PIPELINE MOUNTED: ${toolName.toUpperCase()}`;
         
-        // Canvas Processing Simulations
         const canvas = document.getElementById('canvas-frame');
         if (toolName === 'Flip') canvas.style.transform = canvas.style.transform === 'scaleX(-1)' ? 'scaleX(1)' : 'scaleX(-1)';
         if (toolName === 'Blur Filter') canvas.style.filter = 'blur(4px)';
         if (toolName === 'AI Enhance' || toolName === 'HD Enhance') canvas.style.filter = 'contrast(120%) saturate(110%) brightness(105%)';
     }
 
-    // Real-Time Value Parameter Sync
     function updateVal(id, value) {
         const suffix = (id === 'temp' || id === 'tint') ? '' : '%';
         document.getElementById(`v_${id}`).innerText = value + suffix;
@@ -289,12 +288,10 @@
         const ctr = document.getElementById('ctr').value;
         const sat = document.getElementById('sat').value;
         const brt = document.getElementById('brt').value;
-        const vig = document.getElementById('vig').value;
         
         document.getElementById('canvas-frame').style.filter = `brightness(${brt}%) contrast(${ctr}%) saturate(${sat}%) opacity(${exp}%)`;
     }
 
-    // High Resolution Compiler Execution
     function triggerRenderPipeline() {
         alert("ALERT: Initializing Vertex Engine Master Pipeline...\n- Compiling 100+ Asset Layers\n- Applying HSL & Beauty Matrices\n- Exporting Lossless Source Buffer.");
     }
