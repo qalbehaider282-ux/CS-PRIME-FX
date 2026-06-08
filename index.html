@@ -2,61 +2,76 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>C's Prime FX | Pro Studio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>C's Prime FX | Elite Studio</title>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
     <style>
-        body { background: #050505; color: white; font-family: 'Inter', sans-serif; }
-        .sidebar { background: #0d0d0d; border-right: 1px solid #222; }
-        .canvas { background: #121212; border: 1px solid #333; }
-        .template-card { transition: 0.3s; cursor: pointer; }
-        .template-card:hover { transform: scale(1.05); border: 2px solid #6366f1; }
+        :root { --bg: #050505; --panel: #0d0d0d; --accent: #ffffff; --border: #222; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg); color: #ccc; height: 100vh; display: flex; flex-direction: column; }
+
+        /* Header - Premium Minimalist */
+        header { height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; border-bottom: 1px solid var(--border); background: #000; }
+        .logo { font-size: 20px; font-weight: 300; letter-spacing: 4px; color: white; }
+        .btn-export { background: white; color: black; padding: 8px 20px; border-radius: 4px; font-weight: 600; font-size: 12px; cursor: pointer; border: none; }
+        
+        /* Main */
+        .app-container { display: flex; flex: 1; overflow: hidden; }
+        .sidebar { width: 280px; background: var(--panel); border-right: 1px solid var(--border); padding: 20px; }
+        .canvas-area { flex: 1; display: flex; flex-direction: column; padding: 20px; gap: 20px; }
+        
+        /* Canvas */
+        .canvas { flex: 1; border: 1px solid var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; background: #080808; }
+        
+        /* Templates - CapCut Style */
+        .template-bar { height: 160px; display: flex; gap: 15px; overflow-x: auto; padding-top: 10px; }
+        .template-item { min-width: 130px; height: 100px; background: #1a1a1a; border-radius: 6px; cursor: pointer; transition: 0.2s; position: relative; overflow: hidden; border: 1px solid #333; }
+        .template-item:hover { border-color: white; }
+        
+        /* Export Dropdown Style */
+        .quality-select { background: #111; color: white; border: 1px solid #444; padding: 8px; border-radius: 4px; width: 100%; margin-top: 10px; }
+        .label { font-size: 10px; letter-spacing: 1px; color: #666; text-transform: uppercase; margin-bottom: 10px; display: block; }
     </style>
 </head>
-<body class="h-screen flex flex-col">
+<body>
 
-    <!-- Navbar -->
-    <nav class="h-16 flex items-center justify-between px-6 border-b border-gray-800 bg-black">
-        <h1 class="text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">C's Prime FX</h1>
-        <div class="flex gap-4">
-            <button class="bg-gray-800 px-4 py-2 rounded-lg hover:bg-gray-700">Project</button>
-            <button class="bg-indigo-600 px-6 py-2 rounded-lg font-bold hover:bg-indigo-500">Export Video</button>
-        </div>
-    </nav>
+    <header>
+        <div class="logo">C's PRIME FX</div>
+        <button class="btn-export" onclick="alert('Select Quality First')">EXPORT PROJECT</button>
+    </header>
 
-    <div class="flex flex-1 overflow-hidden">
-        <!-- Sidebar -->
-        <aside class="sidebar w-64 p-4 space-y-6">
-            <h2 class="text-gray-500 uppercase text-xs font-bold">Tools</h2>
-            <div class="space-y-2">
-                <button class="w-full text-left p-3 hover:bg-gray-900 rounded-lg">✂️ Cut & Trim</button>
-                <button class="w-full text-left p-3 hover:bg-gray-900 rounded-lg">✨ AI Enhancer</button>
-                <button class="w-full text-left p-3 hover:bg-gray-900 rounded-lg">💬 Auto Captions</button>
+    <div class="app-container">
+        <aside class="sidebar">
+            <span class="label">Editing Suite</span>
+            <div style="margin-bottom: 30px;">
+                <button style="width:100%; background:none; border:1px solid #333; color:white; padding:10px; margin-bottom:10px; cursor:pointer;">Upload Footage</button>
+                <span class="label" style="margin-top:20px;">Export Quality</span>
+                <select class="quality-select">
+                    <option>720p HD</option>
+                    <option selected>1080p Full HD</option>
+                    <option>4K Ultra HD</option>
+                </select>
             </div>
+            
+            <span class="label">Manual Adjustments</span>
+            <input type="range" style="width:100%; margin-bottom:15px;">
+            <input type="range" style="width:100%;">
         </aside>
 
-        <!-- Main Workspace -->
-        <main class="flex-1 p-6 flex flex-col gap-6">
-            <div class="canvas flex-1 rounded-2xl flex items-center justify-center text-gray-600">
-                <p>Drag & Drop Your Footage Here</p>
-            </div>
-
-            <!-- Templates Section (Professional Look) -->
-            <section class="h-48">
-                <h2 class="text-sm font-semibold mb-3">Trending Templates</h2>
-                <div class="flex gap-4 overflow-x-auto pb-4">
-                    <div class="template-card min-w-[160px] h-32 bg-gray-800 rounded-xl flex items-end p-3" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://picsum.photos/300/200'); background-size: cover;">
-                        <span>Retro 90s</span>
-                    </div>
-                    <div class="template-card min-w-[160px] h-32 bg-gray-800 rounded-xl flex items-end p-3" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://picsum.photos/301/200'); background-size: cover;">
-                        <span>Cinematic</span>
-                    </div>
-                    <div class="template-card min-w-[160px] h-32 bg-gray-800 rounded-xl flex items-end p-3" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://picsum.photos/302/200'); background-size: cover;">
-                        <span>Urdu Vibes</span>
-                    </div>
+        <main class="canvas-area">
+            <div class="canvas">Preview Workspace</div>
+            
+            <section>
+                <span class="label">Trending Templates</span>
+                <div class="template-bar">
+                    <div class="template-item"></div>
+                    <div class="template-item"></div>
+                    <div class="template-item"></div>
+                    <div class="template-item"></div>
                 </div>
             </section>
         </main>
     </div>
 
+    <script>lucide.createIcons();</script>
 </body>
 </html>
